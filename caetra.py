@@ -4,7 +4,7 @@ import threading
 import subprocess
 import os
 
-SHIELD_PATH="./shields/"
+SHIELD_PATH="./caetra/shields/"
 
 def run_script(script_name):
     subprocess.run(["python", script_name])
