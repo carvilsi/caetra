@@ -5,26 +5,40 @@ LOGGING_CONFIG = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'default': {
-            'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        'caetra': {
+            'format': '%(asctime)s %(name)s [%(levelname)s]: %(message)s',
+        },
+        'caetra_shields': {
+            'format': '%(name)s [%(levelname)s]: %(message)s',
         },
     },
     'handlers': {
-        'file': {
+        'file_caetra': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': './logs/caetra.log',
-            'formatter': 'default',
+            'formatter': 'caetra',
         },
-        'stdout': {
+        'stdout_caetra': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'default',
+            'formatter': 'caetra',
+        },
+        'syslog_caetra': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.SysLogHandler',
+            'formatter': 'caetra_shields',
+            'facility': 'syslog',
         },
     },
     'loggers': {
         'caetra': {
-            'handlers': ['file', 'stdout'],
+            'handlers': ['file_caetra', 'stdout_caetra'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'shileds': {
+            'handlers': ['file_caetra', 'stdout_caetra', 'syslog_caetra'],
             'level': 'DEBUG',
             'propagate': True,
         },
@@ -33,3 +47,4 @@ LOGGING_CONFIG = {
 
 logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger('caetra')
+logger_shields = logging.getLogger('shields')

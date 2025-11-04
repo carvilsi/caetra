@@ -3,6 +3,12 @@
 import threading
 import subprocess
 import os
+import sys
+
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), './caetra/utils')))
+
+from logger_setup import logger
 
 SHIELD_PATH="./caetra/shields/"
 
@@ -20,10 +26,10 @@ def threading_excute_shields():
 
 
 def main():
-    print("        ▗     ") 
-    print("  ▛▘▀▌█▌▜▘▛▘▀▌")
-    print("  ▙▖█▌▙▖▐▖▌ █▌")
-    print("with <3 by (#4|2 \n\nDeploying Shields:\n") 
+    logger.info("        ▗     ") 
+    logger.info("  ▛▘▀▌█▌▜▘▛▘▀▌")
+    logger.info("  ▙▖█▌▙▖▐▖▌ █▌")
+    logger.info("with <3 by (#4|2 \n\nDeploying Shields:\n") 
 
     threading_excute_shields()
 
