@@ -1,0 +1,11 @@
+from bcc import BPF
+
+def load_bpf_prog(shield_name, event, fn_name, src_file, description=None):
+    if description is not None:
+        print(f"\t[ ] {shield_name} shield function: {description}")
+    print(f"\t[ ] {shield_name}: loading kernel space src: {src_file}")
+    b = BPF(src_file)
+    print(f"\t[ ] {shield_name}: attaching krpobe \n\t\tevent: {event} \n\t\tfunction: {fn_name}")
+    b.attach_kprobe(event, fn_name=fn_name)
+    print(f"\t[*] {shield_name}: monitoring\n")
+    return b
