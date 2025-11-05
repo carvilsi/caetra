@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 
 from bcc import BPF
-from bcc.utils import printb
 import time
 
-import usb_shield
-import sdcard_shield
 
 # define BPF program
 prog = """

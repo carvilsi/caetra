@@ -6,11 +6,11 @@ import os
 import sys
 
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), './caetra/utils')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), './caetra_src/utils')))
 
 from logger_setup import logger
 
-SHIELD_PATH="./caetra/shields/"
+SHIELD_PATH="./caetra_src/shields/"
 
 def run_script(script_name):
     subprocess.run(["python", script_name])

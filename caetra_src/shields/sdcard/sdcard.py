@@ -8,7 +8,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../u
 
 from shields import deploying
 from logger_setup import logger_shields
-from bcc.utils import printb
 
 SHIELD_NAME="SDCard"
 

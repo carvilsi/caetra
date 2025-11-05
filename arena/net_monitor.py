@@ -8,7 +8,6 @@
 
 from bcc import BPF
 import time
-from ast import literal_eval
 import sys
 
 def help():
@@ -76,13 +75,8 @@ int packet_monitor(struct __sk_buff *skb) {
 """
 
 from ctypes import *
-import ctypes as ct
 import sys
-import socket
-import os
-import struct
 import ipaddress
-import ctypes
 from datetime import datetime
 
 OUTPUT_INTERVAL = 1

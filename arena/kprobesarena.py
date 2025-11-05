@@ -20,7 +20,7 @@ while 1:
         printb(b"%-18.9f %-16s %-6d %s" % (ts, task, pid, msg))
         power_type = b["power"]
         for k, v in power_type.items():
-            print(f"{k.foo} -> {v.value}");
+            print(f"{k.foo} -> {v.value}")
     except ValueError:
         continue
     except KeyboardInterrupt:

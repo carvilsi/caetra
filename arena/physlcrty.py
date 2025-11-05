@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from bcc import BPF
-from bcc.utils import printb
 
 # define BPF program
 prog = """
