@@ -5,7 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../utils')))
 
 from shields import deploying
-from logger_setup import logger
+from logger_setup import logger_shields
 from bcc.utils import printb
 from time import strftime
 
@@ -25,7 +25,7 @@ def bpf_main():
     
     def print_event(cpu, data, size):
         event = b["events"].event(data)
-        logger.info("%-9s %-7d %s" % (strftime("%H:%M:%S"), event.pid,
+        logger_shields.warning("%-9s %-7d %s" % (strftime("%H:%M:%S"), event.pid,
                                 event.path.decode('utf-8', 'replace')))
     
     # TODO: de-authorize here: /sys/bus/usb/devices/{event.path}/authorized
