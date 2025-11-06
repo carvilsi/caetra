@@ -1,10 +1,8 @@
-#!/usr/bin/env python
-
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../utils')))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../utils'))
 
 from shields import deploying
 from logger_setup import logger_shields

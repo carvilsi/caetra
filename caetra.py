@@ -6,9 +6,10 @@ import os
 import sys
 
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), './caetra_src/utils')))
+sys.path.append(os.path.join(os.path.dirname(__file__), './caetra_src/utils'))
 
 from logger_setup import logger
+from config_parser import config
 
 SHIELD_PATH="./caetra_src/shields/"
 
@@ -31,7 +32,10 @@ def main():
     logger.info("  ▙▖█▌▙▖▐▖▌ █▌")
     logger.info("with <3 by (#4|2 \n\nDeploying Shields:\n") 
 
+    print(config)
+
     threading_excute_shields()
+
 
     
 if __name__ == "__main__":

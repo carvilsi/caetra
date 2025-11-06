@@ -1,0 +1,17 @@
+# this is the configuration file related with Caetra's USB Shield
+# add here all the user configurable parameters to tune the
+# behaviour of the shield, e.g. if will de-authorize a device or not
+
+# Name of the Caetra Shield and generic config values
+[USB]
+
+# if this shield is enable (if false will override the main config)
+enable = true
+
+description = "When a USB device is attached will do several things"
+
+notification = true
+
+[USB.kprobe]
+
+de_authorize_dev = false
