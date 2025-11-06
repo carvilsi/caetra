@@ -6,6 +6,7 @@ import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 import constants
+from caetra_exceptions import ShieldConfigurationError
 
 # returns a BPF program loaded and attached to kernel
 def load_bpf_prog(shield_name, event, fn_name, src_file, description=None):
@@ -35,5 +36,5 @@ def load_shield_config(shield_name):
         f = open(shield_config_file, "rb")
         return tomllib.load(f)
     else:
-        logger.error(f"no toml configuration file for {shield_name} Shield")
-        raise ValueError(f"no toml configuration file for {shield_name} Shield")
+        message = f"no toml configuration file for {shield_name} Shield;\n check that {shield_name}.toml exists on same directory than bpf python script"
+        raise ShieldConfigurationError(message)
