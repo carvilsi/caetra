@@ -5,6 +5,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../utils'))
 
 from shields import deploying
 from logger_setup import logger_shields
+from config_parser import read
 from time import strftime
 
 SHIELD_NAME="USB"
@@ -12,7 +13,6 @@ SHIELD_DESCRIPTION="""
 \t\t
 """
 
-print(os.path.join(os.path.dirname(__file__)))
 
 # kernel section
 event="usb_notify_add_device"
@@ -20,6 +20,9 @@ fn_name="usb_observer"
 src_file="usb.c"
 
 def bpf_main():
+
+    config = deploying.load_shield_config(SHIELD_NAME)
+    print(config)
 
     b = deploying.load_bpf_prog(SHIELD_NAME, event, fn_name, src_file, SHIELD_DESCRIPTION)
     
@@ -38,5 +41,6 @@ def bpf_main():
         except KeyboardInterrupt:
             exit()
     
+
 if __name__ == "__main__":
     bpf_main()

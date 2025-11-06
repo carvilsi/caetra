@@ -6,12 +6,13 @@ import os
 import sys
 
 
-sys.path.append(os.path.join(os.path.dirname(__file__), './caetra_src/utils'))
+sys.path.append(os.path.join(os.path.dirname(__file__), './caetra_src/utils/'))
+sys.path.append(os.path.join(os.path.dirname(__file__), './caetra_src/'))
 
 from logger_setup import logger
 from config_parser import config
+import constants
 
-SHIELD_PATH="./caetra_src/shields/"
 
 def run_script(script_name):
     subprocess.run(["python", script_name])
@@ -19,9 +20,9 @@ def run_script(script_name):
 
 def threading_excute_shields():
     # Threading execute all the shields under shield directory
-    for (root, dirs, files) in os.walk(SHIELD_PATH):
+    for (root, dirs, files) in os.walk(constants.SHIELD_PATH):
         for file in files:
-            if file.endswith(".py") and file != "deploying.py":
+            if file.endswith(".py") and file != constants.SHIELD_DEPLOYING_SCRIPT:
                 shield = os.path.join(root, file)
                 threading.Thread(target=run_script, args=(shield,)).start()
 

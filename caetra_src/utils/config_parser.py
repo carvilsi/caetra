@@ -1,10 +1,12 @@
 import tomllib
 
-# def config():
-    # try:
+def read(toml_path):
+    print(toml_path)
+    f = open(toml_path, "rb")
+    return tomllib.load(f)
+
+
 f = open("./config/develop.toml", "rb")
 config = tomllib.load(f)
-    # except:
-        # print("config file not found")
 
 
