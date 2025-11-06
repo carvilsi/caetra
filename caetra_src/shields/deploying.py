@@ -9,8 +9,9 @@ import constants
 
 # returns a BPF program loaded and attached to kernel
 def load_bpf_prog(shield_name, event, fn_name, src_file, description=None):
+    shield_name = shield_name.upper()
     if description is not None:
-        logger.info(f"\t[ ] {shield_name} shield function: {description}")
+        logger.info(f"\t[ ] {shield_name} Shield function: {description}")
     logger.info(f"\t[ ] {shield_name}: loading kernel space src: {src_file}")
 
     b = BPF(src_file)
@@ -23,7 +24,7 @@ def load_bpf_prog(shield_name, event, fn_name, src_file, description=None):
     return b
 
 def load_shield_config(shield_name):
-    shield_config_name = shield_name.lower() + ".toml"
+    shield_config_name = shield_name.lower() + constants.SHIELD_CONFIG_EXT 
     shield_config_file = None
     for (root, dirs, files) in os.walk(constants.SHIELD_PATH):
         for file in files:
@@ -35,3 +36,4 @@ def load_shield_config(shield_name):
         return tomllib.load(f)
     else:
         logger.error(f"no toml configuration file for {shield_name} Shield")
+        raise ValueError(f"no toml configuration file for {shield_name} Shield")

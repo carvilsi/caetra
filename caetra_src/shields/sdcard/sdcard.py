@@ -7,7 +7,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../utils'))
 from shields import deploying
 from logger_setup import logger_shields
 
-SHIELD_NAME="SDCard"
+SHIELD_NAME="sdcard"
 
 # kernel section
 event="mmc_attach_sd"

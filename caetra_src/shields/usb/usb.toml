@@ -3,7 +3,7 @@
 # behaviour of the shield, e.g. if will de-authorize a device or not
 
 # Name of the Caetra Shield and generic config values
-[USB]
+[usb]
 
 # if this shield is enable (if false will override the main config)
 enable = true
@@ -12,6 +12,6 @@ description = "When a USB device is attached will do several things"
 
 notification = true
 
-[USB.kprobe]
+[usb.kprobe]
 
 de_authorize_dev = false
