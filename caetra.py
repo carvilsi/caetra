@@ -22,7 +22,6 @@ def run_script(script_name):
 def threading_excute_shields():
     for (root, dirs, files) in os.walk(constants.SHIELD_PATH):
         for file in files:
-            print(file)
             if file.endswith(".py") and file != constants.SHIELD_DEPLOYING_SCRIPT:
                 shield = os.path.join(root, file)
                 threading.Thread(target=run_script, args=(shield,)).start()
@@ -33,8 +32,6 @@ def main():
     logger.info("  ▛▘▀▌█▌▜▘▛▘▀▌")
     logger.info("  ▙▖█▌▙▖▐▖▌ █▌")
     logger.info("with <3 by (#4|2 \n\nDeploying Shields:\n") 
-
-    print(config)
 
     threading_excute_shields()
 

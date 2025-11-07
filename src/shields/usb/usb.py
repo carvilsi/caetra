@@ -27,6 +27,7 @@ src_file= SHIELD_NAME + ".c"
 def bpf_main():
 
     try:
+        # shield configuration
         config = deploying.load_shield_config(SHIELD_NAME)
         shield_config = config.get(SHIELD_NAME)
         print(shield_config)
