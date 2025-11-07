@@ -16,15 +16,15 @@ Caetra was the shield used by Iberian
 - [x] try to get more info
 
 ### code
-- [ ] canary tokens
-- [ ] configuration file 
+- [ ] canary tokens (wip)
+- [x] configuration file 
 - [ ] cli
 - [x] reformat splitting to c and py code
 - [x] logger; syslog and file
 - [ ] rotate file logger
 
 ### tools
-- [ ] scafoild
+- [ ] scafoild (wip) 
 
 ### hackathon
 - [ ] readme
