@@ -11,10 +11,9 @@ enable = true
 
 description = "When a USB device is attached will do several things"
 
-[usb.senders]
-
-[usb.senders.canarytokens]
-enable = true
-token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
+# this will override the general senders configuration
+#[senders.canarytokens]
+#enable = true
+#token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
 
 de_authorize_dev = false

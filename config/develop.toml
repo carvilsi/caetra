@@ -3,18 +3,14 @@
 [logging]
 level = "DEBUG"
 
-[shields]
+#[shields]
+#all = true
 
-all = true
 
-#[shields.usb]
+#[senders.canarytokens]
+#enable = true
+#token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
 
-[senders]
-
-[senders.canarytokens]
-enable = true
-token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
-
-[senders.telegram]
-enable = false
+#[senders.telegram]
+#enable = false
 
