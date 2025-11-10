@@ -4,9 +4,10 @@ import tomllib
 import os
 import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 import constants
 from caetra_exceptions import ShieldConfigurationError
+
 
 # returns a BPF program loaded and attached to kernel
 def load_bpf_prog(shield_name, event, fn_name, src_file, description=None):
@@ -16,18 +17,21 @@ def load_bpf_prog(shield_name, event, fn_name, src_file, description=None):
     logger.info(f"\t[ ] {shield_name}: loading kernel space src: {src_file}")
 
     b = BPF(src_file)
-    
-    logger.info(f"\t[ ] {shield_name}: attaching krpobe \n\t\tevent: {event} \n\t\tfunction: {fn_name}")
+
+    logger.info(
+        f"\t[ ] {shield_name}: attaching krpobe \n\t\tevent: {event} \n\t\tfunction: {fn_name}"
+    )
 
     b.attach_kprobe(event, fn_name=fn_name)
-    
+
     logger.info(f"\t[*] {shield_name}: monitoring\n")
     return b
 
+
 def load_shield_config(shield_name):
-    shield_config_name = shield_name.lower() + constants.SHIELD_CONFIG_EXT 
+    shield_config_name = shield_name.lower() + constants.SHIELD_CONFIG_EXT
     shield_config_file = None
-    for (root, dirs, files) in os.walk(constants.SHIELD_PATH):
+    for root, dirs, files in os.walk(constants.SHIELD_PATH):
         for file in files:
             if file == shield_config_name:
                 shield_config_file = os.path.join(root, file)
