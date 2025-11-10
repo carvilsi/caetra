@@ -37,7 +37,7 @@ LOGGING_CONFIG = {
         },
         "caetra_shields": {
             "handlers": ["file", "stdout", "logsys"],
-            "level": "WARNING",
+            "level": "DEBUG",
             "propagate": True,
         },
     },

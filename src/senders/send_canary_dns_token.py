@@ -1,6 +1,12 @@
 import base64
 import socket
 import re
+import os
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils/"))
+
+from logger_setup import logger
 
 DOT = "."
 MAGIC_STRING = "G69"
@@ -12,11 +18,11 @@ def call_dns_canary_token(canary_dns_call):
     try:
         socket.getaddrinfo(canary_dns_call, CANARY_PORT)
     except socket.gaierror as e:
-        print("there was a getaddrinfo error: ", e)
+        logger.error("there was a getaddrinfo error: ", e)
     except Exception as e:
-        print("there was another error: ", e)
+        logger.error("there was another error: ", e)
     else:
-        print(f"DNS Canary Token sent: {canary_dns_call}")
+        logger.debug(f"DNS Canary Token sent: {canary_dns_call}")
 
 
 def get_dns_canary_token_call(data, canary_dns_token):

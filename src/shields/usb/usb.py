@@ -7,9 +7,11 @@ from time import strftime
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
 from shields import deploying
 from logger_setup import logger_shields, logger
 from caetra_exceptions import ShieldConfigurationError
+from send_canary_dns_token import get_dns_canary_token_call, call_dns_canary_token  
 
 # shield name
 # must be same with in toml root config
@@ -32,32 +34,58 @@ def bpf_main():
         shield_config = config.get(SHIELD_NAME)
         print(shield_config)
 
-        # BPF object
-        b = deploying.load_bpf_prog(
-            SHIELD_NAME, event, fn_name, src_file, shield_config.get("description")
-        )
-
-        def print_event(cpu, data, size):
-            event = b["events"].event(data)
-            logger_shields.warning(
-                "%-9s %-7d %s"
-                % (
-                    strftime("%H:%M:%S"),
-                    event.pid,
-                    event.path.decode("utf-8", "replace"),
-                )
+        
+        if shield_config.get("enable"):
+            # BPF object
+            b = deploying.load_bpf_prog(
+                SHIELD_NAME, event, fn_name, src_file, shield_config.get("description")
             )
 
-        # TODO: de-authorize here: /sys/bus/usb/devices/{event.path}/authorized
+            # Write here the logic for your shield
+            def shield_logic(cpu, data, size):
+                event = b["events"].event(data)
 
-        b["events"].open_perf_buffer(print_event)
-        while 1:
-            try:
-                b.perf_buffer_poll()
-            except ValueError:
-                continue
-            except KeyboardInterrupt:
-                exit()
+                # raw logging for shield impl
+                logger_shields.debug(
+                    "%-9s %-7d %s"
+                    % (
+                        strftime("%H:%M:%S"),
+                        event.pid,
+                        event.path.decode("utf-8", "replace"),
+                    )
+                )
+
+
+                device_path = event.path.decode("utf-8", "replace")
+                pid = event.pid
+
+                
+                if shield_config.get("senders"):
+                    logger_shields.debug("SEND NOTIFICATIONS")
+                    
+                    senders_config = shield_config.get("senders")
+                    print(senders_config)
+                    if senders_config.get("canarytokens") and senders_config.get("canarytokens").get("enable"):
+                        canary_call = get_dns_canary_token_call("something: " + device_path + " on process: " + str(pid), senders_config["canarytokens"]["token"]) 
+                        call_dns_canary_token(canary_call)
+                else:
+                    logger_shields.debug("NOT #### SEND NOTIFICATIONS")
+
+
+
+            # TODO: de-authorize here: /sys/bus/usb/devices/{event.path}/authorized
+
+            b["events"].open_perf_buffer(shield_logic)
+            while 1:
+                try:
+                    b.perf_buffer_poll()
+                except ValueError:
+                    continue
+                except KeyboardInterrupt:
+                    exit()
+        else:
+            logger_shields.warning("[-] " + SHIELD_NAME.upper() + " Shield disabled.")
+
     except ShieldConfigurationError as e:
         msg = "[!] " + SHIELD_NAME.upper() + " " + str(e)
         logger.error(e)
