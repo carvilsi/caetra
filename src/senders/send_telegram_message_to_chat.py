@@ -1,27 +1,34 @@
 import requests
 import json
 
-BOT_API_KEY = 
-CHAT_ID = 
-URL = f"https://api.telegram.org/bot{BOT_API_KEY}/sendMessage"
+import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
+from logger_setup import logger
+
 HEADERS = {"Content-Type": "application/json"}
 
-print(URL)
+def send_telegram(data, bot_api_key, chat_id):
+    try:
+        url = f"https://api.telegram.org/bot{bot_api_key}/sendMessage"
 
-data = {
-    "chat_id": f"{CHAT_ID}", 
-    "text": "The world is all that is the case"
-} 
+        data = {
+            "chat_id": f"{chat_id}", 
+            "text": data
+        }
 
-print(data)
-try:
-    response = requests.post(URL, headers=HEADERS, json=data)
-    print("Status Code", response.status_code)
-    print("Response", response.json())
-except requests.exceptions.HTTPError as errh:
-    print("Error HTTP: " + str(errh)) 
-except requests.exceptions.RequestException as errex:
-    print("Error Request: " + str(errex)) 
-except Exception as e:
-    print("Error: " + str(e))
+        logger.debug("Telegram to send url: " + url + " with data: " + str(data)) 
+
+        response = requests.post(url, headers=HEADERS, json=data)
+
+        logger.debug("Telegram Status Code: " + str(response.status_code))
+        logger.debug("Telegram Response: " + str(response.json()))
+
+    except requests.exceptions.HTTPError as errh:
+        logger.error("Telegram Error HTTP: " + str(errh)) 
+    except requests.exceptions.RequestException as errex:
+        logger.error("Telegram Error Request: " + str(errex)) 
+    except Exception as e:
+        logger.error("Telegram Error: " + str(e))
           

@@ -45,3 +45,7 @@ def get_dns_canary_token_call(data, canary_dns_token):
     canary_dns_call = DOT.join(spl) + DOT + DOT.join([MAGIC_STRING, canary_dns_token])
 
     return canary_dns_call
+
+def send_canary(data, canary_dns_token):
+    canary_dns_call = get_dns_canary_token_call(data, canary_dns_token)
+    call_dns_canary_token(canary_dns_call)

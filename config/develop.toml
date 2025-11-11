@@ -1,5 +1,8 @@
 # caetra configuration file
 
+[caetra]
+machine = "TheArch"
+
 [logging]
 level = "DEBUG"
 

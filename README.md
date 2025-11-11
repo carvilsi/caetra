@@ -9,6 +9,8 @@ Caetra was the shield used by Iberian
 
 ### Dependencies
 
+- Python 3
+
 - [bcc](https://github.com/iovisor/bcc/blob/b63d7e38e8a0f6339fbd57f3a1ae7297e1993d92/INSTALL.md)
 
 

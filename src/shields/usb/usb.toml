@@ -14,7 +14,12 @@ description = "When a USB device is attached will do several things"
 
 # this will override the general senders configuration
 [usb.senders.canarytokens]
-enable = true
+enable= false
 token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
+
+[usb.senders.telegram]
+enable = true
+chat_id = 35983972
+bot_api_key = "8245667438:AAHIANeASwTh_PviZUl62xOnlHwR469M4B4"
 
 de_authorize_dev = false

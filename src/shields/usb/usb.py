@@ -13,6 +13,7 @@ from logger_setup import logger_shields, logger
 from caetra_exceptions import ShieldConfigurationError, ConfigurationError
 from logging_handler import log_shield_exception
 from senders_handler import send
+import constants
 
 # shield name
 # must be same with in toml root config
@@ -33,11 +34,7 @@ def bpf_main():
         # shield configuration
         config = deploying.load_shield_config(SHIELD_NAME)
         shield_config = config.get(SHIELD_NAME)
-        print(shield_config)
-        try: 
-            send("foo bar lol", shield_config)
-        except ConfigurationError as e:
-            log_shield_exception(e, SHIELD_NAME)
+        
         
         if shield_config.get("enable"):
             # BPF object
@@ -62,11 +59,16 @@ def bpf_main():
 
                 device_path = event.path.decode("utf-8", "replace")
                 pid = event.pid
-
-                 
                 
+                msg = ""
+                try:
+                    msg = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} path: {device_path}"  
+                    send(msg, shield_config)
+                except ConfigurationError as e:
+                    log_shield_exception(e, SHIELD_NAME)         
+                else:
+                    logger_shields.warning(f"{SHIELD_NAME} triggered and sent: {msg}")
                 
-
             # TODO: de-authorize here: /sys/bus/usb/devices/{event.path}/authorized
 
             b["events"].open_perf_buffer(shield_logic)
