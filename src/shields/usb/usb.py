@@ -11,7 +11,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
 from shields import deploying
 from logger_setup import logger_shields, logger
 from caetra_exceptions import ShieldConfigurationError, ConfigurationError
-# from send_canary_dns_token import get_dns_canary_token_call, call_dns_canary_token  
+from logging_handler import log_shield_exception
 from senders_handler import send
 
 # shield name
@@ -60,20 +60,12 @@ def bpf_main():
                 device_path = event.path.decode("utf-8", "replace")
                 pid = event.pid
 
-                send("foo bar lol", shield_config.get("senders"))
+                try: 
+                    send("foo bar lol", shield_config.get("senders"))
+                except ConfigurationError as e:
+                    log_shield_exception(e, SHIELD_NAME) 
                 
-                # if shield_config.get("senders"):
-                    # logger_shields.debug("SEND NOTIFICATIONS")
-                    
-                    # senders_config = shield_config.get("senders")
-                    # print(senders_config)
-                    # if senders_config.get("canarytokens") and senders_config.get("canarytokens").get("enable"):
-                        # canary_call = get_dns_canary_token_call("something: " + device_path + " on process: " + str(pid), senders_config["canarytokens"]["token"]) 
-                        # call_dns_canary_token(canary_call)
-                # else:
-                    # logger_shields.debug("NOT #### SEND NOTIFICATIONS")
-
-
+                
 
             # TODO: de-authorize here: /sys/bus/usb/devices/{event.path}/authorized
 
@@ -88,15 +80,10 @@ def bpf_main():
         else:
             logger_shields.warning("[-] " + SHIELD_NAME.upper() + " Shield disabled.")
 
-    except (ShieldConfigurationError,
-            ConfigurationError) as e:
-        msg = "[!] " + SHIELD_NAME.upper() + " " + str(e)
-        logger.error(e)
-        logger_shields.error(msg)
+    except ShieldConfigurationError as e:
+        log_shield_exception(e, SHIELD_NAME) 
     except Exception as e:
-        logger.error(e)
-        msg = "[!] " + SHIELD_NAME.upper() + " " + str(e)
-        logger_shields.error(msg)
+        log_shield_exception(e, SHIELD_NAME) 
 
 
 if __name__ == "__main__":

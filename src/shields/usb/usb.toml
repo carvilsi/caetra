@@ -9,11 +9,12 @@
 # if this shield is enable (if false will override the main config)
 enable = true 
 
+# a description that will logged
 description = "When a USB device is attached will do several things"
 
 # this will override the general senders configuration
-#[senders.canarytokens]
-#enable = true
-#token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
+[senders.canarytokens]
+enable = true
+token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
 
 de_authorize_dev = false

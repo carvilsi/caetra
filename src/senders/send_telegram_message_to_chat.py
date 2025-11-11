@@ -1,8 +1,8 @@
 import requests
 import json
 
-BOT_API_KEY = "8245667438:AAHIANeASwTh_PviZUl62xOnlHwR469M4B4"
-CHAT_ID = 35983972
+BOT_API_KEY = 
+CHAT_ID = 
 URL = f"https://api.telegram.org/bot{BOT_API_KEY}/sendMessage"
 HEADERS = {"Content-Type": "application/json"}
 

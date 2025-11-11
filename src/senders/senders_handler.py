@@ -22,6 +22,6 @@ def send(message, shield_config=None):
     # check of any kind of config has senders
     if not senders_config.get("senders"):
         msgerr = f"Any sender configured on general or shield"
-        logger.warning(msgerr)
         raise ConfigurationError(msgerr)
 
+    

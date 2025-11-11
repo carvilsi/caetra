@@ -6,11 +6,11 @@ level = "DEBUG"
 #[shields]
 #all = true
 
-
 #[senders.canarytokens]
 #enable = true
 #token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
 
-#[senders.telegram]
-#enable = false
-
+[senders.telegram]
+enable = true
+chat_id = 35983972
+bot_api_key = "8245667438:AAHIANeASwTh_PviZUl62xOnlHwR469M4B4"
