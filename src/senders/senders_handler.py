@@ -15,7 +15,7 @@ def check_send_config(senders_config):
     # check of any kind of config has senders
     # TODO: re-think this maybe we do not want to be mandatory
     if not senders_config.get("senders"):
-        msgerr = f"Any sender configured on general or shield"
+        msgerr = "Any sender configured on general or shield"
         raise ConfigurationError(msgerr)
 
     # check that the sender config structure is correct
@@ -40,7 +40,7 @@ def check_send_config(senders_config):
     
     # check is any sender is enable, otherwise send an error
     if not any(is_enable):
-        msgerr = f"Any sender is enable"
+        msgerr = "Any sender is enable"
         raise ConfigurationError(msgerr)
 
 
