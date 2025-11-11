@@ -34,6 +34,7 @@ def load_bpf_prog(shield_name, event, fn_name, src_file, description=None, shiel
     return b
 
 # checks for mandatory configuration varialbes
+# TODO: implement validation way
 def shield_config_check(shield_config):
     if shield_config.get("enable") is None:
         raise ShieldConfigurationError("Shield Configuration value for 'enable' (true/false) is mandatory")
