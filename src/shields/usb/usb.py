@@ -34,7 +34,10 @@ def bpf_main():
         config = deploying.load_shield_config(SHIELD_NAME)
         shield_config = config.get(SHIELD_NAME)
         print(shield_config)
-
+        try: 
+            send("foo bar lol", shield_config)
+        except ConfigurationError as e:
+            log_shield_exception(e, SHIELD_NAME)
         
         if shield_config.get("enable"):
             # BPF object
@@ -60,10 +63,7 @@ def bpf_main():
                 device_path = event.path.decode("utf-8", "replace")
                 pid = event.pid
 
-                try: 
-                    send("foo bar lol", shield_config.get("senders"))
-                except ConfigurationError as e:
-                    log_shield_exception(e, SHIELD_NAME) 
+                 
                 
                 
 
