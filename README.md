@@ -26,13 +26,13 @@ Caetra was the shield used by Iberian
 - [x] try to get more info
 
 ### code
-- [ ] sender canary tokens (wip)
-- [ ] sender telegram bot (wip)
+- [x] sender canary tokens
+- [x] sender telegram bot
 - [x] configuration file 
 - [ ] cli
 - [x] reformat splitting to c and py code
 - [x] logger; syslog and file
-- [ ] rotate file logger
+- [x] rotate file logger
 
 ### tools
 - [ ] scafoild (wip) 

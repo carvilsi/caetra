@@ -12,8 +12,9 @@ LOGGING_CONFIG = {
     "handlers": {
         "file": {
             "level": "DEBUG",
-            "class": "logging.FileHandler",
+            "class": "logging.handlers.TimedRotatingFileHandler",
             "filename": "./logs/caetra.log",
+            "when": "d",
             "formatter": "default",
         },
         "stdout": {
