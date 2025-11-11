@@ -32,8 +32,7 @@ def main():
     logger.info("with <3 by (#4|2 \n\nDeploying Shields:\n") 
 
     threading_excute_shields()
-
-
     
+
 if __name__ == "__main__":
     main()
