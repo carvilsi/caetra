@@ -10,7 +10,13 @@
 enable = true 
 
 # a description that will logged
-description = "When a USB device is attached will do several things"
+description = "\n\t\tWhen a USB device is attached will send notification as it's configured on 'senders'.\n\t\tAlso possible to de-authorize the attached USB device if 'de_authorize_dev' is set to true"
+
+# to configure special features
+[usb.features]
+
+# if true will de-authorize the attached USB device
+de_authorize_dev = false 
 
 # this will override the general senders configuration
 [usb.senders.canarytokens]
@@ -22,4 +28,3 @@ enable = true
 chat_id = 35983972
 bot_api_key = "8245667438:AAHIANeASwTh_PviZUl62xOnlHwR469M4B4"
 
-de_authorize_dev = false

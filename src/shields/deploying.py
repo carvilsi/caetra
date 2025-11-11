@@ -11,10 +11,15 @@ from caetra_exceptions import ShieldConfigurationError
 
 # returns a BPF program loaded and attached to kernel
 # also does some logging for user feedback
-def load_bpf_prog(shield_name, event, fn_name, src_file, description=None):
+def load_bpf_prog(shield_name, event, fn_name, src_file, description=None, shield_features=None):
     shield_name = shield_name.upper()
     if description is not None:
         logger.info(f"\t[ ] {shield_name} Shield function: {description}")
+
+    if shield_features is not None:
+        for key, value in shield_features.items():
+            logger.info(f"\t[ ] {shield_name} Shield feature: '{key}' -> {"Enabled [x]" if value else "Disabled [-]"}")
+
     logger.info(f"\t[ ] {shield_name}: loading kernel space src: {src_file}")
 
     b = BPF(src_file)

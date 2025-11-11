@@ -39,7 +39,7 @@ def bpf_main():
         if shield_config.get("enable"):
             # BPF object
             b = deploying.load_bpf_prog(
-                SHIELD_NAME, event, fn_name, src_file, shield_config.get("description")
+                SHIELD_NAME, event, fn_name, src_file, shield_config.get("description"), shield_config.get("features")
             )
 
             # Write here the logic for your shield
@@ -56,20 +56,27 @@ def bpf_main():
                     )
                 )
 
-
                 device_path = event.path.decode("utf-8", "replace")
                 pid = event.pid
                 
+                # de-authorization of USB device
+                if shield_config["features"]["de_authorize_dev"]:
+                    auth_file = f"/sys/bus/usb/devices/{device_path}/authorized"
+                    with open(auth_file, "w") as f:
+                        print(0, file=f)
+
+                    logger_shields.info(f"Shield {SHIELD_NAME.upper()} de-authorized device at: {auth_file}")
+
+
                 msg = ""
                 try:
-                    msg = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} path: {device_path}"  
+                    msg = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} de-auth: {shield_config["features"]["de_authorize_dev"]} path: {device_path}"  
                     send(msg, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)         
                 else:
                     logger_shields.warning(f"{SHIELD_NAME} triggered and sent: {msg}")
                 
-            # TODO: de-authorize here: /sys/bus/usb/devices/{event.path}/authorized
 
             b["events"].open_perf_buffer(shield_logic)
             while 1:
