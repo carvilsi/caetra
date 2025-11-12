@@ -17,7 +17,7 @@ struct mmc_t {
 
 BPF_PERF_OUTPUT(events);
 
-int mmc_observer(struct pt_regs *ctx, struct mmc_host *mmch)
+int sdcard_observer(struct pt_regs *ctx, struct mmc_host *mmch)
 {
         struct mmc_t data = {};
         

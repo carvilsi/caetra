@@ -14,6 +14,14 @@ from logging_handler import log_shield_exception
 from senders_handler import send
 import constants
 
+# from linux/mmc/card.h
+MMC_TYPE = {
+        0: "MMC_TYPE_MMC",        # [> MMC card <]
+        1: "MMC_TYPE_SD",         # [> SD card <]
+        2: "MMC_TYPE_SDIO",       # [> SDIO card <]
+        3: "MMC_TYPE_SD_COMBO",   # [> SD combo (IO+mem) card <]
+}
+
 # shield name
 # must be same with in toml root config
 SHIELD_NAME = "sdcard"
@@ -23,7 +31,7 @@ SHIELD_NAME = "sdcard"
 # kprobe event name
 event = "mmc_attach_sd"
 # c function for the kprobe
-fn_name = "sdcard_observer"
+fn_name = "mmc_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 
@@ -39,6 +47,27 @@ def bpf_main():
             b = deploying.load_bpf_prog(
                 SHIELD_NAME, event, fn_name, src_file, shield_config.get("description")
             )
+
+            def shield_logic(cpu, data, size):
+                event = b["events"].event(data)
+            
+                logger_shields.debug("dev_name: %s\tclass_name: %s\tdev_path0: %s\tdev_path1: %s\tmmc_type: %d\tprod_name: %s\tyear: %d\tserial: %d\tmanfid: %d\toemid: %d"
+                        % (
+                            event.dev_name.decode("utf-8", "replace"),
+                            event.class_name.decode("utf-8", "replace"),
+                            event.dev_path0.decode("utf-8", "replace"),
+                            event.dev_path1.decode("utf-8", "replace"),
+                            event.mmc_type,
+                            event.prod_name.decode("utf-8", "replace"),
+                            event.mmc_year,
+                            event.mmc_serial,
+                            event.mmc_manfid,
+                            event.mmc_oemid,
+                          )
+                     )
+            
+                logger_shields.debug("mmc type: " + MMC_TYPE[event.mmc_type])
+
 
             while 1:
                 try:
