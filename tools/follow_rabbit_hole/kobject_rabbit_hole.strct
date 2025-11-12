@@ -1,0 +1,51 @@
+struct kobject {
+	const char *name;
+	struct list_head entry;
+	struct kobject *parent;
+	struct kset *kset;
+	const struct kobj_type *ktype;
+	struct kernfs_node *sd;
+	struct kref kref;
+	unsigned int state_initialized: 1;
+	unsigned int state_in_sysfs: 1;
+	unsigned int state_add_uevent_sent: 1;
+	unsigned int state_remove_uevent_sent: 1;
+	unsigned int uevent_suppress: 1;
+};
+struct list_head {
+	struct list_head *next;
+	struct list_head *prev;
+};
+
+struct kset {
+	struct list_head list;
+	spinlock_t list_lock;
+	struct kobject kobj;
+	const struct kset_uevent_ops *uevent_ops;
+};
+
+struct kernfs_node {
+	atomic_t count;
+	atomic_t active;
+	struct kernfs_node *__parent;
+	const char *name;
+	struct rb_node rb;
+	const void *ns;
+	unsigned int hash;
+	short unsigned int flags;
+	umode_t mode;
+	union {
+		struct kernfs_elem_dir dir;
+		struct kernfs_elem_symlink symlink;
+		struct kernfs_elem_attr attr;
+	};
+	u64 id;
+	void *priv;
+	struct kernfs_iattrs *iattr;
+	struct callback_head rcu;
+};
+
+struct kref {
+	refcount_t refcount;
+};
+

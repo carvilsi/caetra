@@ -6,12 +6,9 @@ machine = "TheArch"
 [logging]
 level = "DEBUG"
 
-#[shields]
-#all = true
-
-#[senders.canarytokens]
-#enable = true
-#token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
+[senders.canarytokens]
+enable = false 
+token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
 
 [senders.telegram]
 enable = true

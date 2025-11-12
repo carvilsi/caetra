@@ -1,7 +1,112 @@
 #include<linux/power_supply.h>
 #include<linux/usb.h>
 #include<linux/of.h>
+#include<linux/mmc/host.h>
+#include<linux/mmc/card.h>
+#include<linux/usb.h>
+#include<linux/device.h>
 
+/*#define MMC_TYPE_MMC            0               [> MMC card <]*/
+/*#define MMC_TYPE_SD             1               [> SD card <]*/
+/*#define MMC_TYPE_SDIO           2               [> SDIO card <]*/
+/*#define MMC_TYPE_SD_COMBO       3               [> SD combo (IO+mem) card <]*/
+/*#define mmc_card_mmc(c)         ((c)->type == MMC_TYPE_MMC)*/
+/*#define mmc_card_sd(c)          ((c)->type == MMC_TYPE_SD)*/
+/*#define mmc_card_sdio(c)        ((c)->type == MMC_TYPE_SDIO)*/
+/*#define mmc_card_sd_combo(c)    ((c)->type == MMC_TYPE_SD_COMBO)*/
+/*int sdcard_observer(struct pt_regs *ctx, struct mmc_host *mmch, struct mmc_card *mmcc)*/
+
+
+int sdcard_observer(struct pt_regs *ctx, struct mmc_host *mmch)
+{
+        // get name of device
+        bpf_trace_printk("%d|-> %s", 0, mmch->class_dev.kobj.name);
+        bpf_trace_printk("%d|-> %s", 1, mmch->class_dev.kobj.parent->name);
+        bpf_trace_printk("%d|-> %s", 2, mmch->class_dev.kobj.sd->name);
+        bpf_trace_printk("%d|-> %s", 3, mmch->parent->kobj.sd->name);
+        bpf_trace_printk("%d|-> %s", 4, mmch->parent->kobj.name);
+        bpf_trace_printk("%d|-> %s", 5, mmch->parent->kobj.parent->name);
+        
+        /*int i = mmc_card_mmc(mmch->card); */
+        bpf_trace_printk("%d|-> %d", 6, mmch->card->type);
+
+        char *mmc_types[] = {"SD", "MD"};
+        char *mtyp = mmc_types[0];
+        bpf_trace_printk("%d|-> %s", 76, mtyp);
+        if (mmch->card->type == MMC_TYPE_SD) 
+                bpf_trace_printk("%d|-> SD", 77);
+
+
+        bpf_trace_printk("%d|-> %s", 7, mmch->card->scr.sda_vsn);
+        bpf_trace_printk("%d|-> %s", 8, mmch->card->scr.sda_spec3);
+        bpf_trace_printk("%d|-> %s", 9, mmch->card->info);
+
+        /*unsigned int            manfid;*/
+        /*char                    prod_name[8];*/
+        /*unsigned char           prv;*/
+        /*unsigned int            serial;*/
+        /*unsigned short          oemid;*/
+        /*unsigned short          year;*/
+        /*unsigned char           hwrev;*/
+        /*unsigned char           fwrev;*/
+        /*unsigned char           month;*/
+
+        /*bpf_trace_printk("%d|-> %p", 100, mmch->card->cid);*/
+        bpf_trace_printk("%d|-> %s", 10, mmch->card->cid.prod_name);
+        bpf_trace_printk("%d|-> %s", 11, mmch->card->cid.prv);
+        bpf_trace_printk("%d|-> %s", 12, mmch->card->cid.hwrev);
+        bpf_trace_printk("%d|-> %s", 13, mmch->card->cid.fwrev);
+        bpf_trace_printk("%d|-> %s", 14, mmch->card->cid.month);
+        bpf_trace_printk("%d|-> %d", 15, mmch->card->cid.year);
+        bpf_trace_printk("%d|-> %d", 16, mmch->card->cid.serial);
+        bpf_trace_printk("%d|-> %d", 17, mmch->card->cid.manfid);
+        bpf_trace_printk("%d|-> %d", 18, mmch->card->cid.oemid);
+        
+        bpf_trace_printk("%d|-> %s", 19, mmch->card->csd.structure);
+        bpf_trace_printk("%d|-> %s", 20, mmch->card->csd.mmca_vsn);
+        
+        bpf_trace_printk("%d|-> %u", 21, mmch->card->cis.vendor);
+        bpf_trace_printk("%d|-> %u", 22, mmch->card->cis.device);
+        bpf_trace_printk("%d|-> %u", 23, mmch->card->cis.blksize);
+        bpf_trace_printk("%d|-> %u", 24, mmch->card->cis.max_dtr);
+        
+        
+
+
+        
+
+        /*char *name = dev_bus_name(&mmch->class_dev);*/
+        /*bpf_trace_printk("%d|-> %s", 10, name);*/
+        /*int i = dev_is_removable(&mmch->class_dev);*/
+        /*bpf_trace_printk("%d|-> %d", 10, i);*/
+        /*bpf_trace_printk("%d|-> %d", 6, mmc_card_mmc(mmch->card));*/
+
+
+        
+        /*bpf_trace_printk("%d|-> %s", 6, mmch->ios.chip_select);*/
+        /*bpf_trace_printk("%d|-> %s", 7, mmch->class_dev.type->name);*/
+        /*bpf_trace_printk("%d|-> %s", 8, mmch->parent->type->name);*/
+        /*bpf_trace_printk("%d|-> %s", 9, mmch->class_dev.bus->dev_name);*/
+        /*bpf_trace_printk("%d|-> %s", 10, mmch->ios.bus_mode);*/
+        /*bpf_trace_printk("%d|-> %s", 11, mmch->card->dev.type->name);*/
+        /*bpf_trace_printk("%d|-> %s", 12, mmch->card->dev.kobj.name);*/
+        /*bpf_trace_printk("%d|-> %s", 13, mmch->card->host->class_dev.type->name);*/
+        /*bpf_trace_printk("%d|-> %s", 14, mmch->card->info);*/
+        /*bpf_trace_printk("%d|-> %u", 15, mmch->card->cis.vendor);*/
+        /*bpf_trace_printk("%d|-> %d", 16, mmch->card->cis.vendor);*/
+        /*bpf_trace_printk("%d|-> %p", 17, mmch->card->cis.vendor);*/
+        /*bpf_trace_printk("%d|-> %x", 18, mmch->card->cis.vendor);*/
+        /*bpf_trace_printk("%d|-> %d", 19, mmch->card->cis.device);*/
+        /*bpf_trace_printk("%d|-> %u", 20, mmch->card->cis.device);*/
+        /*bpf_trace_printk("%d|-> %p", 21, mmch->card->cis.device);*/
+        /*bpf_trace_printk("%d|-> %x", 22, mmch->card->cis.device);*/
+        /*bpf_trace_printk("|-> %s", mmcc->dev.type->name);*/
+        /*bpf_trace_printk("|-> %s", mmcc->info);*/
+        /*bpf_trace_printk("|-> %u", mmcc->cis.vendor);*/
+        /*bpf_trace_printk("|-> %u", mmcc->cis.device);*/
+
+        return 0;
+}
 /*BPF_HASH(power, struct power_supply *);*/
 struct key_t {
         unsigned int foo;
@@ -32,7 +137,8 @@ int pwr_monitor(struct pt_regs *ctx, struct power_supply *psy)
 
 int usb_monitor(struct pt_regs *ctx, struct usb_device *usbd)
 {
-        bpf_trace_printk("|-> %s\n", usbd->dev.kobj.name);
+        /*bpf_trace_printk("|-> %s\n", usbd->dev.type->name);*/
+        bpf_trace_printk("|-> %s\n", usbd->serial);
 
         return 0;
 }

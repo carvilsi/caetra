@@ -1,0 +1,29 @@
+struct class {
+	const char *name;
+	const struct attribute_group **class_groups;
+	const struct attribute_group **dev_groups;
+	int (*dev_uevent)(const struct device *, struct kobj_uevent_env *);
+	char * (*devnode)(const struct device *, umode_t *);
+	void (*class_release)(const struct class *);
+	void (*dev_release)(struct device *);
+	int (*shutdown_pre)(struct device *);
+	const struct kobj_ns_type_operations *ns_type;
+	const void * (*namespace)(const struct device *);
+	void (*get_ownership)(const struct device *, kuid_t *, kgid_t *);
+	const struct dev_pm_ops *pm;
+};
+
+struct class {
+	const char *name;
+	const struct attribute_group___2 **class_groups;
+	const struct attribute_group___2 **dev_groups;
+	int (*dev_uevent)(const struct device *, struct kobj_uevent_env___2 *);
+	char * (*devnode)(const struct device *, umode_t *);
+	void (*class_release)(const struct class *);
+	void (*dev_release)(struct device *);
+	int (*shutdown_pre)(struct device *);
+	const struct kobj_ns_type_operations___2 *ns_type;
+	const void * (*namespace)(const struct device *);
+	void (*get_ownership)(const struct device *, kuid_t *, kgid_t *);
+	const struct dev_pm_ops___2 *pm;
+};

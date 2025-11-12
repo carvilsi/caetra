@@ -68,14 +68,17 @@ def bpf_main():
                     logger_shields.info(f"Shield {SHIELD_NAME.upper()} de-authorized device at: {auth_file}")
 
 
-                msg = ""
+                message = ""
                 try:
-                    msg = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} de-auth: {shield_config["features"]["de_authorize_dev"]} path: {device_path}"  
-                    send(msg, shield_config)
+                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} de-auth: {shield_config["features"]["de_authorize_dev"]} path: {device_path}"  
+                    send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)         
                 else:
-                    logger_shields.warning(f"{SHIELD_NAME} triggered and sent: {msg}")
+                    logger_shields.warning(f"{SHIELD_NAME} triggered and sent: {message}")
+                finally:
+                    logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
+
                 
 
             b["events"].open_perf_buffer(shield_logic)
