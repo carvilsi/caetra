@@ -48,7 +48,7 @@ def bpf_main():
 
                 # raw logging for shield impl
                 logger_shields.debug(
-                    "%-9s %-7d %s"
+                        f"Shield {SHIELD_NAME.upper()}: %-9s %-7d %s"
                     % (
                         strftime("%H:%M:%S"),
                         event.pid,

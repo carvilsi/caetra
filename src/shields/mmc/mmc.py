@@ -54,7 +54,7 @@ def bpf_main():
             def shield_logic(cpu, data, size):
                 event = b["events"].event(data)
             
-                logger_shields.debug("dev_name: %s\tclass_name: %s\tdev_path0: %s\tdev_path1: %s\tmmc_type: %d\tprod_name: %s\tyear: %d\tserial: %d\tmanfid: %d\toemid: %d"
+                logger_shields.debug(f"Shield {SHIELD_NAME.upper()}: dev_name: %s\tclass_name: %s\tdev_path0: %s\tdev_path1: %s\tmmc_type: %d\tprod_name: %s\tyear: %d\tserial: %d\tmanfid: %d\toemid: %d"
                         % (
                             event.dev_name.decode("utf-8", "replace"),
                             event.class_name.decode("utf-8", "replace"),
@@ -70,6 +70,16 @@ def bpf_main():
                      )
             
                 logger_shields.debug("mmc type: " + MMC_TYPE[event.mmc_type])
+                message = ""
+                try:
+                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()}"  
+                    send(message, shield_config)
+                except ConfigurationError as e:
+                    log_shield_exception(e, SHIELD_NAME)         
+                else:
+                    logger_shields.warning(f"{SHIELD_NAME} triggered and sent: {message}")
+                finally:
+                    logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
 
             b["events"].open_perf_buffer(shield_logic)
             while 1:
