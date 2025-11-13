@@ -20,6 +20,7 @@ Caetra was the shield used by Iberian
 - [ ] bluetooth on connect or bind (found)
 - [x] sdcard attached
 - [x] usb attached (also possible to de-auth)
+- [ ] usb attached add more data
 - [ ] ethernet on connect cable
 - [ ] accelerometers
 - [ ] light sensor
