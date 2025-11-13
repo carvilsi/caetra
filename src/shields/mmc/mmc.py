@@ -16,13 +16,13 @@ import constants
 
 # from linux/mmc/card.h
 # definition fo Multi Media Cards
-# TODO: would it better if we can relly on c for this instead 
+# TODO: would it better if we can relly on c for this instead
 # hardcoding this types here. Although makes more complex the thing :(
 MMC_TYPE = {
-        0: "MMC_TYPE_MMC",        # [> MMC card <]
-        1: "MMC_TYPE_SD",         # [> SD card <]
-        2: "MMC_TYPE_SDIO",       # [> SDIO card <]
-        3: "MMC_TYPE_SD_COMBO",   # [> SD combo (IO+mem) card <]
+    0: "MMC_TYPE_MMC",  # [> MMC card <]
+    1: "MMC_TYPE_SD",  # [> SD card <]
+    2: "MMC_TYPE_SDIO",  # [> SDIO card <]
+    3: "MMC_TYPE_SD_COMBO",  # [> SD combo (IO+mem) card <]
 }
 
 # shield name
@@ -53,31 +53,33 @@ def bpf_main():
 
             def shield_logic(cpu, data, size):
                 event = b["events"].event(data)
-            
-                logger_shields.debug(f"Shield {SHIELD_NAME.upper()}: dev_name: %s\tclass_name: %s\tdev_path0: %s\tdev_path1: %s\tmmc_type: %d\tprod_name: %s\tyear: %d\tserial: %d\tmanfid: %d\toemid: %d"
-                        % (
-                            event.dev_name.decode("utf-8", "replace"),
-                            event.class_name.decode("utf-8", "replace"),
-                            event.dev_path0.decode("utf-8", "replace"),
-                            event.dev_path1.decode("utf-8", "replace"),
-                            event.mmc_type,
-                            event.prod_name.decode("utf-8", "replace"),
-                            event.mmc_year,
-                            event.mmc_serial,
-                            event.mmc_manfid,
-                            event.mmc_oemid,
-                          )
-                     )
-            
-                logger_shields.debug("mmc type: " + MMC_TYPE[event.mmc_type])
+
+                mmc_data = (
+                    "dev_name:%s-prod_name:%s-mmc_type:%s-serial:%d-manfid:%d-oemid:%d-year:%d-class_name:%s-dev_path0:%s-dev_path1:%s"
+                    % (
+                        event.dev_name.decode("utf-8", "replace"),
+                        event.prod_name.decode("utf-8", "replace"),
+                        MMC_TYPE[event.mmc_type],
+                        event.mmc_serial,
+                        event.mmc_manfid,
+                        event.mmc_oemid,
+                        event.mmc_year,
+                        event.class_name.decode("utf-8", "replace"),
+                        event.dev_path0.decode("utf-8", "replace"),
+                        event.dev_path1.decode("utf-8", "replace"),
+                    )
+                )
+
                 message = ""
                 try:
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()}"  
+                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} {mmc_data}"
                     send(message, shield_config)
                 except ConfigurationError as e:
-                    log_shield_exception(e, SHIELD_NAME)         
+                    log_shield_exception(e, SHIELD_NAME)
                 else:
-                    logger_shields.warning(f"{SHIELD_NAME} triggered and sent: {message}")
+                    logger_shields.warning(
+                        f"{SHIELD_NAME} triggered and sent: {message}"
+                    )
                 finally:
                     logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
 
@@ -93,9 +95,9 @@ def bpf_main():
             logger_shields.warning("[-] " + SHIELD_NAME.upper() + " Shield disabled.")
 
     except ShieldConfigurationError as e:
-        log_shield_exception(e, SHIELD_NAME) 
+        log_shield_exception(e, SHIELD_NAME)
     except Exception as e:
-        log_shield_exception(e, SHIELD_NAME) 
+        log_shield_exception(e, SHIELD_NAME)
 
 
 if __name__ == "__main__":

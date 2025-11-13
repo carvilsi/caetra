@@ -5,6 +5,7 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 from caetra_exceptions import ConfigurationError
 
+
 def validate_dict_structure(expected_structure, data, structure_name):
     for key, value in expected_structure.items():
         msgerr = f"Missing key: '{key}' on configuration: '{structure_name}'"
@@ -18,5 +19,3 @@ def validate_dict_structure(expected_structure, data, structure_name):
         else:
             if not isinstance(data[key], value):
                 raise ConfigurationError(msgerr)
-
-

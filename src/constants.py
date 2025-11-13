@@ -6,14 +6,13 @@ CAETRA_SENDER_LABEL = "Shield"
 
 CONFIG_SENDER_KEY_TELEGRAM = "telegram"
 CONFIG_SENDER_STRUCT_TELEGRAM = {
-        "enable": bool,
-        "chat_id": int,
-        "bot_api_key": str,
+    "enable": bool,
+    "chat_id": int,
+    "bot_api_key": str,
 }
 
 CONFIG_SENDER_KEY_CANARYTOKENS = "canarytokens"
 CONFIG_SENDER_STRUCT_CANARYTOKENS = {
-        "enable": bool,
-        "token": str,
+    "enable": bool,
+    "token": str,
 }
-

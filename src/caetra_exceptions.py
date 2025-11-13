@@ -9,6 +9,7 @@ class ShieldConfigurationError(Exception):
         self.message = message
         super().__init__(self.message)
 
+
 class ConfigurationError(Exception):
     """Exception raised on general configuration issues.
 

@@ -7,7 +7,7 @@ machine = "TheArch"
 level = "DEBUG"
 
 [senders.canarytokens]
-enable = false 
+enable = false
 token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
 
 [senders.telegram]

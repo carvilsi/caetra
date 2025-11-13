@@ -11,21 +11,25 @@ from caetra_exceptions import ShieldConfigurationError
 
 # returns a BPF program loaded and attached to kernel
 # also does some logging for user feedback
-def load_bpf_prog(shield_name, event, fn_name, src_file, description=None, shield_features=None):
+def load_bpf_prog(
+    shield_name, event, fn_name, src_file, description=None, shield_features=None
+):
     shield_name = shield_name.upper()
     if description is not None:
         logger.info(f"\t[ ] {shield_name} Shield function: {description}")
 
     if shield_features is not None:
         for key, value in shield_features.items():
-            logger.info(f"\t[ ] {shield_name} Shield feature: '{key}' -> {"Enabled [x]" if value else "Disabled [-]"}")
+            logger.info(
+                f"\t[ ] {shield_name} Shield feature: '{key}' -> {'Enabled [x]' if value else 'Disabled [-]'}"
+            )
 
     logger.info(f"\t[ ] {shield_name}: loading kernel space src: {src_file}")
 
     b = BPF(src_file)
 
     logger.info(
-            f"\t[ ] {shield_name}: attaching krpobe: \n\t\tevent: {event} \n\t\tfunction: {fn_name}"
+        f"\t[ ] {shield_name}: attaching krpobe: \n\t\tevent: {event} \n\t\tfunction: {fn_name}"
     )
 
     b.attach_kprobe(event, fn_name=fn_name)
@@ -33,13 +37,17 @@ def load_bpf_prog(shield_name, event, fn_name, src_file, description=None, shiel
     logger.info(f"\t[*] {shield_name}: monitoring\n")
     return b
 
+
 # checks for mandatory configuration varialbes
 # TODO: implement validation way
 def shield_config_check(shield_config):
     if shield_config.get("enable") is None:
-        raise ShieldConfigurationError("Shield Configuration value for 'enable' (true/false) is mandatory")
+        raise ShieldConfigurationError(
+            "Shield Configuration value for 'enable' (true/false) is mandatory"
+        )
     else:
         logger.debug("Shield Configuration file OK")
+
 
 def load_shield_config(shield_name):
     shield_config_name = shield_name.lower() + constants.SHIELD_CONFIG_EXT
