@@ -18,7 +18,7 @@ Caetra was the shield used by Iberian
 
 ### Physical layer AKA Shields
 - [ ] bluetooth on connect or bind (found)
-- [ ] sdcard attached (wip)
+- [x] sdcard attached
 - [x] usb attached (also possible to de-auth)
 - [ ] ethernet on connect cable
 - [ ] accelerometers
