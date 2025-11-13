@@ -6,13 +6,15 @@
 # case sensitive must match with SHIELD_NAME on python side
 [{{shield_name}}]
 
-# if this shield is enable (if false will override the main config)
+# if this shield is enable 
 enable = {{shield_enable}} 
 
+{% if shield_description %}
 # a description that will logged
-description = {{shield_description}}
+description = "{{shield_description}}"
+{% endif %}
 
-{% if shield_feature is defined %}
+{% if shield_feature %}
 # to configure special features
 [{{shield_name}}.features]
 
@@ -20,15 +22,15 @@ description = {{shield_description}}
 {{shield_feature}} = true
 {% endif %}
 
-{% if canarytoken_sender is defined %}
+{% if canarytoken_sender %}
 # this will override the general senders configuration
-[usb.senders.canarytokens]
+[{{shield_name}}.senders.canarytokens]
 enable= {{canarytoken_sender}} 
 token = "{{canarytoken}}"
 {% endif %}
 
-{% if telegram_sender is defined %}
-[usb.senders.telegram]
+{% if telegram_sender %}
+[{{shield_name}}.senders.telegram]
 enable = {{telegram_sender}}
 chat_id = {{telegram_chat_id}} 
 bot_api_key = "{{telegram_bot_api_key}}"

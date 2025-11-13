@@ -36,7 +36,7 @@ Caetra was the shield used by Iberian
 - [x] rotate file logger
 
 ### tools
-- [ ] scafoild (wip) 
+- [x] scafoild
 
 ### hackathon
 - [ ] readme

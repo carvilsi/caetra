@@ -61,17 +61,17 @@ def bpf_main():
 
                 {{shield_name}}_data = f"pid: {event.pid}"
 
-{% if shield_feature is defined %}
-                if shield_config["shield_features"]["{{shield_feature}}"]:
-                    # implement here your {{shield_feature}}
+{% if shield_feature %}
+                if shield_config["features"]["{{shield_feature}}"]:
+                    # implement here your {{shield_feature}} feature (o will crash on run ;)
 {% endif %}
                     
                 message = ""
                 try:
-{% if shield_feature is defined %}
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} {{shield_feature}}: {shield_config["shield_features"]["{{shield_feature}}"]} data: {{{shield_name}}_data}"
+{% if shield_feature %}
+                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} {{shield_feature}}: {shield_config["features"]["{{ shield_feature }}"]} data: { {{shield_name}}_data }"
 {% else %}
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} data: {{{shield_name}}_data}"
+                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} data: { {{shield_name}}_data }"
 {% endif %}
                     send(message, shield_config)
                 except ConfigurationError as e:

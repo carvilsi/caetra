@@ -74,7 +74,7 @@ def bpf_main():
 
                 message = ""
                 try:
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} de-auth: {shield_config['features']['de_authorize_dev']} path: {device_path}"
+                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} de-auth: {shield_config["features"]["de_authorize_dev"]} path: {device_path}"
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)

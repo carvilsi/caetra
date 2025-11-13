@@ -65,6 +65,9 @@ def get_config(shield_config=None):
 
 
 def send(data, shield_config=None):
+    print("============")
+    print(shield_config)
+    print("============")
     senders_config = get_config(shield_config)
     for key, value in senders_config.items():
         match key:
