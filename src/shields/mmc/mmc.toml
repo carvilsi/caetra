@@ -3,11 +3,11 @@
 # behaviour of the shield, e.g. if will de-authorize a device or not
 
 # Name of the Caetra Shield and generic config values
-[sdcard]
+[mmc]
 
 # if this shield is enable (if false will override the main config)
 enable = true
 
-description = "When a SDCard is attached will send a notification"
+description = "When a MMC 'Multi Media Card' is attached will send a notification"
 
 

@@ -15,6 +15,9 @@ from senders_handler import send
 import constants
 
 # from linux/mmc/card.h
+# definition fo Multi Media Cards
+# TODO: would it better if we can relly on c for this instead 
+# hardcoding this types here. Although makes more complex the thing :(
 MMC_TYPE = {
         0: "MMC_TYPE_MMC",        # [> MMC card <]
         1: "MMC_TYPE_SD",         # [> SD card <]
@@ -24,12 +27,12 @@ MMC_TYPE = {
 
 # shield name
 # must be same with in toml root config
-SHIELD_NAME = "sdcard"
+SHIELD_NAME = "mmc"
 
 # kernel section
 
 # kprobe event name
-event = "mmc_attach_sd"
+event = "mmc_sd_runtime_suspend"
 # c function for the kprobe
 fn_name = "mmc_observer"
 # c source file; the name must be the same that the Shield name
@@ -68,23 +71,10 @@ def bpf_main():
             
                 logger_shields.debug("mmc type: " + MMC_TYPE[event.mmc_type])
 
-
+            b["events"].open_perf_buffer(shield_logic)
             while 1:
                 try:
-                    (task, pid, cpu, flags, ts, msg) = b.trace_fields()
-                    logger_shields.warning(f"{msg}")
-                    message = ""
-                    try:
-                        message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} {msg}"
-                        send(message, shield_config)
-                    except ConfigurationError as e:
-                        log_shield_exception(e, SHIELD_NAME)         
-                    else:
-                        logger_shields.warning(f"{SHIELD_NAME} triggered and sent: {message}")
-                    finally:
-                        logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
-
-
+                    b.perf_buffer_poll()
                 except ValueError:
                     continue
                 except KeyboardInterrupt:
