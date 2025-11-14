@@ -15,6 +15,8 @@ Caetra was the shield used by Iberian
 
 
 ## TODOs
+- [ ] quite possible that we need to filter events by pid since there are multiple probes that triggers on the same physical interaction. Redis? file?
+- [ ] maybe it's interesting to add an action label
 
 ### Physical layer AKA Shields
 - [ ] bluetooth on connect or bind (found)

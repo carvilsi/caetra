@@ -17,14 +17,14 @@ import constants
 
 # shield name
 # must be same with in toml root config
-SHIELD_NAME="{{shield_name}}"
+SHIELD_NAME="hid_add"
 
 # kernel section
 
 # kprobe event name
-event="{{kprobe_event}}"
+event="hid_add_device"
 # c function for the kprobe
-fn_name="{{shield_name}}_observer"
+fn_name="hid_add_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 
@@ -59,20 +59,13 @@ def bpf_main():
                     )
                 )
 
-                {{shield_name}}_data = f"pid: {event.pid}"
+                hid_add_data = f"pid: {event.pid}"
 
-{% if shield_feature %}
-                if shield_config["features"]["{{shield_feature}}"]:
-                    # implement here your {{shield_feature}} feature (o will crash on run ;)
-{% endif %}
+
                     
                 message = ""
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' data: { hid_add_data }"
                 try:
-{% if shield_feature %}
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' {{shield_feature}}: {shield_config["features"]["{{ shield_feature }}"]} data: { {{shield_name}}_data }"
-{% else %}
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' data: { {{shield_name}}_data }"
-{% endif %}
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)

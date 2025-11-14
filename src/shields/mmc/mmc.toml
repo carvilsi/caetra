@@ -6,8 +6,11 @@
 [mmc]
 
 # if this shield is enable (if false will override the main config)
-enable = true
+enable = false 
 
 description = "When a MMC 'Multi Media Card' is attached will send a notification"
+
+# label to describe what happen on physical world
+action_label = "mmc attached"
 
 

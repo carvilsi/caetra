@@ -16,7 +16,7 @@ import constants
 
 # from linux/mmc/card.h
 # definition fo Multi Media Cards
-# TODO: would it better if we can relly on c for this instead
+# TODO: would it better if we can relly on c linux headers for this instead
 # hardcoding this types here. Although makes more complex the thing :(
 MMC_TYPE = {
     0: "MMC_TYPE_MMC",  # [> MMC card <]
@@ -71,13 +71,13 @@ def bpf_main():
                 )
 
                 message = ""
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' {mmc_data}"
                 try:
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} {mmc_data}"
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
                 else:
-                    logger_shields.warning(
+                    logger_shields.info(
                         f"{SHIELD_NAME} triggered and sent: {message}"
                     )
                 finally:

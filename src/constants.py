@@ -16,3 +16,9 @@ CONFIG_SENDER_STRUCT_CANARYTOKENS = {
     "enable": bool,
     "token": str,
 }
+
+CONFIG_SHIELD_MANDATORY = {
+    "enable": bool,
+    "action_label": str,
+}
+

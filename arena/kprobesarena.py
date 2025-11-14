@@ -7,6 +7,7 @@ from bcc.utils import printb
 b = BPF(src_file="general_monitor.c")
 # XXX: This works for USB
 b.attach_kprobe(event="usb_notify_add_device", fn_name="usb_monitor")
+
 # b.attach_kprobe(event="xhci_bus_resume", fn_name="general_monitor")
 # b.attach_kprobe(event="hid_report_raw_event", fn_name="hdi_monitor")
 # b.attach_kprobe(event="input_handle_event", fn_name="general_monitor")
@@ -17,7 +18,14 @@ b.attach_kprobe(event="usb_notify_add_device", fn_name="usb_monitor")
 # b.attach_kprobe(event="mmc_sd_alive", fn_name="sdcard_observer")
 
 # XXX: works when attaching SDCard and get data about the card
-b.attach_kprobe(event="mmc_sd_runtime_suspend", fn_name="sdcard_observer")
+# b.attach_kprobe(event="mmc_sd_runtime_suspend", fn_name="sdcard_observer")
+
+# hid 
+## attach
+b.attach_kprobe(event="hid_add_device", fn_name="hid_monitor")
+
+## remove
+b.attach_kprobe(event="hid_device_remove", fn_name="hid_monitor_remove")
 
 print("eBPFphysec with <3 by (#4|2 \n monitoring...\n") 
 

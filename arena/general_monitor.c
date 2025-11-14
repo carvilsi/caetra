@@ -5,6 +5,7 @@
 #include<linux/mmc/card.h>
 #include<linux/usb.h>
 #include<linux/device.h>
+#include<linux/hid.h>
 
 /*#define MMC_TYPE_MMC            0               [> MMC card <]*/
 /*#define MMC_TYPE_SD             1               [> SD card <]*/
@@ -137,8 +138,83 @@ int pwr_monitor(struct pt_regs *ctx, struct power_supply *psy)
 
 int usb_monitor(struct pt_regs *ctx, struct usb_device *usbd)
 {
-        /*bpf_trace_printk("|-> %s\n", usbd->dev.type->name);*/
-        bpf_trace_printk("|-> %s\n", usbd->serial);
+        bpf_trace_printk("0 usb_notify_add_device|-> %s\n", usbd->dev.type->name);
+        bpf_trace_printk("1 usb_notify_add_device|-> %s\n", usbd->serial);
+        bpf_trace_printk("2 usb_notify_add_device|-> %s\n", usbd->product);
+        bpf_trace_printk("3 usb_notify_add_device|-> %s\n", usbd->manufacturer);
+        bpf_trace_printk("4 usb_notify_add_device|-> %s\n", usbd->bus->bus_name);
+        bpf_trace_printk("5 usb_notify_add_device|-> %d\n", usbd->bus->busnum);
+        /*bpf_trace_printk("6|-> %d\n", usbd->bus->root_hub->serial);*/
+        /*bpf_trace_printk("4|-> %s\n", usbd->dev.init_name);*/
+        /*bpf_trace_printk("6 hid_device_remove|-> %s\n",  usbd->dev.physical_location->panel);*/
+        /*bpf_trace_printk("7 hid_device_remove|-> %s\n",  usbd->dev.physical_location->vertical_position);*/
+        /*bpf_trace_printk("8 hid_device_remove|-> %s\n",  usbd->dev.physical_location->horizontal_position);*/
+        /*bpf_trace_printk("9 hid_device_remove|-> %u\n",  usbd->dev.physical_location->dock);*/
+        /*bpf_trace_printk("10 hid_device_remove|-> %u\n", usbd->dev.physical_location->lid);*/
+   
+
+        return 0;
+}
+
+
+/*enum hid_type {*/
+  /*HID_TYPE_OTHER = 0,*/
+  /*HID_TYPE_USBMOUSE,*/
+  /*HID_TYPE_USBNONE*/
+/*};*/
+
+int hid_monitor(struct pt_regs *ctx, struct hid_device *hidd)
+{
+        bpf_trace_printk("0 hid_add_device|-> %u\n", hidd->bus);
+        /*bpf_trace_printk("1 hid_add_device|-> %u\n", hidd->group);*/
+        bpf_trace_printk("2 hid_add_device|-> %u\n", hidd->vendor);
+        bpf_trace_printk("3 hid_add_device|-> %u\n", hidd->product);
+        bpf_trace_printk("4 hid_add_device|-> %u\n", hidd->version);
+        bpf_trace_printk("5 hid_add_device|-> %d\n", hidd->type);
+        bpf_trace_printk("6 hid_add_device|-> %s\n", hidd->name);
+        bpf_trace_printk("7 hid_add_device|-> %s\n", hidd->phys);
+        /*bpf_trace_printk("8 hid_add_device|-> %s\n", hidd->uniq);*/
+        /*if (hidd->battery != NULL)*/
+                /*bpf_trace_printk("9 hid_add_device|-> %d\n", hidd->battery_capacity);*/
+        /*bpf_trace_printk("10 hid_add_device|-> %d\n", hidd->country);*/
+        /*bpf_trace_printk("10 hid_add_device|-> %p\n", hidd->bpf);*/
+        /*bpf_trace_printk("11 hid_add_device|-> %s\n", hidd->driver->name);*/
+        
+        /*bpf_trace_printk("11 hid_add_device|-> %s\n", hidd->dev.kobj.name);*/
+        /*possible to de-authorize*/
+        bpf_trace_printk("12 hid_add_device|-> %s\n", hidd->dev.parent->kobj.name);
+        /*bpf_trace_printk("13 hid_add_device|-> %s\n", hidd->dev.init_name);*/
+        /*bpf_trace_printk("14 hid_add_device|-> %s\n", hidd->dev.type->name);*/
+        /*bpf_trace_printk("15 hid_add_device|-> %s\n", hidd->dev.removable);*/
+        /*bpf_trace_printk("16 hid_add_device|-> %s\n", hidd->dev.physical_location->panel);*/
+        /*bpf_trace_printk("17 hid_add_device|-> %s\n", hidd->dev.physical_location->vertical_position);*/
+        /*bpf_trace_printk("18 hid_add_device|-> %s\n", hidd->dev.physical_location->horizontal_position);*/
+        /*bpf_trace_printk("19 hid_add_device|-> %u\n", hidd->dev.physical_location->dock);*/
+        /*bpf_trace_printk("20 hid_add_device|-> %u\n", hidd->dev.physical_location->lid);*/
+   
+
+
+        return 0;
+}
+
+int hid_monitor_remove(struct pt_regs *ctx, struct device *dev)
+{
+        bpf_trace_printk("0 hid_device_remove|-> %s\n", dev->kobj.name);
+        bpf_trace_printk("1 hid_device_remove|-> %s\n", dev->parent->kobj.name);
+        /*bpf_trace_printk("2 hid_device_remove|-> %s\n", dev->init_name);*/
+        /*bpf_trace_printk("2.2 hid_device_remove|-> %s\n", dev->parent->init_name);*/
+        /*bpf_trace_printk("3 hid_device_remove|-> %s\n", dev->type->name);*/
+        /*this one interesting*/
+        bpf_trace_printk("3.3 hid_device_remove|-> %s\n", dev->parent->type->name);
+        /*bpf_trace_printk("4 hid_device_remove|-> %s\n", dev->removable);*/
+        /*bpf_trace_printk("4.4 hid_device_remove|-> %s\n", dev->parent->removable);*/
+        /*bpf_trace_printk("5 hid_device_remove|-> %s\n", dev->physical_location->panel);*/
+        /*bpf_trace_printk("6 hid_device_remove|-> %s\n", dev->physical_location->vertical_position);*/
+        /*bpf_trace_printk("7 hid_device_remove|-> %s\n", dev->physical_location->horizontal_position);*/
+        /*bpf_trace_printk("8 hid_device_remove|-> %u\n", dev->physical_location->dock);*/
+        /*bpf_trace_printk("8.8 hid_device_remove|-> %u\n", dev->parent->physical_location->dock);*/
+        /*bpf_trace_printk("9 hid_device_remove|-> %x\n", dev->physical_location->lid);*/
+   
 
         return 0;
 }

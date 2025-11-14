@@ -14,7 +14,7 @@ from send_telegram_message_to_chat import send_telegram
 
 def check_send_config(senders_config):
     # check of any kind of config has senders
-    # TODO: re-think this maybe we do not want to be mandatory
+    # XXX: re-think this maybe we do not want to be mandatory
     if not senders_config.get("senders"):
         msgerr = "Any sender configured on general or shield"
         raise ConfigurationError(msgerr)
@@ -65,9 +65,6 @@ def get_config(shield_config=None):
 
 
 def send(data, shield_config=None):
-    print("============")
-    print(shield_config)
-    print("============")
     senders_config = get_config(shield_config)
     for key, value in senders_config.items():
         match key:

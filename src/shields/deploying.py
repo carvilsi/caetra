@@ -4,9 +4,11 @@ import tomllib
 import os
 import sys
 
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 import constants
 from caetra_exceptions import ShieldConfigurationError
+from dict_handler import validate_dict_structure
 
 
 # returns a BPF program loaded and attached to kernel
@@ -39,14 +41,13 @@ def load_bpf_prog(
 
 
 # checks for mandatory configuration varialbes
-# TODO: implement validation way
-def shield_config_check(shield_config):
-    if shield_config.get("enable") is None:
-        raise ShieldConfigurationError(
-            "Shield Configuration value for 'enable' (true/false) is mandatory"
-        )
-    else:
-        logger.debug("Shield Configuration file OK")
+def shield_config_check(shield_config, shield_name):
+    validate_dict_structure(
+            constants.CONFIG_SHIELD_MANDATORY,
+            shield_config,
+            shield_name
+    )
+    logger.debug(f"Shield {shield_name.upper()} Configuration file OK")
 
 
 def load_shield_config(shield_name):
@@ -60,7 +61,7 @@ def load_shield_config(shield_name):
     if shield_config_file is not None:
         f = open(shield_config_file, "rb")
         shield_config = tomllib.load(f)
-        shield_config_check(shield_config.get(shield_name))
+        shield_config_check(shield_config.get(shield_name), shield_name)
         return shield_config
     else:
         message = f"no toml configuration file for {shield_name} Shield;\n check that {shield_name}.toml exists on same directory than bpf python script"
