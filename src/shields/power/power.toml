@@ -1,0 +1,23 @@
+# this is the configuration file related with Caetra's power Shield
+# add here all the user configurable parameters to tune the
+# behaviour of the shield
+
+# Name of the Caetra Shield and generic config values
+# case sensitive must match with SHIELD_NAME on python side
+[power]
+
+# if this shield is enable 
+enable = true 
+
+
+# a description that will logged
+description = "Sends a notification if the power supply changes."
+
+
+# label to describe what happen on physical world
+action_label = "power supply changed"
+
+
+
+
+

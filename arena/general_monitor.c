@@ -124,15 +124,18 @@ int general_monitor(struct pt_regs *ctx)
         return 0;
 }
 
-int pwr_monitor(struct pt_regs *ctx, struct power_supply *psy)
+
+
+
+int pwr_monitor(struct pt_regs *ctx, struct power_supply *kstrct)
 {
-        struct key_t key;
-        key.foo = 0;
-        key.bar = 1;
 
-        bpf_trace_printk("%s pwr_actn %d", psy->desc->name, psy->desc->type);
-        power.increment(key);
-
+        bpf_trace_printk("0 powe_supply|-> %s", kstrct->desc->name);
+        bpf_trace_printk("1 powe_supply|-> %d", kstrct->desc->type);
+        /*bpf_trace_printk("2 powe_supply|-> %s", kstrct->supplied_to);*/
+        /*bpf_trace_printk("3 powe_supply|-> %s", kstrct->supplied_from);*/
+        /*bpf_trace_printk("4 powe_supply|-> %d", kstrct->changed);*/
+ 
         return 0;
 }
 

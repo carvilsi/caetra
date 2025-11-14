@@ -26,7 +26,7 @@ Caetra was the shield used by Iberian
 - [ ] ethernet on connect cable
 - [ ] accelerometers
 - [ ] light sensor
-- [ ] change on power source
+- [x] change on power source
 - [x] an usb HID has been disconnected/connected
 - [x] try to get more info
 

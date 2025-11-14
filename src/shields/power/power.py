@@ -14,16 +14,34 @@ from logging_handler import log_shield_exception
 from senders_handler import send
 import constants
 
+# from linux/power_supply.h
+POWER_SUPPLY_TYPE = {
+        0: "POWER_SUPPLY_TYPE_UNKNOWN",
+        1: "POWER_SUPPLY_TYPE_BATTERY",
+        2: "POWER_SUPPLY_TYPE_UPS",
+        3: "POWER_SUPPLY_TYPE_MAINS",
+        4: "POWER_SUPPLY_TYPE_USB",              # [> Standard Downstream Port <]
+        5: "POWER_SUPPLY_TYPE_USB_DCP",          # [> Dedicated Charging Port <]
+        6: "POWER_SUPPLY_TYPE_USB_CDP",          # [> Charging Downstream Port <]
+        7: "POWER_SUPPLY_TYPE_USB_ACA",          # [> Accessory Charger Adapters <]
+        8: "POWER_SUPPLY_TYPE_USB_TYPE_C",       # [> Type C Port <]
+        9: "POWER_SUPPLY_TYPE_USB_PD",           # [> Power Delivery Port <]
+        10: "POWER_SUPPLY_TYPE_USB_PD_DRP",      # [> PD Dual Role Port <]
+        11: "POWER_SUPPLY_TYPE_APPLE_BRICK_ID",  # [> Apple Charging Method <]
+        12: "POWER_SUPPLY_TYPE_WIRELESS",        # [> Wireless <]
+}
+
+
 # shield name
 # must be same with in toml root config
-SHIELD_NAME="{{shield_name}}"
+SHIELD_NAME="power"
 
 # kernel section
 
 # kprobe event name
-event="{{kprobe_event}}"
+event="power_supply_changed"
 # c function for the kprobe
-fn_name="{{shield_name}}_observer"
+fn_name="power_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 
@@ -50,20 +68,20 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 # get here the data for shield impl
-                {{shield_name}}_data = ("pid:%d" % (event.pid))
-
-{% if shield_feature %}
-                if shield_config["features"]["{{shield_feature}}"]:
-                    # implement here your {{shield_feature}} feature (o will crash on run ;)
-{% endif %}
+                power_data = ("name:%s-type:%s-pid:%d"
+                              %
+                                (
+                                  event.name.decode("utf-8", "replace"),
+                                  POWER_SUPPLY_TYPE[event.type],
+                                  event.pid
+                                )
+                             )
                     
                 message = ""
                 try:
-{% if shield_feature %}
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' {{shield_feature}}: {shield_config["features"]["{{ shield_feature }}"]} data: { {{shield_name}}_data }"
-{% else %}
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' data: { {{shield_name}}_data }"
-{% endif %}
+
+                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' data: { power_data }"
+
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)

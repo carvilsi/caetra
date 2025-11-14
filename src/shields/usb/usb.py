@@ -1,7 +1,6 @@
 # generic imports
 import sys
 import os
-from time import strftime
 
 # caetra imports
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
