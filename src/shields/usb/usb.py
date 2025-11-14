@@ -51,12 +51,16 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 # raw logging for shield impl
-                logger_shields.debug(
-                    f"Shield {SHIELD_NAME.upper()}: %-9s %-7d %s"
+                usb_data = (
+                        "path:%s-name:%s-serial:%s-prod_name:%s-manufc:%s-busnam:%s-busnum:%d"
                     % (
-                        strftime("%H:%M:%S"),
-                        event.pid,
                         event.path.decode("utf-8", "replace"),
+                        event.name.decode("utf-8", "replace"),
+                        event.serial.decode("utf-8", "replace"),
+                        event.prod.decode("utf-8", "replace"),
+                        event.manfc.decode("utf-8", "replace"),
+                        event.busnam.decode("utf-8", "replace"),
+                        event.busnum,
                     )
                 )
 
@@ -73,7 +77,7 @@ def bpf_main():
                     )
 
                 message = ""
-                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' de-auth: {shield_config["features"]["de_authorize_dev"]} path: {device_path}"
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' de-auth: {shield_config["features"]["de_authorize_dev"]} path: {device_path}{usb_data}"
                 try:
                     send(message, shield_config)
                 except ConfigurationError as e:
