@@ -165,14 +165,15 @@ int usb_monitor(struct pt_regs *ctx, struct usb_device *usbd)
 
 int hid_monitor(struct pt_regs *ctx, struct hid_device *hidd)
 {
-        bpf_trace_printk("0 hid_add_device|-> %u\n", hidd->bus);
         /*bpf_trace_printk("1 hid_add_device|-> %u\n", hidd->group);*/
+        bpf_trace_printk("0 hid_add_device|-> %u\n", hidd->bus);
         bpf_trace_printk("2 hid_add_device|-> %u\n", hidd->vendor);
         bpf_trace_printk("3 hid_add_device|-> %u\n", hidd->product);
         bpf_trace_printk("4 hid_add_device|-> %u\n", hidd->version);
         bpf_trace_printk("5 hid_add_device|-> %d\n", hidd->type);
         bpf_trace_printk("6 hid_add_device|-> %s\n", hidd->name);
         bpf_trace_printk("7 hid_add_device|-> %s\n", hidd->phys);
+        bpf_trace_printk("12 hid_add_device|-> %s\n",hidd->dev.parent->kobj.name);
         /*bpf_trace_printk("8 hid_add_device|-> %s\n", hidd->uniq);*/
         /*if (hidd->battery != NULL)*/
                 /*bpf_trace_printk("9 hid_add_device|-> %d\n", hidd->battery_capacity);*/
@@ -182,7 +183,6 @@ int hid_monitor(struct pt_regs *ctx, struct hid_device *hidd)
         
         /*bpf_trace_printk("11 hid_add_device|-> %s\n", hidd->dev.kobj.name);*/
         /*possible to de-authorize*/
-        bpf_trace_printk("12 hid_add_device|-> %s\n", hidd->dev.parent->kobj.name);
         /*bpf_trace_printk("13 hid_add_device|-> %s\n", hidd->dev.init_name);*/
         /*bpf_trace_printk("14 hid_add_device|-> %s\n", hidd->dev.type->name);*/
         /*bpf_trace_printk("15 hid_add_device|-> %s\n", hidd->dev.removable);*/

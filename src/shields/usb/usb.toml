@@ -7,7 +7,7 @@
 [usb]
 
 # if this shield is enable (if false will override the main config)
-enable = true 
+enable = true
 
 # a description that will logged
 description = "\n\t\tWhen a USB device is attached will send notification as it's configured on 'senders'.\n\t\tAlso possible to de-authorize the attached USB device if 'de_authorize_dev' is set to true"

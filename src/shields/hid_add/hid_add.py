@@ -51,17 +51,20 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 # raw logging for shield impl
-                logger_shields.debug(
-                    f"Shield {SHIELD_NAME.upper()}: %-9s %-7d"
+                hid_add_data = (
+                        "bus:%d-vendor:%d-prod:%d-vers:%d-type:%d-name:%s-phys:%s-path:%s-pid:%d"
                     % (
-                        strftime("%H:%M:%S"),
+                        event.bus,
+                        event.vendor,
+                        event.prod,
+                        event.vers,
+                        event.type,
+                        event.name.decode("utf-8", "replace"),
+                        event.phys.decode("utf-8", "replace"),
+                        event.path.decode("utf-8", "replace"),
                         event.pid,
                     )
                 )
-
-                hid_add_data = f"pid: {event.pid}"
-
-
                     
                 message = ""
                 message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' data: { hid_add_data }"

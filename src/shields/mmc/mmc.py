@@ -55,7 +55,7 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 mmc_data = (
-                    "dev_name:%s-prod_name:%s-mmc_type:%s-serial:%d-manfid:%d-oemid:%d-year:%d-class_name:%s-dev_path0:%s-dev_path1:%s"
+                    "dev_name:%s-prod_name:%s-mmc_type:%s-serial:%d-manfid:%d-oemid:%d-year:%d-class_name:%s-dev_path0:%s-dev_path1:%s-pid:%d"
                     % (
                         event.dev_name.decode("utf-8", "replace"),
                         event.prod_name.decode("utf-8", "replace"),
@@ -67,6 +67,7 @@ def bpf_main():
                         event.class_name.decode("utf-8", "replace"),
                         event.dev_path0.decode("utf-8", "replace"),
                         event.dev_path1.decode("utf-8", "replace"),
+                        event.pid,
                     )
                 )
 

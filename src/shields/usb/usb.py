@@ -52,7 +52,7 @@ def bpf_main():
 
                 # raw logging for shield impl
                 usb_data = (
-                        "path:%s-name:%s-serial:%s-prod_name:%s-manufc:%s-busnam:%s-busnum:%d"
+                        "path:%s-name:%s-serial:%s-prod_name:%s-manufc:%s-busnam:%s-busnum:%d-pid:%d"
                     % (
                         event.path.decode("utf-8", "replace"),
                         event.name.decode("utf-8", "replace"),
@@ -61,6 +61,7 @@ def bpf_main():
                         event.manfc.decode("utf-8", "replace"),
                         event.busnam.decode("utf-8", "replace"),
                         event.busnum,
+                        event.pid
                     )
                 )
 

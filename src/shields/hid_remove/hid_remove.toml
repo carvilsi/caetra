@@ -7,7 +7,7 @@
 [hid_remove]
 
 # if this shield is enable 
-enable = false 
+enable = true 
 
 
 # a description that will logged

@@ -50,16 +50,8 @@ def bpf_main():
             def shield_logic(cpu, data, size):
                 event = b["events"].event(data)
 
-                # raw logging for shield impl
-                logger_shields.debug(
-                    f"Shield {SHIELD_NAME.upper()}: %-9s %-7d"
-                    % (
-                        strftime("%H:%M:%S"),
-                        event.pid,
-                    )
-                )
-
-                {{shield_name}}_data = f"pid: {event.pid}"
+                # get here the data for shield impl
+                {{shield_name}}_data = ("%d" % (event.pid))
 
 {% if shield_feature %}
                 if shield_config["features"]["{{shield_feature}}"]:
