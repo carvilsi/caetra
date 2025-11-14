@@ -15,6 +15,14 @@ from logging_handler import log_shield_exception
 from senders_handler import send
 import constants
 
+# from linux/hid.h
+HID_TYPE = {
+        0: "HID_TYPE_OTHER",
+        1: "HID_TYPE_USBMOUSE",
+        2: "HID_TYPE_USBNONE",
+}
+
+
 # shield name
 # must be same with in toml root config
 SHIELD_NAME="hid_add"
@@ -52,13 +60,13 @@ def bpf_main():
 
                 # raw logging for shield impl
                 hid_add_data = (
-                        "bus:%d-vendor:%d-prod:%d-vers:%d-type:%d-name:%s-phys:%s-path:%s-pid:%d"
+                        "bus:%d-vendor:%d-prod:%d-vers:%d-type:%s-name:%s-phys:%s-path:%s-pid:%d"
                     % (
                         event.bus,
                         event.vendor,
                         event.prod,
                         event.vers,
-                        event.type,
+                        HID_TYPE[event.type],
                         event.name.decode("utf-8", "replace"),
                         event.phys.decode("utf-8", "replace"),
                         event.path.decode("utf-8", "replace"),
