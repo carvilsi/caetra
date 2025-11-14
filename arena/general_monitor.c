@@ -142,11 +142,14 @@ int pwr_monitor(struct pt_regs *ctx, struct power_supply *kstrct)
 int usb_monitor(struct pt_regs *ctx, struct usb_device *usbd)
 {
         bpf_trace_printk("0 usb_notify_add_device|-> %s\n", usbd->dev.type->name);
+        bpf_trace_printk("0.0 usb_notify_add_device|-> %s\n", usbd->parent->dev.type->name);
+        bpf_trace_printk("0.0 usb_notify_add_device|-> %s\n", usbd->dev.parent->type->name);
         bpf_trace_printk("1 usb_notify_add_device|-> %s\n", usbd->serial);
         bpf_trace_printk("2 usb_notify_add_device|-> %s\n", usbd->product);
         bpf_trace_printk("3 usb_notify_add_device|-> %s\n", usbd->manufacturer);
         bpf_trace_printk("4 usb_notify_add_device|-> %s\n", usbd->bus->bus_name);
         bpf_trace_printk("5 usb_notify_add_device|-> %d\n", usbd->bus->busnum);
+        bpf_trace_printk("6 usb_notify_add_device|-> %x\n", usbd->descriptor.bDeviceClass);
         /*bpf_trace_printk("6|-> %d\n", usbd->bus->root_hub->serial);*/
         /*bpf_trace_printk("4|-> %s\n", usbd->dev.init_name);*/
         /*bpf_trace_printk("6 hid_device_remove|-> %s\n",  usbd->dev.physical_location->panel);*/
@@ -177,6 +180,10 @@ int hid_monitor(struct pt_regs *ctx, struct hid_device *hidd)
         bpf_trace_printk("6 hid_add_device|-> %s\n", hidd->name);
         bpf_trace_printk("7 hid_add_device|-> %s\n", hidd->phys);
         bpf_trace_printk("12 hid_add_device|-> %s\n",hidd->dev.parent->kobj.name);
+
+        char comm[TASK_COMM_LEN];
+        bpf_get_current_comm(&comm, sizeof(comm));
+        bpf_trace_printk("13 hid_add_device|-> %s\n", comm);
         /*bpf_trace_printk("8 hid_add_device|-> %s\n", hidd->uniq);*/
         /*if (hidd->battery != NULL)*/
                 /*bpf_trace_printk("9 hid_add_device|-> %d\n", hidd->battery_capacity);*/

@@ -29,6 +29,7 @@ Caetra was the shield used by Iberian
 - [x] change on power source
 - [x] an usb HID has been disconnected/connected
 - [x] try to get more info
+- [ ] any keyboard, mouse or tracpad interaction
 
 ### code
 - [x] sender canary tokens

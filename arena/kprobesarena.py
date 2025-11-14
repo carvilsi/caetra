@@ -6,7 +6,7 @@ from bcc.utils import printb
 # load BPF program
 b = BPF(src_file="general_monitor.c")
 # XXX: This works for USB
-# b.attach_kprobe(event="usb_notify_add_device", fn_name="usb_monitor")
+b.attach_kprobe(event="usb_notify_add_device", fn_name="usb_monitor")
 
 # b.attach_kprobe(event="xhci_bus_resume", fn_name="general_monitor")
 # b.attach_kprobe(event="hid_report_raw_event", fn_name="hdi_monitor")
@@ -25,10 +25,10 @@ b.attach_kprobe(event="power_supply_changed", fn_name="pwr_monitor")
 
 # hid 
 ## attach
-# b.attach_kprobe(event="hid_add_device", fn_name="hid_monitor")
+b.attach_kprobe(event="hid_add_device", fn_name="hid_monitor")
 
 ## remove
-# b.attach_kprobe(event="hid_device_remove", fn_name="hid_monitor_remove")
+b.attach_kprobe(event="hid_device_remove", fn_name="hid_monitor_remove")
 
 print("eBPFphysec with <3 by (#4|2 \n monitoring...\n") 
 
