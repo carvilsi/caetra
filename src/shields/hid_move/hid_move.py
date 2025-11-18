@@ -4,16 +4,18 @@ import os
 import tempfile
 
 # caetra imports
+sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
 from shields import deploying
 from logger_setup import logger_shields
-from caetra_exceptions import ShieldConfigurationError, ConfigurationError
+from caetra_exceptions import ShieldConfigurationError, ConfigurationError, MaxActionReached
 from logging_handler import log_shield_exception
 from senders_handler import send
 import constants
+import status_handler
 
 # shield name
 # must be same with in toml root config
@@ -28,6 +30,7 @@ fn_name="hid_move_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 
+status = status_handler.StatusHandler()
 
 def bpf_main():
     try:
@@ -53,17 +56,26 @@ def bpf_main():
                 # get here the data for shield impl
                 hid_move_data = ("pid:%d" % (event.pid))
 
+                print("####### ####")
+                print(f"####### {event.ts} ####")
+                print("####### ####")
 
                 if shield_config["features"]["trigger_once"]:
                     # implement here your trigger_once feature (o will crash on run ;)
+                    status.inccount()
+
 
                 message = ""
                 try:
+                    if status.get_counter() > constants.MAX_ACTIONS_TO_SEND:
+                        raise MaxActionReached("Reached max actions; not sending")
 
                     message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' trigger_once: {shield_config["features"]["trigger_once"]} data: { hid_move_data }"
 
                     send(message, shield_config)
                 except ConfigurationError as e:
+                    log_shield_exception(e, SHIELD_NAME)
+                except MaxActionReached as e:
                     log_shield_exception(e, SHIELD_NAME)
                 else:
                     logger_shields.info(

@@ -22,3 +22,6 @@ CONFIG_SHIELD_MANDATORY = {
     "action_label": str,
 }
 
+MAX_ACTIONS_TO_SEND = 3
+COOL_DOWN_TIME_TO_SEND = 10 # seconds
+NS_TO_S = 1000000000
