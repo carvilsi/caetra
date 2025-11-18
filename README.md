@@ -30,6 +30,8 @@ Caetra was the shield used by Iberian
 - [x] an usb HID has been disconnected/connected
 - [x] try to get more info
 - [ ] any keyboard, mouse or tracpad interaction
+- [ ] get out from suspend
+- [ ] get out lock
 
 ### code
 - [x] sender canary tokens
