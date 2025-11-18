@@ -1,0 +1,29 @@
+# this is the configuration file related with Caetra's hid_move Shield
+# add here all the user configurable parameters to tune the
+# behaviour of the shield
+
+# Name of the Caetra Shield and generic config values
+# case sensitive must match with SHIELD_NAME on python side
+[hid_move]
+
+# if this shield is enable 
+enable = true
+
+
+# a description that will logged
+description = "Triggers a notification on a Mouse ro keyboard interaction."
+
+
+# label to describe what happen on physical world
+action_label = "hid moved"
+
+
+# to configure special features
+[hid_move.features]
+
+# the feature variable 
+trigger_once = true
+
+
+
+
