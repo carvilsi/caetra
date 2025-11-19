@@ -9,8 +9,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "./src/utils/"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "./src/"))
 
 from logger_setup import logger
-import constants
 from config_parser import config
+import constants
 
 
 def run_script(script_name):
@@ -19,15 +19,20 @@ def run_script(script_name):
 
 # Threading execute all the shields under shield directory
 def threading_excute_shields():
+    shields = []
     for root, dirs, files in os.walk(constants.SHIELD_PATH):
         for file in files:
             if (
                 file.endswith(".py")
                 and file != constants.SHIELD_DEPLOYING_SCRIPT
-                and os.path.splitext(file)[0] in config["caetra"].get("shields_enabled")
-            ):
-                shield = os.path.join(root, file)
-                threading.Thread(target=run_script, args=(shield,)).start()
+                ):
+                if config["caetra"].get("shields_enabled") is not None: 
+                    if os.path.splitext(file)[0] in config["caetra"].get("shields_enabled"):
+                        shields.append(os.path.join(root, file))
+                else:
+                    shields.append(os.path.join(root, file))
+    for shield in shields: 
+        threading.Thread(target=run_script, args=(shield,)).start()
 
 
 def main():

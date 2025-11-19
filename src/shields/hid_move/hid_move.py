@@ -12,7 +12,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
 from shields import deploying
 from logger_setup import logger_shields
 from caetra_exceptions import ShieldConfigurationError, ConfigurationError, MaxActionReached
-from logging_handler import log_shield_exception
+from logging_handler import log_shield_exception, log_shield_exception_warn
 from senders_handler import send
 import constants
 import status_handler
@@ -56,27 +56,21 @@ def bpf_main():
                 # get here the data for shield impl
                 hid_move_data = ("pid:%d" % (event.pid))
 
-                print("####### ####")
-                print(f"####### {event.ts} ####")
-                print("####### ####")
-
-                if shield_config["features"]["trigger_once"]:
-                    # implement here your trigger_once feature (o will crash on run ;)
-                    status.inccount()
-
-
                 message = ""
+                
                 try:
-                    if status.get_counter() > constants.MAX_ACTIONS_TO_SEND:
-                        raise MaxActionReached("Reached max actions; not sending")
+                    # manage the sending behavior to limit it
+                    if shield_config["features"]["limit_sending"]:
+                        status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
 
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' trigger_once: {shield_config["features"]["trigger_once"]} data: { hid_move_data }"
+
+                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' trigger_once: {shield_config["features"]["limit_sending"]} data: { hid_move_data }"
 
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
                 except MaxActionReached as e:
-                    log_shield_exception(e, SHIELD_NAME)
+                    log_shield_exception_warn(e, SHIELD_NAME)
                 else:
                     logger_shields.info(
                         f"{SHIELD_NAME} triggered and sent: {message}"

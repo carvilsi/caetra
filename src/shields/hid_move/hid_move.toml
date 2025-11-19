@@ -21,8 +21,12 @@ action_label = "hid moved"
 # to configure special features
 [hid_move.features]
 
-# the feature variable 
-trigger_once = true
+# if true will manage the notifications limiting the notifications
+limit_sending = true
+# maximum actions when blocking notifications
+max_actions = 3
+# time in seconds to start sending notifications again
+cool_down_time = 10
 
 
 

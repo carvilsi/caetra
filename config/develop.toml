@@ -2,8 +2,8 @@
 
 [caetra]
 machine = "TheArch"
-# list of enabled shields; this will override shield configuration
-shields_enabled = ["hid_move"]
+# list of enabled shields; this will override shield configuration; uncomment next line in case to restrict the enabled shields and append these to the list
+#shields_enabled = ["hid_move"]
 
 [logging]
 level = "DEBUG"
@@ -13,6 +13,6 @@ enable = false
 token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
 
 [senders.telegram]
-enable = false 
+enable = true 
 chat_id = 35983972
 bot_api_key = "8245667438:AAHIANeASwTh_PviZUl62xOnlHwR469M4B4"
