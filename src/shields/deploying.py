@@ -31,7 +31,7 @@ def load_bpf_prog(
     b = BPF(src_file)
 
     logger.info(
-        f"\t[ ] {shield_name}: attaching krpobe: \n\t\tevent: {event} \n\t\tfunction: {fn_name}"
+        f"\t[ ] {shield_name}: attaching krpobe: \n\t\t\t\t\t\t\tevent: {event} \n\t\t\t\t\t\t\tfunction: {fn_name}"
     )
 
     b.attach_kprobe(event, fn_name=fn_name)

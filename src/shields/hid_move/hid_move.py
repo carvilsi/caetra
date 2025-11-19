@@ -17,6 +17,13 @@ from senders_handler import send
 import constants
 import status_handler
 
+# from linux/hid.h
+HID_TYPE = {
+        0: "HID_TYPE_OTHER",
+        1: "HID_TYPE_USBMOUSE",
+        2: "HID_TYPE_USBNONE",
+}
+
 # shield name
 # must be same with in toml root config
 SHIELD_NAME="hid_move"
@@ -54,7 +61,11 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 # get here the data for shield impl
-                hid_move_data = ("pid:%d" % (event.pid))
+                # hid_move_data = ("pid:%d-ts:%d-dt:%c-type:%d" %
+                hid_move_data = ("pid:%d-ts:%d-type:%s-vendor:%s-prod:%s" %
+                                 # (event.pid, event.ts, event.dt, event.rtype)
+                                 (event.pid, event.ts, HID_TYPE[event.rtype], event.vendor, event.prod)
+                                )
 
                 message = ""
                 

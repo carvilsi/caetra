@@ -3,6 +3,7 @@
 struct hid_add_t {
       // write down here your custom struct vars 
        u32 pid;
+       u64 ts;
        u16 bus;
        u16 vendor;
        u32 prod;
@@ -20,6 +21,7 @@ int hid_add_observer(struct pt_regs *ctx, struct hid_device *kstrct)
         struct hid_add_t data = {};
         
         data.pid = bpf_get_current_pid_tgid();
+        data.ts = bpf_ktime_get_ns();
         data.bus =  kstrct->bus;
         data.vendor = kstrct->vendor;
         data.prod = kstrct->product;
