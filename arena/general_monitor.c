@@ -6,6 +6,7 @@
 #include<linux/usb.h>
 #include<linux/device.h>
 #include<linux/hid.h>
+#include<linux/input.h>
 
 /*#define MMC_TYPE_MMC            0               [> MMC card <]*/
 /*#define MMC_TYPE_SD             1               [> SD card <]*/
@@ -16,6 +17,17 @@
 /*#define mmc_card_sdio(c)        ((c)->type == MMC_TYPE_SDIO)*/
 /*#define mmc_card_sd_combo(c)    ((c)->type == MMC_TYPE_SD_COMBO)*/
 /*int sdcard_observer(struct pt_regs *ctx, struct mmc_host *mmch, struct mmc_card *mmcc)*/
+
+int input_monitor(struct pt_regs *ctx, struct input_dev *kstrct, int arg1, int arg2, int arg3)
+{
+        
+        bpf_trace_printk("0|-> %s", kstrct->dev.kobj.name);
+        bpf_trace_printk("1|-> %d", arg1);
+        bpf_trace_printk("2|-> %d", arg2);
+        bpf_trace_printk("3|-> %d", arg3);
+
+        return 0;
+}
 
 
 int sdcard_observer(struct pt_regs *ctx, struct mmc_host *mmch)
