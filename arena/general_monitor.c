@@ -22,9 +22,15 @@ int input_monitor(struct pt_regs *ctx, struct input_dev *kstrct, int arg1, int a
 {
         
         bpf_trace_printk("0|-> %s", kstrct->dev.kobj.name);
+        bpf_trace_printk("4|-> %s", kstrct->name);
         bpf_trace_printk("1|-> %d", arg1);
         bpf_trace_printk("2|-> %d", arg2);
         bpf_trace_printk("3|-> %d", arg3);
+        bpf_trace_printk("5|-> %s", kstrct->phys);
+        /*bpf_trace_printk("7|-> %d", kstrct->id.product);*/
+        /*bpf_trace_printk("8|-> %d", kstrct->id.vendor);*/
+        /*bpf_trace_printk("9|-> %s", kstrct->dev.type->name);*/
+        /*bpf_trace_printk("6|-> %s", kstrct->uniq);*/
 
         return 0;
 }
