@@ -43,6 +43,7 @@ b = BPF(src_file="general_monitor.c")
 b.attach_kprobe(event="unregister_pm_notifier", fn_name="hibernation_monitor")
 
 ## ambien light changed
+# XXX: works when the ambient light changes, only working on Mac Book Pro
 b.attach_kprobe(event="backlight_device_set_brightness", fn_name="light_monitor")
 
 print("eBPFphysec with <3 by (#4|2 \n monitoring...\n") 

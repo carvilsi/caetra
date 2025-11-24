@@ -25,8 +25,8 @@ Caetra was the shield used by Iberian
 - [x] usb attached (also possible to de-auth)
 - [x] usb attached add more data
 - [ ] ethernet on connect cable
-- [ ] accelerometers
-- [ ] light sensor
+- [ ] accelerometers (I don't have a device with an accelerometer sensor)
+- [ ] light sensor (wip arena)
 - [x] change on power source
 - [x] an usb HID has been disconnected/connected
 - [x] try to get more info
