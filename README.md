@@ -17,7 +17,8 @@ Caetra was the shield used by Iberian
 ## TODOs
 - [ ] quite possible that we need to filter events by pid since there are multiple probes that triggers on the same physical interaction. Redis? file?
 - [x] maybe it's interesting to add an action label
-
+- [x] added limiting notification for same action
+ 
 ### Physical layer AKA Shields
 - [ ] bluetooth on connect or bind (found)
 - [x] sdcard attached
@@ -29,8 +30,8 @@ Caetra was the shield used by Iberian
 - [x] change on power source
 - [x] an usb HID has been disconnected/connected
 - [x] try to get more info
-- [ ] any keyboard, mouse or tracpad interaction
-- [ ] get out from suspend
+- [ ] any keyboard, mouse or tracpad interaction (arena-wip)
+- [ ] get out from suspend (arena-wip)
 - [ ] get out lock
 
 ### code

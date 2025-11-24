@@ -3,6 +3,8 @@
 from bcc import BPF
 from bcc.utils import printb
 
+import datetime
+
 # load BPF program
 b = BPF(src_file="general_monitor.c")
 # XXX: This works for USB
@@ -30,15 +32,24 @@ b = BPF(src_file="general_monitor.c")
 ## remove
 # b.attach_kprobe(event="hid_device_remove", fn_name="hid_monitor_remove")
 
+### TODO: to implement on caetra
+
 ## input input_handle_event
-b.attach_kprobe(event="input_handle_event", fn_name="input_monitor")
+# XXX: gets any interaction keyboard, trackpad, etc...
+# b.attach_kprobe(event="input_handle_event", fn_name="input_monitor")
+
+## suspend hibernation
+# XXX: works on resuming from hibernation
+b.attach_kprobe(event="unregister_pm_notifier", fn_name="hibernation_monitor")
 
 print("eBPFphysec with <3 by (#4|2 \n monitoring...\n") 
+print(datetime.datetime.now())
 
 while 1:
     try:
         (task, pid, cpu, flags, ts, msg) = b.trace_fields()
         printb(b"%-18.9f %-16s %-6d %s" % (ts, task, pid, msg))
+        print(datetime.datetime.now())
         
     except ValueError:
         continue

@@ -7,6 +7,7 @@
 #include<linux/device.h>
 #include<linux/hid.h>
 #include<linux/input.h>
+#include<linux/notifier.h>
 
 /*#define MMC_TYPE_MMC            0               [> MMC card <]*/
 /*#define MMC_TYPE_SD             1               [> SD card <]*/
@@ -142,7 +143,14 @@ int general_monitor(struct pt_regs *ctx)
         return 0;
 }
 
+int hibernation_monitor(struct pt_regs *ctx, struct notifier_block *kstrct)
+{
 
+        /*bpf_trace_printk("0 hibernation|-> %s", kstrct->desc->name);*/
+        bpf_trace_printk("0 hibernation|->");
+ 
+        return 0;
+}
 
 
 int pwr_monitor(struct pt_regs *ctx, struct power_supply *kstrct)
