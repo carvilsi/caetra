@@ -42,6 +42,9 @@ b = BPF(src_file="general_monitor.c")
 # XXX: works on resuming from hibernation
 b.attach_kprobe(event="unregister_pm_notifier", fn_name="hibernation_monitor")
 
+## ambien light changed
+b.attach_kprobe(event="backlight_device_set_brightness", fn_name="light_monitor")
+
 print("eBPFphysec with <3 by (#4|2 \n monitoring...\n") 
 print(datetime.datetime.now())
 

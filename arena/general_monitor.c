@@ -8,6 +8,7 @@
 #include<linux/hid.h>
 #include<linux/input.h>
 #include<linux/notifier.h>
+#include<linux/backlight.h>
 
 /*#define MMC_TYPE_MMC            0               [> MMC card <]*/
 /*#define MMC_TYPE_SD             1               [> SD card <]*/
@@ -18,6 +19,19 @@
 /*#define mmc_card_sdio(c)        ((c)->type == MMC_TYPE_SDIO)*/
 /*#define mmc_card_sd_combo(c)    ((c)->type == MMC_TYPE_SD_COMBO)*/
 /*int sdcard_observer(struct pt_regs *ctx, struct mmc_host *mmch, struct mmc_card *mmcc)*/
+
+int light_monitor(struct pt_regs *ctx, struct backlight_device *kstrct)
+{
+        
+        bpf_trace_printk("0|-> %s", kstrct->dev.kobj.name);
+        // 1 and 2 are the same
+        bpf_trace_printk("1 brightness |-> %d", kstrct->props.brightness);
+        /*bpf_trace_printk("2|-> %d", arg1);*/
+        bpf_trace_printk("3 power |-> %d", kstrct->props.power);
+        bpf_trace_printk("4 type |-> %d", kstrct->props.type);
+
+        return 0;
+}
 
 int input_monitor(struct pt_regs *ctx, struct input_dev *kstrct, int arg1, int arg2, int arg3)
 {
