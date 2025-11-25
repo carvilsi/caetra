@@ -20,7 +20,7 @@ Caetra was the shield used by Iberian
 - [x] added limiting notification for same action
  
 ### Physical layer AKA Shields
-- [ ] bluetooth on connect or pair (wip on heynote)
+- [ ] bluetooth on connect or pair (arena-wip)
 - [ ] bluetooth on disconnect (wip on heynote)
 - [x] sdcard attached
 - [x] usb attached (also possible to de-auth)

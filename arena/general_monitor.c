@@ -9,6 +9,9 @@
 #include<linux/input.h>
 #include<linux/notifier.h>
 #include<linux/backlight.h>
+#include <net/bluetooth/bluetooth.h>
+#include <net/bluetooth/hci.h>
+#include <net/bluetooth/hci_core.h>
 
 /*#define MMC_TYPE_MMC            0               [> MMC card <]*/
 /*#define MMC_TYPE_SD             1               [> SD card <]*/
@@ -19,6 +22,21 @@
 /*#define mmc_card_sdio(c)        ((c)->type == MMC_TYPE_SDIO)*/
 /*#define mmc_card_sd_combo(c)    ((c)->type == MMC_TYPE_SD_COMBO)*/
 /*int sdcard_observer(struct pt_regs *ctx, struct mmc_host *mmch, struct mmc_card *mmcc)*/
+
+int bt_connect_monitor(struct pt_regs *ctx, struct hci_dev *kstrct, void *data, struct sk_buff *skb)
+{
+        bpf_trace_printk("0 name |-> %s", kstrct->name);
+        bpf_trace_printk("-0 bdaddr |-> %s", kstrct->bdaddr);
+        struct hci_ev_conn_request *ev = data;
+        bpf_trace_printk("1 dev class |-> %s", ev->dev_class);
+        bpf_trace_printk("-1 bdaddr |-> %s", ev->bdaddr);
+
+        struct hci_event_hdr *hdr = (void *) skb->data;
+        u8 event = hdr->evt;
+        bpf_trace_printk("2 event |-> %d", event);
+
+        return 0;
+}
 
 int light_monitor(struct pt_regs *ctx, struct backlight_device *kstrct)
 {

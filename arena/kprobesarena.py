@@ -40,11 +40,14 @@ b = BPF(src_file="general_monitor.c")
 
 ## suspend hibernation
 # XXX: works on resuming from hibernation
-b.attach_kprobe(event="unregister_pm_notifier", fn_name="hibernation_monitor")
+# b.attach_kprobe(event="unregister_pm_notifier", fn_name="hibernation_monitor")
 
-## ambien light changed
+## ambient light changed
 # XXX: works when the ambient light changes, only working on Mac Book Pro
-b.attach_kprobe(event="backlight_device_set_brightness", fn_name="light_monitor")
+# b.attach_kprobe(event="backlight_device_set_brightness", fn_name="light_monitor")
+
+## Bluetooth 
+b.attach_kprobe(event="hci_conn_request_evt", fn_name="bt_connect_monitor")
 
 print("eBPFphysec with <3 by (#4|2 \n monitoring...\n") 
 print(datetime.datetime.now())
