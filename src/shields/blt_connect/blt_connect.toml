@@ -1,0 +1,23 @@
+# this is the configuration file related with Caetra's blt_connect Shield
+# add here all the user configurable parameters to tune the
+# behaviour of the shield
+
+# Name of the Caetra Shield and generic config values
+# case sensitive must match with SHIELD_NAME on python side
+[blt_connect]
+
+# if this shield is enable 
+enable = true 
+
+
+# a description that will logged
+description = "Triggers on a bluetooth connection"
+
+
+# label to describe what happen on physical world
+action_label = "blt connect"
+
+
+
+
+
