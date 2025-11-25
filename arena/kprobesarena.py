@@ -47,7 +47,11 @@ b = BPF(src_file="general_monitor.c")
 # b.attach_kprobe(event="backlight_device_set_brightness", fn_name="light_monitor")
 
 ## Bluetooth 
+# XXX: works on pair and connect
 b.attach_kprobe(event="hci_conn_request_evt", fn_name="bt_connect_monitor")
+
+# XXX: works on disconnect or unpair
+b.attach_kprobe(event="hci_disconn_complete_evt", fn_name="bt_disconnect_monitor")
 
 print("eBPFphysec with <3 by (#4|2 \n monitoring...\n") 
 print(datetime.datetime.now())
@@ -56,7 +60,7 @@ while 1:
     try:
         (task, pid, cpu, flags, ts, msg) = b.trace_fields()
         printb(b"%-18.9f %-16s %-6d %s" % (ts, task, pid, msg))
-        print(datetime.datetime.now())
+        # print(datetime.datetime.now())
         
     except ValueError:
         continue
