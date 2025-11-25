@@ -61,27 +61,25 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 # get here the data for shield impl
-                # hid_move_data = ("pid:%d-ts:%d-dt:%c-type:%d" %
                 hid_move_data = ("pid:%d-ts:%d-type:%s-vendor:%s-prod:%s" %
-                                 # (event.pid, event.ts, event.dt, event.rtype)
                                  (event.pid, event.ts, HID_TYPE[event.rtype], event.vendor, event.prod)
                                 )
 
                 message = ""
                 
                 try:
+                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' trigger_once: {shield_config["features"]["limit_sending"]} data: { hid_move_data }"
                     # manage the sending behavior to limit it
                     if shield_config["features"]["limit_sending"]:
                         status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
-
-
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' trigger_once: {shield_config["features"]["limit_sending"]} data: { hid_move_data }"
 
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
                 except MaxActionReached as e:
                     log_shield_exception_warn(e, SHIELD_NAME)
+                except KeyboardInterrupt:
+                    exit()
                 else:
                     logger_shields.info(
                         f"{SHIELD_NAME} triggered and sent: {message}"
