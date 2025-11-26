@@ -12,6 +12,8 @@
 #include <net/bluetooth/bluetooth.h>
 #include <net/bluetooth/hci.h>
 #include <net/bluetooth/hci_core.h>
+#include <linux/bpf.h>
+#include <linux/ptrace.h>
 
 /*#define MMC_TYPE_MMC            0               [> MMC card <]*/
 /*#define MMC_TYPE_SD             1               [> SD card <]*/
@@ -28,19 +30,59 @@
 int bt_connect_monitor(struct pt_regs *ctx, struct hci_dev *kstrct, void *data, struct sk_buff *skb)
 {
         bpf_trace_printk("0 name |-> %s", kstrct->name);
-        bpf_trace_printk("1 bdaddr |-> %u", kstrct->bdaddr);
         bpf_trace_printk("name |-> %s", kstrct->dev_name);
 
         struct hci_ev_conn_request *ev = data;
-        bpf_trace_printk("6 dev class |-> %s", ev->dev_class);
-        bpf_trace_printk("6 dev class |-> %u", ev->dev_class);
-        bpf_trace_printk("7 bdaddr |-> %u", ev->bdaddr);
+        /*struct hci_ev_conn_complete *ev = data;*/
+        bdaddr_t bdc = ev->bdaddr;
+        bpf_trace_printk("conn addr |-> %x", bdc.b[5]);
+        bpf_trace_printk("conn addr |-> %x", bdc.b[4]);
+        bpf_trace_printk("conn addr |-> %x", bdc.b[3]);
+        bpf_trace_printk("conn addr |-> %x", bdc.b[2]);
+        bpf_trace_printk("conn addr |-> %x", bdc.b[1]);
+        bpf_trace_printk("conn addr |-> %x", bdc.b[0]);
+        
+        
+        
+        bpf_trace_printk("DEV CLASS |-> %s", ev->dev_class);
+        bpf_trace_printk("DEV CLASS |-> %d", ev->dev_class);
+        bpf_trace_printk("DEV CLASS |-> %u", ev->dev_class);
+        bpf_trace_printk("DEV CLASS |-> %x", ev->dev_class);
+        bpf_trace_printk("DEV CLASS |-> %s", ev->dev_class[0]);
+        bpf_trace_printk("DEV CLASS |-> %llu", ev->dev_class[0]);
+        bpf_trace_printk("DEV CLASS |-> %x", ev->dev_class[0] & 0xffffff);
+        bpf_trace_printk("DEV CLASS |-> %x", ev->dev_class[1] & 0xffffff);
+        bpf_trace_printk("DEV CLASS |-> %x", ev->dev_class[2] & 0xffffff);
+
+
         
 
         struct hci_event_hdr *hdr = (void *) skb->data;
         bpf_trace_printk("8 event |-> %u", hdr->evt);
         bpf_trace_printk("9 plent |-> %u", hdr->plen);
 
+        bdaddr_t bd = kstrct->bdaddr;
+
+        bpf_trace_printk("dev addr |-> %x", bd.b[5]);
+        bpf_trace_printk("dev addr |-> %x", bd.b[4]);
+        bpf_trace_printk("dev addr |-> %x", bd.b[3]);
+        bpf_trace_printk("dev addr |-> %x", bd.b[2]);
+        bpf_trace_printk("dev addr |-> %x", bd.b[1]);
+        bpf_trace_printk("dev addr |-> %x", bd.b[0]);
+
+        char blt_dev_addr[6] = { 0 };
+        blt_dev_addr[0] = bd.b[5] & 0xffffff;
+        blt_dev_addr[1] = bd.b[4] & 0xffffff;
+        blt_dev_addr[2] = bd.b[3] & 0xffffff;
+        blt_dev_addr[3] = bd.b[2] & 0xffffff;
+        blt_dev_addr[4] = bd.b[1] & 0xffffff;
+        blt_dev_addr[5] = bd.b[0] & 0xffffff;
+
+        bpf_trace_printk("dev addr gen |-> %x", blt_dev_addr[0]);
+        bpf_trace_printk("dev addr gen |-> %x", blt_dev_addr);
+        bpf_trace_printk("dev addr gen |-> %s", blt_dev_addr);
+        
+        
         return 0;
 }
 

@@ -27,6 +27,8 @@ fn_name="blt_connect_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 
+def mac_address_format(macstr):
+    return ":".join(macstr[i:i+2] for i in range(0, len(macstr), 2))
 
 def bpf_main():
     try:
@@ -49,28 +51,15 @@ def bpf_main():
             def shield_logic(cpu, data, size):
                 event = b["events"].event(data)
 
-                # get here the data for shield impl
                 blt_connect_data = (
-                        # "dev_name:%s-addr:%s-name:%s-conn_dev_addr:%s-conn_dev_class:%s-pid:%d"
-                        "dev_name:%s-name:%s-addr:%s-%s:%s:%s:%s:%s:%s:"
+                        "dev_name:%s-name:%s-addr:%s-conn_dev_addr:%s-pid:%d"
                                     %
                                     (event.hci_dev_name.decode("utf-8", "replace"),
                                      event.name.decode("utf-8", "replace"),
-                                     bytearray(event.hci_dev_bdaddr).hex(),
-                                     bytearray(event.hci_dev_bdaddr[0]).hex(),
-                                     bytearray(event.hci_dev_bdaddr[1]).hex(),
-                                     bytearray(event.hci_dev_bdaddr[2]).hex(),
-                                     bytearray(event.hci_dev_bdaddr[3]).hex(),
-                                     bytearray(event.hci_dev_bdaddr[4]).hex(),
-                                     bytearray(event.hci_dev_bdaddr[5]).hex(),
-                                     # event.hci_dev_bdaddr.decode("utf-8", "replace"),
-                                     # event.conn_dev_addr.decode("utf-8", "replace"),
-                                     # event.conn_dev_class.decode("utf-8", "replace"),
-                                     # event.pid
-                                     )
-                                    )
-
-
+                                     mac_address_format(bytearray(event.hci_dev_bdaddr).hex().upper()),
+                                     mac_address_format(bytearray(event.conn_dev_bdaddr).hex().upper()),
+                                     event.pid)
+                                   )
                     
                 message = ""
                 try:

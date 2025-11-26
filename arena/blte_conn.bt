@@ -1,0 +1,9 @@
+#include <net/bluetooth/bluetooth.h>
+#include <net/bluetooth/hci_core.h>
+
+kprobe:hci_conn_request_evt
+{
+        $dev=( struct hci_dev *) arg0;
+        $mac1=*dev->bdaddr & 0xffffff;
+        printf("%X\n", $mac1);
+}
