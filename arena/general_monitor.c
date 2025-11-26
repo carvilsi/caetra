@@ -93,8 +93,8 @@ int bt_disconnect_monitor(struct pt_regs *ctx, struct hci_dev *kstrct, void *dat
         bpf_trace_printk("name |-> %s", kstrct->dev_name);
 
         struct hci_ev_disconn_complete *ev = data;
-        bpf_trace_printk("6 dev class disconn |-> %u", ev->status);
-        bpf_trace_printk("handle disconn |-> %d", ev->handle);
+        bpf_trace_printk("6 dev class disconn status |-> %x", ev->status);
+        bpf_trace_printk("handle disconn |-> %lx", ev->handle);
         bpf_trace_printk("reasson disconn |-> %u", ev->reason);
         
 

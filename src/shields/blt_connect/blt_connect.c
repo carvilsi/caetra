@@ -35,6 +35,7 @@ int blt_connect_observer(struct pt_regs *ctx, struct hci_dev *kstrct, void *conn
 
         bpf_probe_read_kernel_str(data.hci_dev_name, sizeof(data.hci_dev_name), kstrct->name);
         bpf_probe_read_kernel_str(data.name, sizeof(data.name), kstrct->dev_name);
+
         bdaddr_t addr = kstrct->bdaddr;
         
         collect_bdaddr(data.hci_dev_bdaddr, addr);

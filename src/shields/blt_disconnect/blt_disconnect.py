@@ -12,6 +12,7 @@ from logger_setup import logger_shields
 from caetra_exceptions import ShieldConfigurationError, ConfigurationError
 from logging_handler import log_shield_exception
 from senders_handler import send
+from blt_utils import mac_address_format
 import constants
 
 # shield name
@@ -50,10 +51,15 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 # get here the data for shield impl
-                blt_disconnect_data = ("pid:%d" % (event.pid))
+                blt_disconnect_data = (
+                        "dev_name:%s-name:%s-addr:%s-pid:%d"
+                                    %
+                                    (event.hci_dev_name.decode("utf-8", "replace"),
+                                     event.name.decode("utf-8", "replace"),
+                                     mac_address_format(bytearray(event.hci_dev_bdaddr).hex().upper()),
+                                     event.pid)
+                                   )
 
-
-                    
                 message = ""
                 try:
 

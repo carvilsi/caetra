@@ -63,7 +63,6 @@ while 1:
         # print(datetime.datetime.now())
         
     except ValueError:
-        continue
-    except KeyboardInterrupt:
+l
         exit()
 

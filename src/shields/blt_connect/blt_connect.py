@@ -12,6 +12,7 @@ from logger_setup import logger_shields
 from caetra_exceptions import ShieldConfigurationError, ConfigurationError
 from logging_handler import log_shield_exception
 from senders_handler import send
+from blt_utils import mac_address_format
 import constants
 
 # shield name
@@ -26,9 +27,6 @@ event="hci_conn_request_evt"
 fn_name="blt_connect_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
-
-def mac_address_format(macstr):
-    return ":".join(macstr[i:i+2] for i in range(0, len(macstr), 2))
 
 def bpf_main():
     try:
