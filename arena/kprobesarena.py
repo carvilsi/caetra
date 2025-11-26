@@ -32,11 +32,18 @@ b = BPF(src_file="general_monitor.c")
 ## remove
 # b.attach_kprobe(event="hid_device_remove", fn_name="hid_monitor_remove")
 
+## Bluetooth 
+# XXX: works on pair and connect
+# b.attach_kprobe(event="hci_conn_request_evt", fn_name="bt_connect_monitor")
+
+# XXX: works on disconnect or unpair
+# b.attach_kprobe(event="hci_disconn_complete_evt", fn_name="bt_disconnect_monitor")
+
 ### TODO: to implement on caetra
 
 ## input input_handle_event
 # XXX: gets any interaction keyboard, trackpad, etc...
-# b.attach_kprobe(event="input_handle_event", fn_name="input_monitor")
+b.attach_kprobe(event="input_handle_event", fn_name="input_monitor")
 
 ## suspend hibernation
 # XXX: works on resuming from hibernation
@@ -46,12 +53,7 @@ b = BPF(src_file="general_monitor.c")
 # XXX: works when the ambient light changes, only working on Mac Book Pro
 # b.attach_kprobe(event="backlight_device_set_brightness", fn_name="light_monitor")
 
-## Bluetooth 
-# XXX: works on pair and connect
-b.attach_kprobe(event="hci_conn_request_evt", fn_name="bt_connect_monitor")
 
-# XXX: works on disconnect or unpair
-b.attach_kprobe(event="hci_disconn_complete_evt", fn_name="bt_disconnect_monitor")
 
 print("eBPFphysec with <3 by (#4|2 \n monitoring...\n") 
 print(datetime.datetime.now())
@@ -63,6 +65,5 @@ while 1:
         # print(datetime.datetime.now())
         
     except ValueError:
-l
         exit()
 

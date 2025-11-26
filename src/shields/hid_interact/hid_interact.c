@@ -1,11 +1,11 @@
 #include<linux/hid.h>
 
 struct hid_move_t {
-       u32 pid;
-       u64 ts;
-       int rtype;
-       u16 vendor;
-       u32 prod;
+        u32 pid;
+        u64 ts;
+        int rtype;
+        u16 vendor;
+        u32 prod;
 };
 
 BPF_PERF_OUTPUT(events);

@@ -33,9 +33,9 @@ Caetra was the shield used by Iberian
 - [x] an usb HID has been disconnected
 - [x] an usb HID interaction
 - [x] try to get more info
-- [ ] any keyboard, mouse or tracpad interaction (arena-wip add limit)
+- [x] any keyboard, mouse or tracpad interaction
 - [ ] get out from suspend (arena-wip)
-- [ ] get out lock
+- [ ] get out lock (not sense/possible)
 
 ### code
 - [x] sender canary tokens
@@ -48,6 +48,7 @@ Caetra was the shield used by Iberian
 
 ### tools
 - [x] scafoild
+- [ ] make non mandatory: struct 
 
 ### hackathon
 - [ ] readme

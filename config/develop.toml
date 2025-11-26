@@ -3,7 +3,7 @@
 [caetra]
 machine = "TheArch"
 # list of enabled shields; this will override shield configuration; uncomment next line in case to restrict the enabled shields and append these to the list
-shields_enabled = ["hid_interact"]
+shields_enabled = ["input_event", "hid_interact"]
 
 [logging]
 level = "DEBUG"
