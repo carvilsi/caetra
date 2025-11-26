@@ -39,19 +39,20 @@ b = BPF(src_file="general_monitor.c")
 # XXX: works on disconnect or unpair
 # b.attach_kprobe(event="hci_disconn_complete_evt", fn_name="bt_disconnect_monitor")
 
-### TODO: to implement on caetra
-
 ## input input_handle_event
 # XXX: gets any interaction keyboard, trackpad, etc...
-b.attach_kprobe(event="input_handle_event", fn_name="input_monitor")
+# b.attach_kprobe(event="input_handle_event", fn_name="input_monitor")
 
 ## suspend hibernation
 # XXX: works on resuming from hibernation
 # b.attach_kprobe(event="unregister_pm_notifier", fn_name="hibernation_monitor")
 
+
+### TODO: to implement on caetra
+
 ## ambient light changed
 # XXX: works when the ambient light changes, only working on Mac Book Pro
-# b.attach_kprobe(event="backlight_device_set_brightness", fn_name="light_monitor")
+b.attach_kprobe(event="backlight_device_set_brightness", fn_name="light_monitor")
 
 
 

@@ -23,6 +23,10 @@ action_label = "ambient light changed"
 
 # the feature variable 
 limit_sending = true
+max_actions = 2
+# time in seconds to start sending notifications again
+cool_down_time = 10
+
 
 
 
