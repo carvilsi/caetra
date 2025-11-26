@@ -16,12 +16,9 @@ int hid_move_observer(struct pt_regs *ctx, struct hid_device *kstrct)
         
         data.pid = bpf_get_current_pid_tgid();
         data.ts = bpf_ktime_get_ns();
-        /*data.dt = (unsigned char *) hid_dt;*/
         data.rtype = kstrct->type; 
         data.vendor = kstrct->vendor;
         data.prod = kstrct->product;
-
-        /*bpf_probe_read_kernel_str(data.dt, sizeof(data.dt), hid_dt);*/
 
         events.perf_submit(ctx, &data, sizeof(data));
 

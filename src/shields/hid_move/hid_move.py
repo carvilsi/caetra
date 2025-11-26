@@ -62,7 +62,11 @@ def bpf_main():
 
                 # get here the data for shield impl
                 hid_move_data = ("pid:%d-ts:%d-type:%s-vendor:%s-prod:%s" %
-                                 (event.pid, event.ts, HID_TYPE[event.rtype], event.vendor, event.prod)
+                                 (event.pid,
+                                  event.ts,
+                                  HID_TYPE[event.rtype],
+                                  event.vendor,
+                                  event.prod)
                                 )
 
                 message = ""

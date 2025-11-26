@@ -20,18 +20,20 @@ Caetra was the shield used by Iberian
 - [x] added limiting notification for same action
  
 ### Physical layer AKA Shields
-- [ ] bluetooth on connect or pair (arena-wip)
-- [ ] bluetooth on disconnect (wip on heynote)
+- [x] bluetooth on connect or pair
+- [x] bluetooth on disconnect
 - [x] sdcard attached
-- [x] usb attached (also possible to de-auth)
+- [x] usb attached, also possible to de-auth
 - [x] usb attached add more data
 - [ ] ethernet on connect cable
 - [ ] accelerometers (I don't have a device with an accelerometer sensor)
 - [ ] light sensor (wip arena)
 - [x] change on power source
-- [x] an usb HID has been disconnected/connected
+- [x] an usb HID has been connected
+- [x] an usb HID has been disconnected
+- [x] an usb HID interaction
 - [x] try to get more info
-- [ ] any keyboard, mouse or tracpad interaction (arena-wip)
+- [ ] any keyboard, mouse or tracpad interaction (arena-wip add limit)
 - [ ] get out from suspend (arena-wip)
 - [ ] get out lock
 
