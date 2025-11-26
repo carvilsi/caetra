@@ -1,12 +1,14 @@
 import sys
 import os
 import tempfile
+import threading
+import requests
 
 # caetra imports
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 import constants 
-from caetra_exceptions import MaxActionReached
+from caetra_exceptions import MaxActionReached, MaxRetriesReached
 
 class StatusHandler(object):
     
@@ -37,6 +39,17 @@ class StatusHandler(object):
             else:
                 self.counter = 0
 
+    def is_there_connection(self, max_retries, wait_to_try):
+        while True:
+            self.inccount()
+            if self.counter == max_retries:
+                raise MaxRetriesReached("Reached max tries; no connection, not sending")
+            else:
+                try:
+                    requests.get("https://www.google.com", timeout=5)
+                    return True 
+                except requests.ConnectionError:
+                    threading.Event().wait(wait_to_try)
 
 
  

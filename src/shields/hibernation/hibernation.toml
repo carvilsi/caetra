@@ -17,6 +17,16 @@ description = "Triggers when on resumen from hibernation"
 # label to describe what happen on physical world
 action_label = "leaving hibernation"
 
+# to configure special features
+[hibernation.features]
+
+# if true will manage the notifications limiting the notifications
+wait_connection_sending = true
+# maximum retries defore quiting
+max_retries = 5
+# time in seconds to try sending notifications again
+wait_to_try = 5
+
 
 
 

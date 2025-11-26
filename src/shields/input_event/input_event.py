@@ -62,14 +62,10 @@ def bpf_main():
                          event.pid)
                         )
                                     
-                message = ""
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' limit_sending: {shield_config["features"]["limit_sending"]} data: { input_event_data }"
                 try:
-
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' limit_sending: {shield_config["features"]["limit_sending"]} data: { input_event_data }"
-                    
                     if shield_config["features"]["limit_sending"]:
                         status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
-
 
                     send(message, shield_config)
                 except ConfigurationError as e:
