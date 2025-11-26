@@ -26,7 +26,7 @@ HID_TYPE = {
 
 # shield name
 # must be same with in toml root config
-SHIELD_NAME="hid_move"
+SHIELD_NAME="hid_interact"
 
 # kernel section
 

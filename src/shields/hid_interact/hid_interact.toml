@@ -4,7 +4,7 @@
 
 # Name of the Caetra Shield and generic config values
 # case sensitive must match with SHIELD_NAME on python side
-[hid_move]
+[hid_interact]
 
 # if this shield is enable 
 enable = true
@@ -15,11 +15,11 @@ description = "Triggers a notification on a Mouse ro keyboard interaction."
 
 
 # label to describe what happen on physical world
-action_label = "hid moved"
+action_label = "hid interaction"
 
 
 # to configure special features
-[hid_move.features]
+[hid_interact.features]
 
 # if true will manage the notifications limiting the notifications
 limit_sending = true
