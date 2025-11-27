@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import threading
 import subprocess
@@ -14,7 +14,7 @@ import constants
 
 
 def run_script(script_name):
-    subprocess.run(["python", script_name])
+    subprocess.run(["python3", script_name])
 
 
 # Threading execute all the shields under shield directory

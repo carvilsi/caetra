@@ -3,3 +3,4 @@ __pycache__
 caetra.log
 caetra.log.*
 generator-output/
+*.pyc
