@@ -14,6 +14,8 @@
 #include <net/bluetooth/hci_core.h>
 #include <linux/bpf.h>
 #include <linux/ptrace.h>
+/*#include <net/core/dev.h>*/
+#include <linux/inetdevice.h>
 
 /*#define MMC_TYPE_MMC            0               [> MMC card <]*/
 /*#define MMC_TYPE_SD             1               [> SD card <]*/
@@ -26,6 +28,47 @@
 /*int sdcard_observer(struct pt_regs *ctx, struct mmc_host *mmch, struct mmc_card *mmcc)*/
 
 /*#define HCI_MAX_NAME_LENGTH             248*/
+
+int inet_monitor(struct pt_regs *ctx, struct in_device *kstrct)
+{
+        // filter lo (too many triggers)
+        bpf_trace_printk("0 name |-> %s", kstrct->dev->name);
+        /*bpf_trace_printk("1 if port |-> %s", kstrct->dev->if_port);*/
+        // convert to address
+        bpf_trace_printk("2 if perm |-> %x", kstrct->dev->perm_addr[0]);
+        bpf_trace_printk("2 if perm |-> %x", kstrct->dev->perm_addr[1]);
+        bpf_trace_printk("3  |-> %s", kstrct->dev->dev_id);
+        bpf_trace_printk("3  |-> %x", kstrct->dev->dev_id);
+        bpf_trace_printk("4  |-> %s", kstrct->dev->dev_port);
+        bpf_trace_printk("4  |-> %x", kstrct->dev->dev_port);
+        bpf_trace_printk("5  |-> %d", kstrct->dev->irq);
+
+        // same than perm_addr
+        const unsigned char *addr = kstrct->dev->dev_addr;
+        bpf_trace_printk("6 addr |-> %s", addr);
+        bpf_trace_printk("6 addr |-> %x", addr);
+        bpf_trace_printk("6 addr |-> %x", addr[0]);
+        bpf_trace_printk("6 addr |-> %x", addr[1]);
+        bpf_trace_printk("6 addr |-> %x", addr[2]);
+        bpf_trace_printk("6 addr |-> %x", addr[3]);
+
+        bpf_trace_printk("7 broadcast |-> %x", kstrct->dev->broadcast[0]);
+        bpf_trace_printk("7 broadcast |-> %x", kstrct->dev->broadcast[1]);
+
+        bpf_trace_printk("7 dev name|-> %s", kstrct->dev->dev->name);
+
+        /*bpf_trace_printk("6 if perm |-> %x", kstrct->dev->dev_addr[1]);*/
+        /*bpf_trace_printk("6 if perm |-> %x", kstrct->dev->dev_addr[2]);*/
+        /*bpf_trace_printk("3 if addr |-> %s", kstrct->dev->addr_assign_type);*/
+        /*bpf_trace_printk("4 if port |-> %s", kstrct->dev->addr_len);*/
+        /*bpf_trace_printk("5 if upper |-> %s", kstrct->dev->upper_level);*/
+        /*bpf_trace_printk("6 if lower |-> %s", kstrct->dev->lower_level);*/
+        /*struct netdev_name_node name_node = kstrct->dev->name_node;*/
+        /*bpf_trace_printk("7 if lower |-> %s", name_node->name);*/
+
+        return 0;
+}
+ 
 
 int bt_connect_monitor(struct pt_regs *ctx, struct hci_dev *kstrct, void *data, struct sk_buff *skb)
 {
