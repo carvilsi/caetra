@@ -77,7 +77,7 @@ def send(data, shield_config=None):
             case constants.CONFIG_SENDER_KEY_TELEGRAM:
                 if value["enable"]:
                     send_telegram(
-                        f"At {config['caetra']['machine']}: {data}",
+                        f"@ {config['caetra']['machine']}: {data}",
                         value["bot_api_key"],
                         value["chat_id"],
                     )

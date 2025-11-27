@@ -27,7 +27,7 @@ Caetra was the shield used by Iberian
 - [x] usb attached add more data
 - [ ] ethernet on connect cable
 - [ ] accelerometers (I don't have a device with an accelerometer sensor)
-- [ ] light sensor (wip try on Ubuntu's MacBookPro)
+- [x] light sensor 
 - [x] change on power source
 - [x] an usb HID has been connected
 - [x] an usb HID has been disconnected
