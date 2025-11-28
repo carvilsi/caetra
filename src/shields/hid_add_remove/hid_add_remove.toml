@@ -19,3 +19,13 @@ action_label = "hid "
 action_add = "attached"
 action_remove = "detached"
 
+# to configure special features
+[hid_add_remove.features]
+
+# the feature variable 
+limit_sending = true
+max_actions = 1
+# time in seconds to start sending notifications again
+cool_down_time = 10
+
+
