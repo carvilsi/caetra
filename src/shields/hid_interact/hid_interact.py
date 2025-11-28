@@ -68,10 +68,9 @@ def bpf_main():
                                   event.pid)
                                 )
 
-                message = ""
                 
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' trigger_once: {shield_config["features"]["limit_sending"]} data: { hid_interact_data }"
                 try:
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' trigger_once: {shield_config["features"]["limit_sending"]} data: { hid_interact_data }"
                     # manage the sending behavior to limit it
                     if shield_config["features"]["limit_sending"]:
                         status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
