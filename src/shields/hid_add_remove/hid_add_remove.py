@@ -10,7 +10,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
 from shields import deploying
 from logger_setup import logger_shields
-from caetra_exceptions import ShieldConfigurationError, ConfigurationError, MaxActionReached
+from caetra_exceptions import ShieldConfigurationError, ConfigurationError, MaxActionReached, ShieldKernelSpaceCError
 from logging_handler import log_shield_exception, log_shield_exception_warn
 from senders_handler import send
 import constants
@@ -93,8 +93,8 @@ def bpf_main():
 
                         message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")} {shield_config.get("action_remove")}' data: { hid_remove_data }"
                     case _:
-                        # TODO implement error
-                        print("unknown action")
+                        errmsg = f"Unknown action type {event.act_type}"
+                        raise ShieldKernelSpaceCError(errmsg)
 
                 try:
                     if shield_config["features"]["limit_sending"]:

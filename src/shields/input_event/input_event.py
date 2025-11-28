@@ -18,14 +18,14 @@ import status_handler
 
 # shield name
 # must be same with in toml root config
-SHIELD_NAME="input_event"
+SHIELD_NAME = "input_event"
 
 # kernel section
 
 # kprobe event name
-event="input_handle_event"
+event = "input_handle_event"
 # c function for the kprobe
-fn_name="input_event_observer"
+fn_name = "input_event_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 

@@ -18,14 +18,14 @@ import status_handler
 
 # shield name
 # must be same with in toml root config
-SHIELD_NAME="hibernation"
+SHIELD_NAME = "hibernation"
 
 # kernel section
 
 # kprobe event name
-event="unregister_pm_notifier"
+event = "unregister_pm_notifier"
 # c function for the kprobe
-fn_name="hibernation_observer"
+fn_name = "hibernation_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 

@@ -34,14 +34,14 @@ POWER_SUPPLY_TYPE = {
 
 # shield name
 # must be same with in toml root config
-SHIELD_NAME="power"
+SHIELD_NAME = "power"
 
 # kernel section
 
 # kprobe event name
-event="power_supply_changed"
+event = "power_supply_changed"
 # c function for the kprobe
-fn_name="power_observer"
+fn_name = "power_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 

@@ -18,14 +18,14 @@ import status_handler
 
 # shield name
 # must be same with in toml root config
-SHIELD_NAME="ambient_light"
+SHIELD_NAME = "ambient_light"
 
 # kernel section
 
 # kprobe event name
-event="backlight_device_set_brightness"
+event = "backlight_device_set_brightness"
 # c function for the kprobe
-fn_name="ambient_light_observer"
+fn_name = "ambient_light_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 

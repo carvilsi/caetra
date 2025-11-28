@@ -5,6 +5,11 @@ class ShieldConfigurationError(Exception):
         self.message = message
         super().__init__(self.message)
 
+# Exceptions related with kernel space (c code).
+class ShieldKernelSpaceCError(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
 
 # Exception raised on general configuration issues.
 class ConfigurationError(Exception):

@@ -26,14 +26,14 @@ HID_TYPE = {
 
 # shield name
 # must be same with in toml root config
-SHIELD_NAME="hid_interact"
+SHIELD_NAME = "hid_interact"
 
 # kernel section
 
 # kprobe event name
-event="hid_report_raw_event"
+event = "hid_report_raw_event"
 # c function for the kprobe
-fn_name="hid_move_observer"
+fn_name = "hid_move_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 
