@@ -34,11 +34,15 @@ def load_bpf_prog(
         f"\t[ ] {shield_name}: attaching krpobe: \n\t\t\t\t\t\t\tevent: {event} \n\t\t\t\t\t\t\tfunction: {fn_name}"
     )
 
-    b.attach_kprobe(event, fn_name=fn_name)
+    # TODO: add an error in case the fn_name is not an array
+    if (isinstance(event, list)):
+        for i, evn in enumerate(event):
+            b.attach_kprobe(evn, fn_name=fn_name[i])
+    else:
+        b.attach_kprobe(event, fn_name=fn_name)
 
     logger.info(f"\t[*] {shield_name}: monitoring\n")
     return b
-
 
 # checks for mandatory configuration varialbes
 def shield_config_check(shield_config, shield_name):

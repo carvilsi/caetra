@@ -4,7 +4,7 @@
 # name of the machine to indentify notifications
 machine = "TheArch"
 # list of enabled shields; this will override shield configuration; uncomment next line in case to restrict the enabled shields and append these to the list
-shields_enabled = ["hid_add", "hid_remove"]
+shields_enabled = ["hid_add_remove"]
 
 [logging]
 level = "DEBUG"
