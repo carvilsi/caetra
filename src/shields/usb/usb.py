@@ -76,7 +76,6 @@ def bpf_main():
                         f"Shield {SHIELD_NAME.upper()} de-authorized device at: {auth_file}"
                     )
 
-                message = ""
                 message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' de-auth: {shield_config["features"]["de_authorize_dev"]} path: {device_path}{usb_data}"
                 try:
                     send(message, shield_config)

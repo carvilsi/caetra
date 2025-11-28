@@ -17,14 +17,14 @@ import constants
 
 # shield name
 # must be same with in toml root config
-SHIELD_NAME="blt_connect"
+SHIELD_NAME = "blt_connect"
 
 # kernel section
 
 # kprobe event name
-event="hci_conn_request_evt"
+event = "hci_conn_request_evt"
 # c function for the kprobe
-fn_name="blt_connect_observer"
+fn_name = "blt_connect_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 
@@ -59,11 +59,8 @@ def bpf_main():
                                      event.pid)
                                    )
                     
-                message = ""
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' data: { blt_connect_data }"
                 try:
-
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' data: { blt_connect_data }"
-
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)

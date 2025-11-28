@@ -38,6 +38,7 @@ b = BPF(src_file="general_monitor.c")
 
 # XXX: works on disconnect or unpair
 # b.attach_kprobe(event="hci_disconn_complete_evt", fn_name="bt_disconnect_monitor")
+
 ## input input_handle_event
 # XXX: gets any interaction keyboard, trackpad, etc...
 # b.attach_kprobe(event="input_handle_event", fn_name="input_monitor")
@@ -50,13 +51,11 @@ b = BPF(src_file="general_monitor.c")
 # XXX: works when the ambient light changes, only working on Mac Book Pro
 # b.attach_kprobe(event="backlight_device_set_brightness", fn_name="light_monitor")
 
-
-
 ### TODO: to implement on caetra
 ## input  inet_dev
 # XXX: gets any interaction on ip changes inet
 b.attach_kprobe(event="inet_alloc_ifa", fn_name="inet_monitor")
-
+b.attach_kprobe(event="inetdev_event", fn_name="inet_event_monitor")
 
 
 print("eBPFphysec with <3 by (#4|2 \n monitoring...\n") 

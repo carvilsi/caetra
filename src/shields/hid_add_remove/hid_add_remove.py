@@ -10,22 +10,30 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
 from shields import deploying
 from logger_setup import logger_shields
-from caetra_exceptions import ShieldConfigurationError, ConfigurationError, MaxActionReached
+from caetra_exceptions import ShieldConfigurationError, ConfigurationError, MaxActionReached, ShieldKernelSpaceCError
 from logging_handler import log_shield_exception, log_shield_exception_warn
 from senders_handler import send
 import constants
 import status_handler
 
+# from linux/hid.h
+HID_TYPE = {
+        0: "HID_TYPE_OTHER",
+        1: "HID_TYPE_USBMOUSE",
+        2: "HID_TYPE_USBNONE",
+}
+
 # shield name
 # must be same with in toml root config
-SHIELD_NAME = "input_event"
+SHIELD_NAME = "hid_add_remove"
 
 # kernel section
 
 # kprobe event name
-event = "input_handle_event"
+events = ["hid_add_device", "hid_device_remove"]
 # c function for the kprobe
-fn_name = "input_event_observer"
+fns_name = ["hid_add_observer", "hid_remove_observer"]
+
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 
@@ -41,28 +49,53 @@ def bpf_main():
             # BPF object
             b = deploying.load_bpf_prog(
                 SHIELD_NAME,
-                event,
-                fn_name,
+                events,
+                fns_name,
                 src_file,
                 shield_config.get("description"),
                 shield_config.get("features"),
             )
-
+            
             # Write here the logic for your shield
             def shield_logic(cpu, data, size):
                 event = b["events"].event(data)
 
-                # get here the data for shield impl
-                input_event_data = (
-                        "name:%s-input_name:%s-code:%d-path:%s-pid:%d" % 
-                        (event.name.decode("utf-8", "replace"),
-                         event.input_name.decode("utf-8", "replace"),
-                         event.code,
-                         event.phys.decode("utf-8", "replace"),
-                         event.pid)
+                message = ""
+                match event.act_type:
+                    case constants.HID_ADD_ACT:
+                        hid_add_data = (
+                                "bus:%d-vendor:%d-prod:%d-vers:%d-type:%s-name:%s-phys:%s-path:%s-pid:%d"
+                            % (
+                                event.bus,
+                                event.vendor,
+                                event.prod,
+                                event.vers,
+                                HID_TYPE[event.type],
+                                event.name.decode("utf-8", "replace"),
+                                event.phys.decode("utf-8", "replace"),
+                                event.path.decode("utf-8", "replace"),
+                                event.pid,
+                            )
                         )
-                                    
-                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' limit_sending: {shield_config["features"]["limit_sending"]} data: { input_event_data }"
+                            
+                        message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")} {shield_config.get("action_add")}' data: { hid_add_data }"
+
+                    case constants.HID_REMOVE_ACT:
+                        hid_remove_data = (
+                                "name:%s-path:%s-type:%s-pid:%d"
+                            % (
+                                event.name.decode("utf-8", "replace"),
+                                event.path.decode("utf-8", "replace"),
+                                event.type_remove.decode("utf-8", "replace"),
+                                event.pid,
+                            )
+                        )
+
+                        message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")} {shield_config.get("action_remove")}' data: { hid_remove_data }"
+                    case _:
+                        errmsg = f"Unknown action type {event.act_type}"
+                        raise ShieldKernelSpaceCError(errmsg)
+
                 try:
                     if shield_config["features"]["limit_sending"]:
                         status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
@@ -70,8 +103,6 @@ def bpf_main():
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
-                except KeyboardInterrupt:
-                    exit()
                 except MaxActionReached as e:
                     log_shield_exception_warn(e, SHIELD_NAME)
                 else:
@@ -100,3 +131,4 @@ def bpf_main():
 
 if __name__ == "__main__":
     bpf_main()
+

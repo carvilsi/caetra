@@ -71,7 +71,6 @@ def bpf_main():
                     )
                 )
 
-                message = ""
                 message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' {mmc_data}"
                 try:
                     send(message, shield_config)

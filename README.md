@@ -9,7 +9,7 @@ Caetra was the shield used by Iberian
 
 ### Dependencies
 
-- Python 3
+- Python vers >= 3.12
 
 - [bcc](https://github.com/iovisor/bcc/blob/b63d7e38e8a0f6339fbd57f3a1ae7297e1993d92/INSTALL.md)
 
@@ -25,17 +25,16 @@ Caetra was the shield used by Iberian
 - [x] sdcard attached
 - [x] usb attached, also possible to de-auth
 - [x] usb attached add more data
-- [ ] ethernet on connect cable
+- [x] ethernet on connect cable and inet devices changes
 - [ ] accelerometers (I don't have a device with an accelerometer sensor)
-- [ ] light sensor (wip arena)
+- [x] light sensor 
 - [x] change on power source
 - [x] an usb HID has been connected
 - [x] an usb HID has been disconnected
 - [x] an usb HID interaction
 - [x] try to get more info
 - [x] any keyboard, mouse or tracpad interaction
-- [ ] get out from suspend (arena-wip)
-- [ ] get out lock (not sense/possible)
+- [x] get out from suspend/hibernation
 
 ### code
 - [x] sender canary tokens

@@ -16,6 +16,7 @@
 #include <linux/ptrace.h>
 /*#include <net/core/dev.h>*/
 #include <linux/inetdevice.h>
+#include <linux/netdevice.h>
 
 /*#define MMC_TYPE_MMC            0               [> MMC card <]*/
 /*#define MMC_TYPE_SD             1               [> SD card <]*/
@@ -29,33 +30,72 @@
 
 /*#define HCI_MAX_NAME_LENGTH             248*/
 
+int inet_event_monitor(struct pt_regs *ctx, struct notifier_block *kstrct, unsigned long event)
+{
+        // filter lo (too many triggers)
+        /*bpf_trace_printk("0 event |-> %ul", event);*/
+        if (event == NETDEV_UP) {
+                bpf_trace_printk("NETDEV_UP: %d", event);
+        }
+        if (event == NETDEV_DOWN) {
+                bpf_trace_printk("NETDEV_DOWN: %d", event);
+        }
+        if (event == NETDEV_REBOOT) {
+                bpf_trace_printk("NETDEV_REBOOT: %d", event);
+        }
+        if (event == NETDEV_CHANGE) {
+                bpf_trace_printk("NETDEV_CHANGE: %d", event);
+        }
+        if (event == NETDEV_CHANGENAME) {
+                bpf_trace_printk("NETDEV_CHANGENAME: %d", event);
+        }
+
+        return 0;
+}
+
+#define MAC_ADDR_LEN 6
+ 
+static void collect_mac_addr(char *inet_dev, const unsigned char *addr)
+{
+        int i;
+        for (i=0; i < MAC_ADDR_LEN; i++) {
+                inet_dev[i] = addr[i];
+        }
+}
+
 int inet_monitor(struct pt_regs *ctx, struct in_device *kstrct)
 {
         // filter lo (too many triggers)
+        // TODO: filter if name is lo
         bpf_trace_printk("0 name |-> %s", kstrct->dev->name);
-        /*bpf_trace_printk("1 if port |-> %s", kstrct->dev->if_port);*/
         // convert to address
-        bpf_trace_printk("2 if perm |-> %x", kstrct->dev->perm_addr[0]);
-        bpf_trace_printk("2 if perm |-> %x", kstrct->dev->perm_addr[1]);
-        bpf_trace_printk("3  |-> %s", kstrct->dev->dev_id);
-        bpf_trace_printk("3  |-> %x", kstrct->dev->dev_id);
-        bpf_trace_printk("4  |-> %s", kstrct->dev->dev_port);
-        bpf_trace_printk("4  |-> %x", kstrct->dev->dev_port);
-        bpf_trace_printk("5  |-> %d", kstrct->dev->irq);
+        /*bpf_trace_printk("2 if perm |-> %x", kstrct->dev->perm_addr[0]);*/
+        /*bpf_trace_printk("2 if perm |-> %x", kstrct->dev->perm_addr[1]);*/
+        /*bpf_trace_printk("3  |-> %s", kstrct->dev->dev_id);*/
+        /*bpf_trace_printk("3  |-> %x", kstrct->dev->dev_id);*/
+        /*bpf_trace_printk("4  |-> %s", kstrct->dev->dev_port);*/
+        /*bpf_trace_printk("4  |-> %x", kstrct->dev->dev_port);*/
+        /*bpf_trace_printk("5  |-> %d", kstrct->dev->irq);*/
 
-        // same than perm_addr
+        /*// same than perm_addr*/
         const unsigned char *addr = kstrct->dev->dev_addr;
-        bpf_trace_printk("6 addr |-> %s", addr);
-        bpf_trace_printk("6 addr |-> %x", addr);
+        /*bpf_trace_printk("6 addr |-> %s", addr);*/
+        /*bpf_trace_printk("6 addr |-> %x", addr);*/
         bpf_trace_printk("6 addr |-> %x", addr[0]);
         bpf_trace_printk("6 addr |-> %x", addr[1]);
         bpf_trace_printk("6 addr |-> %x", addr[2]);
         bpf_trace_printk("6 addr |-> %x", addr[3]);
+        bpf_trace_printk("6 addr |-> %x", addr[4]);
+        bpf_trace_printk("6 addr |-> %x", addr[5]);
 
-        bpf_trace_printk("7 broadcast |-> %x", kstrct->dev->broadcast[0]);
-        bpf_trace_printk("7 broadcast |-> %x", kstrct->dev->broadcast[1]);
+        unsigned char dev_mac_addr[MAC_ADDR_LEN];
+        collect_mac_addr(dev_mac_addr, addr);
+        bpf_trace_printk("mac addr |-> %s", dev_mac_addr);
 
-        bpf_trace_printk("7 dev name|-> %s", kstrct->dev->dev->name);
+        /*bpf_trace_printk("7 broadcast |-> %x", kstrct->dev->broadcast[0]);*/
+        /*bpf_trace_printk("7 broadcast |-> %x", kstrct->dev->broadcast[1]);*/
+
+        /*bpf_trace_printk("7 dev name|-> %s", kstrct->dev->dev->name);*/
 
         /*bpf_trace_printk("6 if perm |-> %x", kstrct->dev->dev_addr[1]);*/
         /*bpf_trace_printk("6 if perm |-> %x", kstrct->dev->dev_addr[2]);*/

@@ -17,14 +17,14 @@ import constants
 
 # shield name
 # must be same with in toml root config
-SHIELD_NAME="blt_disconnect"
+SHIELD_NAME = "blt_disconnect"
 
 # kernel section
 
 # kprobe event name
-event="hci_disconn_complete_evt"
+event = "hci_disconn_complete_evt"
 # c function for the kprobe
-fn_name="blt_disconnect_observer"
+fn_name = "blt_disconnect_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 
@@ -60,11 +60,8 @@ def bpf_main():
                                      event.pid)
                                    )
 
-                message = ""
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' data: { blt_disconnect_data }"
                 try:
-
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' data: { blt_disconnect_data }"
-
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)

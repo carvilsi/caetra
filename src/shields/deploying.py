@@ -34,11 +34,17 @@ def load_bpf_prog(
         f"\t[ ] {shield_name}: attaching krpobe: \n\t\t\t\t\t\t\tevent: {event} \n\t\t\t\t\t\t\tfunction: {fn_name}"
     )
 
-    b.attach_kprobe(event, fn_name=fn_name)
+    if isinstance(event, list):
+        if not isinstance(fn_name, list) or len(fn_name) != len(event):
+            errmsg = f"since there are more than one event {event} for {shield_name}, 'fn_name' {fn_name} must have same amount of elements"
+            raise ShieldConfigurationError(errmsg)
+        for i, evn in enumerate(event):
+            b.attach_kprobe(evn, fn_name=fn_name[i])
+    else:
+        b.attach_kprobe(event, fn_name=fn_name)
 
     logger.info(f"\t[*] {shield_name}: monitoring\n")
     return b
-
 
 # checks for mandatory configuration varialbes
 def shield_config_check(shield_config, shield_name):

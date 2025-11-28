@@ -66,6 +66,9 @@ def get_config(shield_config=None):
 
 def send(data, shield_config=None):
     senders_config = get_config(shield_config)
+    if len(data) == 0:
+        return 
+    
     for key, value in senders_config.items():
         match key:
             case constants.CONFIG_SENDER_KEY_CANARYTOKENS:
@@ -77,7 +80,7 @@ def send(data, shield_config=None):
             case constants.CONFIG_SENDER_KEY_TELEGRAM:
                 if value["enable"]:
                     send_telegram(
-                        f"At {config['caetra']['machine']}: {data}",
+                        f"@ {config['caetra']['machine']}: {data}",
                         value["bot_api_key"],
                         value["chat_id"],
                     )
