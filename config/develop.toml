@@ -2,18 +2,18 @@
 
 [caetra]
 # name of the machine to indentify notifications
-machine = "TheArch"
+machine = "yourMachineName"
 # list of enabled shields; this will override shield configuration; uncomment next line in case to restrict the enabled shields and append these to the list
-shields_enabled = ["inet"]
+#shields_enabled = ["inet"]
 
 [logging]
-level = "DEBUG"
+level = "INFO"
 
 [senders.canarytokens]
 enable = false
-token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
+token = "yourCanaryToken"
 
 [senders.telegram]
-enable = true 
-chat_id = 35983972
-bot_api_key = "8245667438:AAHIANeASwTh_PviZUl62xOnlHwR469M4B4"
+enable = false 
+chat_id = 31337 # int the chatId to send the message
+bot_api_key = "yourTelegramBotAPIKey" 

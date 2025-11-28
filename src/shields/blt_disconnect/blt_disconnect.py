@@ -12,7 +12,7 @@ from logger_setup import logger_shields
 from caetra_exceptions import ShieldConfigurationError, ConfigurationError
 from logging_handler import log_shield_exception
 from senders_handler import send
-from blt_utils import mac_address_format
+from format_utils import mac_address_format
 import constants
 
 # shield name
