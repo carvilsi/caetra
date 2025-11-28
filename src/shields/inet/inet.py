@@ -79,6 +79,7 @@ def bpf_main():
 
                 # inet_alloc_ifa
                 else:
+                    # TODO: filter lo
                     inet_data = (
                                 "name:%s-mac_addr:%s-pid:%d"
                             % (
