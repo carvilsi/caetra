@@ -5,3 +5,5 @@ caetra.log.*
 generator-output/
 *.pyc
 config/local.toml
+arena/
+bpftracearena/
