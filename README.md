@@ -101,7 +101,7 @@ Shield that triggers when there is any input interaction, e.g. trackpad, touchsc
 
 ### mmc<a name="mmc" />
 
-The Shield reacts when a **MMC** (MultiMediaCard) is inserted.
+The Shield reacts when a **MMC** (MultiMediaCard) is inserted. e.g. SDCard.
 
 ### power<a name="power" />
 
