@@ -17,6 +17,7 @@ Caetra uses [eBPF](https://ebpf.io/) (**extended Berkeley Packet Filters**) to t
 In order to be able to **notify the user or cybersecurity responsables** by now **Caetra** uses [Thinkst Canary](https://canary.tools/#why) and/or [Telegram Bot](https://core.telegram.org/bots/api). On the other hand a more defensive approach has been implemented on *USB Shield* that allows to [de-authorize](https://www.kernel.org/doc/html/v5.15/usb/authorization.html) the attached device.
 
 
+The first release *v1.0.0* has been wirten for the [eBPF Summit: Hackathon Edition 2025](https://ebpf-summit-2025.devpost.com/)
 
 --- 
 
@@ -45,6 +46,8 @@ In order to be able to **notify the user or cybersecurity responsables** by now 
     1. [Configuration](#configuration)
     2. [Shields Config](#shields-config)
 8. [Tools](#tools)
+    1. [caetra_shield_generator](#caetra_shield_generator)
+    2. [follow_rabbit_hole](#follow_rabbit_hole)
 9. [Notes](#notes)
     1. [TODOS](#todos)
         1. [Shields TODOS](#shields-todos)
@@ -206,6 +209,76 @@ To check the **syslog** Caetra's messages:
 ### Shields Config<a name="shields-config" />
 
 ## Tools<a name="tools" />
+
+Things that could help Caetra's Shields development.
+
+You'll find it under [tools folder](https://github.com/carvilsi/caetra/tree/main/tools)
+
+### caetra_shield_generator<a name="caetra_shield_generator" />
+
+An interactive Caetra's Shield interactive generator:
+
+Run it with:
+
+`$ python caetra_bpf_generator.py`
+
+The above command without parameters will ask for related variables to generate the new Caetra's Shield.
+
+The new Shield will be under the **generator-output** folder.
+
+```
+Usage: caetra_bpf_generator.py [OPTIONS]
+
+Options:
+  --shield-name TEXT           New caetra shield name.
+                               [required]
+  --shield-description TEXT    Write down about what this Shield
+                               does.
+  --kprobe-event TEXT          Kprobe event.  [required]
+  --kheaders-include TEXT      Linux header to includ on kernel c
+                               code, e.g. 'linux/usb.h'
+                               [required]
+  --kstrct TEXT                Linux struct to retrieve data,
+                               e.g. 'usb_device'  [required]
+  --shield-enable BOOLEAN      If this Shield will be enabled or
+                               not  [required]
+  --shield-feature TEXT        Will be the feature variable for
+                               the Shield.
+  --action-label TEXT          The label that describes the
+                               physical interaction, e.g. 'usb
+                               attached'  [required]
+  --canarytoken-sender
+  --canarytoken TEXT
+  --telegram-sender
+  --telegram-chat-id TEXT
+  --telegram-bot-api-key TEXT
+  --help                       Show this message and exit.
+```
+
+### follow_rabbit_hole<a name="follow_rabbit_hole" />
+
+A bash script to help follow related *kprobes* **structures**.
+
+`$ sudo ./rabbit_hole_structures.sh <structure_name>`
+
+Note and example:
+    In order to check the related structs for a specific *kprobe* use **bpftrace** tool:
+
+`$ sudo bpftrace -lv kprobe:backlight_device_set_brightness`
+
+Output:
+
+```
+kprobe:backlight_device_set_brightness
+    struct backlight_device * arg0
+    long unsigned int arg1
+```
+
+So for this output you could follow the rabbit into the hole like:
+
+`$ sudo ./rabbit_hole_structures.sh backlight_device`
+
+This will create a file called **backlight_device_rabbit_hole.strct** that has all the related structures.
 
 ## Notes<a name="notes" />
 
