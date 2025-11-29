@@ -83,7 +83,7 @@ Right now all the Shields are based on [kprobes](https://github.com/iovisor/bcc/
 
 Current implemented **Caetra's Shields**:
 
-### ambient_light<a name="ambient_light" />
+### 1. ambient_light<a name="ambient_light" />
 
 Shield that triggers notification when the **backlight** of screen changes.
 
@@ -91,7 +91,7 @@ This could means that someone aproached to your machine.
 
 **kprobe:** `backlight_device_set_brightness`
 
-### blt_connect<a name="blt_connect" />
+### 2. blt_connect<a name="blt_connect" />
 
 This shields triggers when a **Bluetooth** device connects or tries to connect or bind to your machine.
 
