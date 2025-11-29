@@ -3,6 +3,7 @@
 #define MAX_LEN 15
 
 struct mmc_t {
+        u32 pid;
         char dev_name[MAX_LEN];
         char class_name[MAX_LEN];
         char dev_path0[MAX_LEN];
@@ -20,6 +21,8 @@ BPF_PERF_OUTPUT(events);
 int mmc_observer(struct pt_regs *ctx, struct mmc_host *mmch)
 {
         struct mmc_t data = {};
+        
+        data.pid = bpf_get_current_pid_tgid();
         
         bpf_probe_read_kernel_str(data.dev_name, sizeof(data.dev_name), mmch->class_dev.kobj.name);
         bpf_probe_read_kernel_str(data.class_name, sizeof(data.class_name), mmch->class_dev.class->name);

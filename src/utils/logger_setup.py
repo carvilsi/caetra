@@ -18,7 +18,7 @@ LOGGING_CONFIG = {
             "formatter": "default",
         },
         "stdout": {
-            "level": "DEBUG",
+            "level": "INFO",
             "class": "logging.StreamHandler",
             "formatter": "default",
         },
