@@ -1,1 +1,0 @@
-sudo bpftrace -e 'tracepoint:net:netif_rx { printf(%dt%sn, args.len, str(args.name)) }'
