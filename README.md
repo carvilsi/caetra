@@ -180,6 +180,13 @@ Will send an email with data related with the triggered Shield via DNS Canarytok
 
 Get your [DNS Canarytoken](https://docs.canarytokens.org/guide/dns-token.html#what-is-a-dns-canarytoken) and add it to the *token* variable on [general configuration file](https://github.com/carvilsi/caetra/blob/main/config/develop.toml#L14) or [specific shield](https://github.com/carvilsi/caetra/blob/main/src/shields/usb/usb.toml#L28) one. 
 
+<div align="center">
+  <p>
+    <img src="https://github.com/carvilsi/caetra/blob/main/.github/images/caetra_canarytoken.png" alt="caetra_canarytoken" >
+  </p>
+</div>
+
+
 ### Telegram<a name="telegram" />
 
 Will use [Telegram Bot API]() to send data related with the triggered Shield to the configured **Telegram Chat**.
@@ -191,6 +198,14 @@ Then add the bot to a chat and set the *chat_id* on [general configuration](http
 Note: To retrieve the desired telegram *chat ID* after added the bot to the chat and interacted with it, run:
 
 `$ curl https://api.telegram.org/bot<BOT_API_KEY>/getUpdates | jq .result[0].message.chat.id`
+
+<div align="center">
+  <p>
+    <img src="https://github.com/carvilsi/caetra/blob/main/.github/images/caetra_telegram_bot.png" alt="caetra_telegram_bot" >
+  </p>
+</div>
+
+
 
 ## Logging<a name="logging" />
 
