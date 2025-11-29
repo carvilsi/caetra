@@ -20,6 +20,17 @@ Caetra ([/kaˈetɾa/](https://ipa-reader.com/?text=ka%CB%88et%C9%BEa&voice=Conch
     1. [Dependencies](#dependencies")
 2. [Run](#run)
 3. [Shields](#shields)
+    1.  [ambient_light](#ambient_light)
+    2.  [blt_connect](#blt_connect)
+    3.  [blt_disconnect](#blt_disconnect)
+    4.  [hibernation](#hibernation)
+    5.  [hid_add_remove](#hid_add_remove)
+    6.  [hid_interact](#hid_interact)
+    7.  [inet](#inet)
+    8.  [input_event](#input_event)
+    9.  [mmc](#mmc)
+    10. [power](#power)
+    11. [usb](#usb)
 4. [Senders](#senders)
     1. [CanaryTokens](#canarytokens)
     2. [Telegram](#telegram)
@@ -49,6 +60,62 @@ Right now **eBPF** requires to be execute as **root**.
 `root ./caetra.py`
 
 ## Shields<a name="shields" />
+
+Current implemented **Caetra's Shields**:
+
+### ambient_light<a name="ambient_light" />
+
+Shield that triggers notification when the **backlight** of screen changes.
+
+This could means that someone aproached to your machine.
+
+### blt_connect<a name="blt_connect" />
+
+This shields triggers when a **Bluetooth** device connects or tries to connect or bind to your machine.
+
+### blt_disconnect<a name="blt_disconnect" />
+
+Triggers when a **Bluetooth** device has been disconected from the machine.
+
+### hibernation<a name="hibernation" />
+
+This Shield will trigger when the machine goes out from **hibernation** mode.
+
+### hid_add_remove<a name="hid_add_remove" />
+
+Triggers when an **HID device** has been deatached from your machine. 
+
+Here we are thinking about a possible keyboad **implant** e.g. a [keylogger](https://github.com/therealdreg/okhi)
+
+### hid_interact<a name="hid_interact" />
+
+This Shield triggers when there is a **HID interaction**; the mouse has been moved or a key from external keyboard has been pressed.
+
+### inet<a name="inet" />
+
+Triggers when there is changes on networking for **inet device**
+
+### input_event<a name="input_event" />
+
+Shield that triggers when there is any input interaction, e.g. trackpad, touchscreen, keyboard, etc...
+
+### mmc<a name="mmc" />
+
+The Shield reacts when a **MMC** (MultiMediaCard) is inserted.
+
+### power<a name="power" />
+
+Triggers when the **power** source changes.
+
+Thinking that someone has been disconnected the laptop from power plug, e.g. to access to the hardware.
+
+### usb<a name="usb" />
+
+This Shield reacts when an **USB** has been connected to the machine.
+
+We are thinking here about a **badUSB** or data exfiltration from the equip.
+
+This Shields can **de-authorize** the USB device, via configuration.
 
 ## Senders<a name="senders" />
 
