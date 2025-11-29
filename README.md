@@ -181,6 +181,14 @@ Get your [DNS Canarytoken](https://docs.canarytokens.org/guide/dns-token.html#wh
 
 Will use [Telegram Bot API]() to send data related with the triggered Shield to the configured **Telegram Chat**.
 
+Create your [Telegram Bot](https://core.telegram.org/bots/features#creating-a-new-bot) and set the *bot_api_key* variable on [general configuration](https://github.com/carvilsi/caetra/blob/main/config/develop.toml#L18) or on [specific shield](https://github.com/carvilsi/caetra/blob/main/src/shields/usb/usb.toml#L33) one.
+
+Then add the bot to a chat and set the *chat_id* on [general configuration](https://github.com/carvilsi/caetra/blob/main/config/develop.toml#L18) or on [specific shield](https://github.com/carvilsi/caetra/blob/main/src/shields/usb/usb.toml#L32) one.
+
+Note: To retrieve the desired telegram *chat ID* after added the bot to the chat and interacted with it, run:
+
+`$ curl https://api.telegram.org/bot<BOT_API_KEY>/getUpdates | jq .result[0].message.chat.id`
+
 ## Logging<a name="logging" />
 
 Caetra by default will do logging on *logs/* folder with file rotating behaviour. The main logging level could be set on *toml* configuration file with the variable **level** under *logging* [section](https://github.com/carvilsi/caetra/blob/main/config/develop.toml#L9).
