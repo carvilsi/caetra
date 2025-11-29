@@ -16,8 +16,9 @@ Caetra uses [eBPF](https://ebpf.io/) (**extended Berkeley Packet Filters**) to t
 
 In order to be able to **notify the user or cybersecurity responsables** by now **Caetra** uses [Thinkst Canary](https://canary.tools/#why) and/or [Telegram Bot](https://core.telegram.org/bots/api). On the other hand a more defensive approach has been implemented on *USB Shield* that allows to [de-authorize](https://www.kernel.org/doc/html/v5.15/usb/authorization.html) the attached device.
 
+The idea is to leave Caetra running when you leave your machine unattended, e.g. when it's lock or on suspension mode.
 
-The first release *v1.0.0* has been wirten for the [eBPF Summit: Hackathon Edition 2025](https://ebpf-summit-2025.devpost.com/)
+The first release *v1.0.0* has been wirten for the [eBPF Summit: Hackathon Edition 2025](https://ebpf-summit-2025.devpost.com/). [Videos](https://youtube.com/playlist?list=PLuSN43tiMwqYnsBcXQh7vrhIM7LWOWlhk&si=_Lxf-EbyXLu6wA1k)
 
 --- 
 
