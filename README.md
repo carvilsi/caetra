@@ -97,19 +97,19 @@ This shields triggers when a **Bluetooth** device connects or tries to connect o
 
 **kprobe:** `hci_conn_request_evt`
 
-### blt_disconnect<a name="blt_disconnect" />
+### 3. blt_disconnect<a name="blt_disconnect" />
 
 Triggers when a **Bluetooth** device has been disconected from the machine.
 
 **kprobe:** `hci_disconn_complete_evt`
 
-### hibernation<a name="hibernation" />
+### 4. hibernation<a name="hibernation" />
 
 This Shield will trigger when the machine goes out from **hibernation** mode.
 
 **kprobe:** `unregister_pm_notifier`
 
-### hid_add_remove<a name="hid_add_remove" />
+### 5. hid_add_remove<a name="hid_add_remove" />
 
 Triggers when an **HID device** has been deatached from your machine. 
 
@@ -119,13 +119,13 @@ Here we are thinking about a possible keyboad **implant** e.g. a [keylogger](htt
 
 **kprobe:** `hid_device_remove`
 
-### hid_interact<a name="hid_interact" />
+### 6. hid_interact<a name="hid_interact" />
 
 This Shield triggers when there is a **HID interaction**; the mouse has been moved or a key from external keyboard has been pressed.
 
 **kprobe:** `hid_report_raw_event`
 
-### inet<a name="inet" />
+### 7. inet<a name="inet" />
 
 Triggers when there is changes on networking for **inet device**
 
@@ -133,20 +133,20 @@ Triggers when there is changes on networking for **inet device**
 
 **kprobe:** `inetdev_event`
 
-### input_event<a name="input_event" />
+### 8. input_event<a name="input_event" />
 
 Shield that triggers when there is any input interaction, e.g. trackpad, touchscreen, keyboard, etc...
 
 **kprobe:** `input_handle_event`
 
-### mmc<a name="mmc" />
+### 9. mmc<a name="mmc" />
 
 The Shield reacts when a **MMC** (MultiMediaCard) is inserted. e.g. SDCard.
 
 
 **kprobe:** `mmc_sd_runtime_suspend`
 
-### power<a name="power" />
+### 10. power<a name="power" />
 
 Triggers when the **power** source changes.
 
@@ -154,7 +154,7 @@ Thinking that someone has been disconnected the laptop from power plug, e.g. to 
 
 **kprobe:** `power_supply_changed`
 
-### usb<a name="usb" />
+### 11. usb<a name="usb" />
 
 This Shield reacts when an **USB** has been connected to the machine.
 
