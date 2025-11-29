@@ -69,6 +69,7 @@ def bpf_main():
                 inet_event_type = event.inet_evnt;
 
                 message = ""
+                inet_data = ""
                 # an inetdev_event
                 if inet_event_type > 0:
                     # a NETDEV_UP
@@ -79,27 +80,30 @@ def bpf_main():
 
                 # inet_alloc_ifa
                 else:
-                    # TODO: filter lo
-                    inet_data = (
-                                "name:%s-mac_addr:%s-pid:%d"
-                            % (
-                                event.name.decode("utf-8", "replace"),
-                                mac_address_format(bytearray(event.mac_addr).hex().upper()),
-                                event.pid,
+                    dev_name = event.name.decode("utf-8", "replace")
+                    if dev_name not in shield_config["features"]["discard_devices"]:
+                        inet_data = (
+                                    "name:%s-mac_addr:%s-pid:%d"
+                                % (
+                                    dev_name,
+                                    mac_address_format(bytearray(event.mac_addr).hex().upper()),
+                                    event.pid,
+                                )
                             )
-                        )
 
-                    message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label").upper()} {NETDEV_EVENTS[1]}' data: {inet_data}"
+                        message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label").upper()} {NETDEV_EVENTS[1]}' data: {inet_data}"
                 try:
-                    if inet_event_type == 2:
-                        message = f"{SHIELD_NAME} triggered NETDEV_DOWN, no internet, not possible to send now: {message}"
-                        raise NoInternetConnection(message)
-                    if shield_config["features"]["wait_connection_sending"]:
-                        if inet_event_type > 1 and shield_config["features"]["limit_sending"]:
-                            if status.is_there_connection(shield_config["features"]["max_retries"], shield_config["features"]["wait_to_try"]):
-                                status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
-
-                    send(message, shield_config)
+                    if len(inet_data) != 0:
+                        if inet_event_type == 2:
+                            message = f"{SHIELD_NAME} triggered NETDEV_DOWN, no internet, not possible to send now: {message}"
+                            raise NoInternetConnection(message)
+                        if shield_config["features"]["wait_connection_sending"]:
+                            
+                            if inet_event_type > 1 and shield_config["features"]["limit_sending"]:
+                                if status.is_there_connection(shield_config["features"]["max_retries"], shield_config["features"]["wait_to_try"]):
+                                    status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
+                        
+                        send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
                 except MaxActionReached as e:

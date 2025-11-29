@@ -7,3 +7,4 @@ generator-output/
 config/local.toml
 arena/
 bpftracearena/
+*.strct

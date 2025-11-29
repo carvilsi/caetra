@@ -23,7 +23,7 @@ action_label = "net device change"
 limit_sending = true
 max_actions = 1
 # time in seconds to start sending notifications again
-cool_down_time = 10
+cool_down_time = 15
 # if true will manage the notifications limiting the notifications
 wait_connection_sending = true
 # maximum retries defore quiting
@@ -31,4 +31,5 @@ max_retries = 5
 # time in seconds to try sending notifications again
 wait_to_try = 10
 
-
+# list of devices to not trigger
+discard_devices = ["lo"]
