@@ -44,8 +44,6 @@ The first release *v1.0.0* has been wirten for the [eBPF Summit: Hackathon Editi
     2. [Telegram](#telegram)
 6. [Logging](#logging)
 7. [Project Structure](#project-structure)
-    1. [Configuration](#configuration)
-    2. [Shields Config](#shields-config)
 8. [Tools](#tools)
     1. [caetra_shield_generator](#caetra_shield_generator)
     2. [follow_rabbit_hole](#follow_rabbit_hole)
@@ -220,10 +218,22 @@ To check the **syslog** Caetra's messages:
 
 ## Project Structure<a name="project-structure" />
 
-### Configuration<a name="configuration" />
+```
+.
+├── caetra.py (main script)
+├── config (general configuration)
+├── logs (Caetra logs)
+├── src
+│   ├── caetra_exceptions.py
+│   ├── constants.py
+│   ├── senders (all the things related with notifications)
+│   ├── shields (the Shields, code for kernel and user space among specific Shield configuration)
+│   └── utils (the utils stuff)
+└── tools
+    ├── caetra_shield_generator
+    └── follow_rabbit_hole
 
-### Shields Config<a name="shields-config" />
-
+```
 ## Tools<a name="tools" />
 
 Things that could help Caetra's Shields development.
@@ -307,6 +317,8 @@ This will create a file called **backlight_device_rabbit_hole.strct** that has a
 #### Code<a name="code" />
 
 - [ ] cli
+- [ ] general logger configuration
+- [ ] rethink how to run the whole thing; ponder about running all the shields on multhread mode
 
 #### Senders TODOs<a name="senders-todos" />
 
