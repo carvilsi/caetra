@@ -1,13 +1,11 @@
 <div align="center">
-<p><br>
-      ▗     <br> 
-▛▘▀▌█▌▜▘▛▘▀▌<br>
-▙▖█▌▙▖▐▖▌ █▌</p>
-
+<pre>
+       ▗      
+▛▘▀▌█▌▜▘▛▘▀▌
+▙▖█▌▙▖▐▖▌ █▌
 Linux Physical Security based on eBPF
-
 When CanaryTokens meet eBPF
-
+</pre>
 </div>
 
 --- 
