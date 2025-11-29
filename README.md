@@ -66,6 +66,8 @@ Shields are the *eBPF* programs that monitors the physical interaction with the 
 
 Consists on kernel space code in c and user space script in python.
 
+Right now all the Shields are based on [kprobes](https://github.com/iovisor/bcc/blob/b63d7e38e8a0f6339fbd57f3a1ae7297e1993d92/docs/reference_guide.md#1-kprobes)
+
 Current implemented **Caetra's Shields**:
 
 ### ambient_light<a name="ambient_light" />
@@ -74,17 +76,25 @@ Shield that triggers notification when the **backlight** of screen changes.
 
 This could means that someone aproached to your machine.
 
+**kprobe:** `backlight_device_set_brightness`
+
 ### blt_connect<a name="blt_connect" />
 
 This shields triggers when a **Bluetooth** device connects or tries to connect or bind to your machine.
+
+**kprobe:** `hci_conn_request_evt`
 
 ### blt_disconnect<a name="blt_disconnect" />
 
 Triggers when a **Bluetooth** device has been disconected from the machine.
 
+**kprobe:** `hci_disconn_complete_evt`
+
 ### hibernation<a name="hibernation" />
 
 This Shield will trigger when the machine goes out from **hibernation** mode.
+
+**kprobe:** `unregister_pm_notifier`
 
 ### hid_add_remove<a name="hid_add_remove" />
 
@@ -92,21 +102,34 @@ Triggers when an **HID device** has been deatached from your machine.
 
 Here we are thinking about a possible keyboad **implant** e.g. a [keylogger](https://github.com/therealdreg/okhi)
 
+**kprobe:** `hid_add_device`
+**kprobe:** `hid_device_remove`
+
 ### hid_interact<a name="hid_interact" />
 
 This Shield triggers when there is a **HID interaction**; the mouse has been moved or a key from external keyboard has been pressed.
+
+**kprobe:** `hid_report_raw_event`
 
 ### inet<a name="inet" />
 
 Triggers when there is changes on networking for **inet device**
 
+**kprobe:** `inet_alloc_ifa`
+**kprobe:** `inetdev_event`
+
 ### input_event<a name="input_event" />
 
 Shield that triggers when there is any input interaction, e.g. trackpad, touchscreen, keyboard, etc...
 
+**kprobe:** `input_handle_event`
+
 ### mmc<a name="mmc" />
 
 The Shield reacts when a **MMC** (MultiMediaCard) is inserted. e.g. SDCard.
+
+
+**kprobe:** `mmc_sd_runtime_suspend`
 
 ### power<a name="power" />
 
@@ -114,13 +137,18 @@ Triggers when the **power** source changes.
 
 Thinking that someone has been disconnected the laptop from power plug, e.g. to access to the hardware.
 
+**kprobe:** `power_supply_changed`
+
 ### usb<a name="usb" />
 
 This Shield reacts when an **USB** has been connected to the machine.
 
-We are thinking here about a **badUSB** or data exfiltration from the equip.
+We are thinking here about a **badUSB** or data exfiltration from the equip. (same idea than [CanaryUSB](https://github.com/carvilsi/canaryusb))
 
 This Shields can **de-authorize** the USB device, via configuration.
+
+
+**kprobe:** `usb_notify_add_device`
 
 ## Senders<a name="senders" />
 
