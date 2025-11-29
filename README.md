@@ -4,7 +4,7 @@
 ▛▘▀▌█▌▜▘▛▘▀▌
 ▙▖█▌▙▖▐▖▌ █▌
 Linux Physical Security based on eBPF
-When CanaryTokens meet eBPF
+When eBPF met CanaryTokens
 </pre>
 </div>
 
@@ -12,9 +12,15 @@ When CanaryTokens meet eBPF
 
 Caetra ([/kaˈetɾa/](https://ipa-reader.com/?text=ka%CB%88et%C9%BEa&voice=Conchita)) was the [shield used by Iberian](https://en.wikipedia.org/wiki/Caetra)
 
+Caetra uses [eBPF](https://ebpf.io/) (**extended Berkeley Packet Filters**) to try secure a Linux machine against **physical threats**, like implants installation or badUSB usage, or at least be aware about a potential attack, monitoring kernel *kprobes* related with hardware interactions like **attaching an USB**, **detaching an HID** or **uplug** the laptop from **power source**. It uses **BPF Compiler Collection** [BCC](https://github.com/iovisor/bcc/) to do the **kernel tracing** and **manipulation program**.
+
+In order to be able to **notify the user or cybersecurity responsables** by now **Caetra** uses [Thinkst Canary](https://canary.tools/#why) and/or [Telegram Bot](https://core.telegram.org/bots/api). On the other hand a more defensive approach has been implemented on *USB Shield* that allows to [de-authorize](https://www.kernel.org/doc/html/v5.15/usb/authorization.html) the attached device.
+
 
 
 --- 
+
+## TOC
 
 1. [Install](#install)
     1. [Dependencies](#dependencies")
@@ -43,6 +49,7 @@ Caetra ([/kaˈetɾa/](https://ipa-reader.com/?text=ka%CB%88et%C9%BEa&voice=Conch
     1. [TODOS](#todos)
         1. [Shields TODOS](#shields-todos)
         2. [Code](#code)
+        3. [Senders TODOS](#senders-todos)
 
 ---
 
@@ -143,7 +150,7 @@ The Shield reacts when a **MMC** (MultiMediaCard) is inserted. e.g. SDCard.
 
 Triggers when the **power** source changes.
 
-Thinking that someone has been disconnected the laptop from power plug, e.g. to access to the hardware.
+Thinking that someone has been disconnected the laptop from power plug, e.g. to access hardware parts to perform a [phiysical RAM memory dump](https://docs.buspirate.com/docs/overview/ddr-ram-i2c-adapter/). (
 
 **kprobe:** `power_supply_changed`
 
@@ -166,7 +173,13 @@ It is possible to configure each shield to handle custom notification for it, vi
 
 ### CanaryTokens<a name="canarytokens" />
 
+Will send an email with data related with the triggered Shield via DNS Canarytoken powered by [Thinkst Canary](https://canary.tools/).
+
+Get your [DNS Canarytoken](https://docs.canarytokens.org/guide/dns-token.html#what-is-a-dns-canarytoken) and add it to the *token* variable on [general configuration file](https://github.com/carvilsi/caetra/blob/main/config/develop.toml#L14) or [specific shield](https://github.com/carvilsi/caetra/blob/main/src/shields/usb/usb.toml#L28) one. 
+
 ### Telegram<a name="telegram" />
+
+Will use [Telegram Bot API]() to send data related with the triggered Shield to the configured **Telegram Chat**.
 
 ## Logging<a name="logging" />
 
@@ -190,7 +203,7 @@ To check the **syslog** Caetra's messages:
 
 ### TODOS<a name="todos" />
 
-#### Shields TODOS<a name="shields-todos" />
+#### Shields TODOs<a name="shields-todos" />
 
 - [ ] accelerometers (I don't have a device with an accelerometer sensor)
  
@@ -198,4 +211,6 @@ To check the **syslog** Caetra's messages:
 
 - [ ] cli
 
+#### Senders TODOs<a name="senders-todos" />
 
+- [ ] implement elasticSearch and Kibana
