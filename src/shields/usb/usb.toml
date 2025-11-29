@@ -22,12 +22,13 @@ action_label = "usb attached"
 de_authorize_dev = false 
 
 # this will override the general senders configuration
-[usb.senders.canarytokens]
-enable= false
-token = "gz9fyvwq1qs7r9etclwp42kio.canarytokens.com"
+# uncomment next lines if you want custom senders
+#[usb.senders.canarytokens]
+#enable= true 
+#token = "your-canary-token.canarytokens.com"
 
-[usb.senders.telegram]
-enable = true
-chat_id = 35983972
-bot_api_key = "8245667438:AAHIANeASwTh_PviZUl62xOnlHwR469M4B4"
+#[usb.senders.telegram]
+#enable = true 
+#chat_id = 31337 
+#bot_api_key = "your:telegramBOT_API_KEY"
 

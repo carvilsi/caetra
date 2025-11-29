@@ -45,8 +45,14 @@ Caetra ([/kaˈetɾa/](https://ipa-reader.com/?text=ka%CB%88et%C9%BEa&voice=Conch
         2. [Code](#code)
 
 ---
+
 ## Install<a name="install" />
 
+`$ git clone https://github.com/carvilsi/caetra'`
+
+`$ cd caetra`
+
+Check next [Dependencies section](#dependencies).
 
 ### Dependencies<a name="dependencies" />
 
@@ -103,6 +109,7 @@ Triggers when an **HID device** has been deatached from your machine.
 Here we are thinking about a possible keyboad **implant** e.g. a [keylogger](https://github.com/therealdreg/okhi)
 
 **kprobe:** `hid_add_device`
+
 **kprobe:** `hid_device_remove`
 
 ### hid_interact<a name="hid_interact" />
@@ -116,6 +123,7 @@ This Shield triggers when there is a **HID interaction**; the mouse has been mov
 Triggers when there is changes on networking for **inet device**
 
 **kprobe:** `inet_alloc_ifa`
+
 **kprobe:** `inetdev_event`
 
 ### input_event<a name="input_event" />
@@ -151,6 +159,10 @@ This Shields can **de-authorize** the USB device, via configuration.
 **kprobe:** `usb_notify_add_device`
 
 ## Senders<a name="senders" />
+
+What Caetra uses to send you a notification, when any Shield has been trigger.
+
+It is possible to configure each shield to handle custom notification for it, via *toml* file under `src/shields/[shield]/[shield.toml]`. e.g. if you want that specific shield to send the notification to a certain Telegram Bot or mail in case of CanaryToken usage. Check an example [here](https://github.com/carvilsi/caetra/blob/main/src/shields/usb/usb.toml#L24)
 
 ### CanaryTokens<a name="canarytokens" />
 
