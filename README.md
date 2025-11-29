@@ -18,7 +18,7 @@ In order to be able to **notify the user or cybersecurity responsables** by now 
 
 The idea is to leave Caetra running when you leave your machine unattended, e.g. when it's lock or on suspension mode.
 
-The first release *v1.0.0* has been wirten for the [eBPF Summit: Hackathon Edition 2025](https://ebpf-summit-2025.devpost.com/). [Videos](https://youtube.com/playlist?list=PLuSN43tiMwqYnsBcXQh7vrhIM7LWOWlhk&si=_Lxf-EbyXLu6wA1k)
+The first release *v1.0.0* has been wirten for the [eBPF Summit: Hackathon Edition 2025](https://ebpf-summit-2025.devpost.com/). [Videos for Hackathon](https://youtube.com/playlist?list=PLuSN43tiMwqYnsBcXQh7vrhIM7LWOWlhk&si=_Lxf-EbyXLu6wA1k)
 
 --- 
 
