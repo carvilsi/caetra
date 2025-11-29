@@ -34,11 +34,12 @@ Caetra ([/kaˈetɾa/](https://ipa-reader.com/?text=ka%CB%88et%C9%BEa&voice=Conch
 4. [Senders](#senders)
     1. [CanaryTokens](#canarytokens)
     2. [Telegram](#telegram)
-5. [Project Structure](#project-structure)
+6. [Logging](#logging)
+7. [Project Structure](#project-structure)
     1. [Configuration](#configuration)
     2. [Shields Config](#shields-config)
-6. [Tools](#tools)
-7. [Notes](#notes)
+8. [Tools](#tools)
+9. [Notes](#notes)
     1. [TODOS](#todos)
         1. [Shields TODOS](#shields-todos)
         2. [Code](#code)
@@ -57,9 +58,13 @@ Caetra ([/kaˈetɾa/](https://ipa-reader.com/?text=ka%CB%88et%C9%BEa&voice=Conch
 
 Right now **eBPF** requires to be execute as **root**.
 
-`root ./caetra.py`
+`sudo ./caetra.py`
 
 ## Shields<a name="shields" />
+
+Shields are the *eBPF* programs that monitors the physical interaction with the equip.
+
+Consists on kernel space code in c and user space script in python.
 
 Current implemented **Caetra's Shields**:
 
@@ -122,6 +127,16 @@ This Shields can **de-authorize** the USB device, via configuration.
 ### CanaryTokens<a name="canarytokens" />
 
 ### Telegram<a name="telegram" />
+
+## Logging<a name="logging" />
+
+Caetra by default will do logging on *logs/* folder with file rotating behaviour. The main logging level could be set on *toml* configuration file with the variable **level** under *logging* [section](https://github.com/carvilsi/caetra/blob/main/config/develop.toml#L9).
+
+The Shields by default will log on **syslog** with **warning** level.
+
+To check the **syslog** Caetra's messages:
+
+`$ journalctl -r --grep='caetra_shields'`
 
 ## Project Structure<a name="project-structure" />
 
