@@ -1,0 +1,34 @@
+# this is the configuration file related with Caetra's USB Shield
+# add here all the user configurable parameters to tune the
+# behaviour of the shield, e.g. if will de-authorize a device or not
+
+# Name of the Caetra Shield and generic config values
+# case sensitive must match with SHIELD_NAME on python side
+[usb]
+
+# if this shield is enable (if false will override the main config)
+enable = true 
+
+# a description that will logged
+description = "When a USB device is attached will send notification as it's configured on 'senders'. Also possible to de-authorize the attached USB device if 'de_authorize_dev' is set to true"
+
+# label to describe what happen on physical world
+action_label = "usb attached"
+
+# to configure special features
+[usb.features]
+
+# if true will de-authorize the attached USB device
+de_authorize_dev = false 
+
+# this will override the general senders configuration
+# uncomment next lines if you want custom senders
+#[usb.senders.canarytokens]
+#enable= true 
+#token = "your-canary-token.canarytokens.com"
+
+#[usb.senders.telegram]
+#enable = true 
+#chat_id = 31337 
+#bot_api_key = "your:telegramBOT_API_KEY"
+

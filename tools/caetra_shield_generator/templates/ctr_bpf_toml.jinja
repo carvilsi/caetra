@@ -1,0 +1,40 @@
+# this is the configuration file related with Caetra's {{shield_name}} Shield
+# add here all the user configurable parameters to tune the
+# behaviour of the shield
+
+# Name of the Caetra Shield and generic config values
+# case sensitive must match with SHIELD_NAME on python side
+[{{shield_name}}]
+
+# if this shield is enable 
+enable = {{shield_enable}} 
+
+{% if shield_description %}
+# a description that will logged
+description = "{{shield_description}}"
+{% endif %}
+
+# label to describe what happen on physical world
+action_label = "{{action_label}}"
+
+{% if shield_feature %}
+# to configure special features
+[{{shield_name}}.features]
+
+# the feature variable 
+{{shield_feature}} = true
+{% endif %}
+
+{% if canarytoken_sender %}
+# this will override the general senders configuration
+[{{shield_name}}.senders.canarytokens]
+enable= {{canarytoken_sender}} 
+token = "{{canarytoken}}"
+{% endif %}
+
+{% if telegram_sender %}
+[{{shield_name}}.senders.telegram]
+enable = {{telegram_sender}}
+chat_id = {{telegram_chat_id}} 
+bot_api_key = "{{telegram_bot_api_key}}"
+{% endif %}

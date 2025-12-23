@@ -1,0 +1,19 @@
+# caetra configuration file
+
+[caetra]
+# name of the machine to indentify notifications
+machine = "yourMachineName"
+# list of enabled shields; this will override shield configuration; uncomment next line in case to restrict the enabled shields and append these to the list
+#shields_enabled = ["inet"]
+
+[logging]
+level = "INFO"
+
+[senders.canarytokens]
+enable = false
+token = "yourCanaryToken"
+
+[senders.telegram]
+enable = false 
+chat_id = 31337 # int the chatId to send the message
+bot_api_key = "yourTelegramBotAPIKey" 

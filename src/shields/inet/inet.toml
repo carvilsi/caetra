@@ -1,0 +1,35 @@
+# this is the configuration file related with Caetra's hid_add Shield
+# add here all the user configurable parameters to tune the
+# behaviour of the shield
+
+# Name of the Caetra Shield and generic config values
+# case sensitive must match with SHIELD_NAME on python side
+[inet]
+
+# if this shield is enable 
+enable = true 
+
+
+# a description that will logged
+description = "Reacts when detects a change on network devices "
+
+# label to describe what happen on physical world
+action_label = "net device change"
+
+# to configure special features
+[inet.features]
+
+# the feature variable 
+limit_sending = true
+max_actions = 1
+# time in seconds to start sending notifications again
+cool_down_time = 15
+# if true will manage the notifications limiting the notifications
+wait_connection_sending = true
+# maximum retries defore quiting
+max_retries = 5
+# time in seconds to try sending notifications again
+wait_to_try = 10
+
+# list of devices to not trigger
+discard_devices = ["lo"]

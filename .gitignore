@@ -1,0 +1,10 @@
+tags
+__pycache__
+caetra.log
+caetra.log.*
+generator-output/
+*.pyc
+config/local.toml
+arena/
+bpftracearena/
+*.strct
