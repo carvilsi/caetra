@@ -73,6 +73,18 @@ Check next [Dependencies section](#dependencies).
 
 - [bcc](https://github.com/iovisor/bcc/blob/b63d7e38e8a0f6339fbd57f3a1ae7297e1993d92/INSTALL.md)
 
+#### Linux Kernel Headers
+
+It is possible that after upgrading the Linux Kernel, compiling the BPF modules could fail, with the next message:
+
+`Unable to find kernel headers. Try rebuilding kernel with CONFIG_IKHEADERS=m (module) or installing the kernel development package for your running kernel version.`
+
+Try to install the kernel development package for your distro:
+
+##### Arch Linux
+
+`$ sudo pacman -S linux-headers`
+
 ## Run<a name="run" />
 
 Right now **eBPF** requires to be execute as **root**.
