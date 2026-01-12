@@ -8,3 +8,4 @@ config/local.toml
 arena/
 bpftracearena/
 *.strct
+src/utils/config_parser.py
