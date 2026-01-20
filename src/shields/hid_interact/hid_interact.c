@@ -1,3 +1,5 @@
+#include <kernel_additions_headers.h>
+
 #include<linux/hid.h>
 
 struct hid_move_t {

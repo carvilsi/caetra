@@ -35,10 +35,9 @@ SHIELD_NAME = "inet"
 
 # kprobe event name
 events = ["inet_alloc_ifa", "inetdev_event"]
-# events = ["inetdev_event"]
+
 # c function for the kprobe
 fns_name = ["inet_alloc_observer", "inet_event_observer"]
-# fns_name = ["inet_event_observer"]
 
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"

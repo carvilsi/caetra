@@ -1,3 +1,5 @@
+#include <kernel_additions_headers.h>
+
 #include <linux/inetdevice.h>
 #include <linux/netdevice.h>
 

@@ -28,7 +28,10 @@ def load_bpf_prog(
 
     logger.info(f"\t[ ] {shield_name}: loading kernel space src: {src_file}")
 
-    b = BPF(src_file)
+    include_path = os.path.join(os.path.realpath("."), 'src', 'shields')
+    cflag_include = f"-I{include_path}/"
+
+    b = BPF(src_file, cflags=[cflag_include])
 
     logger.info(
         f"\t[ ] {shield_name}: attaching krpobe: \n\t\t\t\t\t\t\tevent: {event} \n\t\t\t\t\t\t\tfunction: {fn_name}"
