@@ -61,7 +61,7 @@ The first release *v1.0.0* has been wirten for the [eBPF Summit: Hackathon Editi
 
 ## Install<a name="install" />
 
-`$ git clone https://github.com/carvilsi/caetra'`
+`$ git clone https://github.com/carvilsi/caetra`
 
 `$ cd caetra`
 
