@@ -337,7 +337,8 @@ Shield image on this README by [lion.kanzen](https://opengameart.org/users/lionk
 - [ ] cli
 - [ ] general logger configuration
 - [ ] rethink how to run the whole thing; ponder about running all the shields on multhread mode
+- [ ] check if **kprobe** it's available on startup
 
 #### Senders TODOs<a name="senders-todos" />
 
-- [ ] implement elasticSearch and Kibana
+- [ ] implement something to do data ingestion, dashboards and alarms
