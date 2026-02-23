@@ -1,8 +1,8 @@
-#include <kernel_additions_headers.h>
-
 #include <net/bluetooth/bluetooth.h> 
 #include <net/bluetooth/hci.h>
 #include <net/bluetooth/hci_core.h>
+
+#include <kernel_additions_headers.h>
 
 #define MAX_LEN 20
 

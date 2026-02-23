@@ -11,7 +11,7 @@ enable = true
 
 
 # a description that will logged
-description = "Reacts when detects a change on network devices "
+description = "Reacts when detects a change on network devices e.g. turns WiFi off"
 
 # label to describe what happen on physical world
 action_label = "net device change"

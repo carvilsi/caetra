@@ -1,7 +1,7 @@
-#include <kernel_additions_headers.h>
-
 #include <linux/hid.h>
 #include <linux/device.h>
+
+#include <kernel_additions_headers.h>
 
 #define MAX_LEN 20
 

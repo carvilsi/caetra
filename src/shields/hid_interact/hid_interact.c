@@ -1,6 +1,6 @@
-#include <kernel_additions_headers.h>
-
 #include<linux/hid.h>
+
+#include <kernel_additions_headers.h>
 
 struct hid_move_t {
         u32 pid;
