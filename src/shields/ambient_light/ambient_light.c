@@ -1,5 +1,7 @@
 #include<linux/backlight.h>
 
+#include <kernel_additions_headers.h>
+
 #define MAX_LEN 80 
 
 struct ambient_light_t {

@@ -1,7 +1,7 @@
-#include <kernel_additions_headers.h>
-
 #include <linux/inetdevice.h>
 #include <linux/netdevice.h>
+
+#include <kernel_additions_headers.h>
 
 #define MAX_LEN 20
 #define MAC_ADDR_LEN 6

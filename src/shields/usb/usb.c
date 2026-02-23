@@ -1,5 +1,7 @@
 #include<linux/usb.h>
 
+#include <kernel_additions_headers.h>
+
 #define MAX_LEN 15
 
 struct key_t {

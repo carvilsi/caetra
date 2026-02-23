@@ -1,5 +1,7 @@
 #include<linux/input.h>
 
+#include <kernel_additions_headers.h>
+
 #define MAX_LEN 120
 
 struct input_event_t {

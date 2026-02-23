@@ -1,5 +1,7 @@
 #include<linux/power_supply.h>
 
+#include <kernel_additions_headers.h>
+
 struct power_t {
        u32 pid;
        char name[5];
