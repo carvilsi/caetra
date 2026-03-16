@@ -31,8 +31,9 @@ def load_bpf_prog(
     include_path = os.path.join(os.path.realpath("."), 'src', 'shields')
     cflag_include = f"-I{include_path}/"
 
+    # CFLAGS "-Wno-microsoft-anon-tag", "-fms-extensions" related with: https://github.com/iovisor/bcc/issues/5488 
     # NOTE: we pass here not show warnings to compiler
-    b = BPF(src_file, cflags=[cflag_include, "-w"])
+    b = BPF(src_file, cflags=[cflag_include, "-w", "-Wno-microsoft-anon-tag", "-fms-extensions"])
 
     logger.info(
         f"\t[ ] {shield_name}: attaching krpobe: \n\t\t\t\t\t\t\tevent: {event} \n\t\t\t\t\t\t\tfunction: {fn_name}"
