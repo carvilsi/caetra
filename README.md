@@ -334,6 +334,7 @@ Shield image on this README by [lion.kanzen](https://opengameart.org/users/lionk
 - [ ] camera things
 - [ ] monitor nearby WiFi AP
 - [ ] CDs & DVDs
+- [ ] microphone
  
 #### Code<a name="code" />
 
