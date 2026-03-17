@@ -43,6 +43,7 @@ The first release *v1.0.0* has been wirten for the [eBPF Summit: Hackathon Editi
     9.  [mmc](#mmc)
     10. [power](#power)
     11. [usb](#usb)
+    12. [cd_dvd_rom](#cd_dvd_rom)
 4. [Senders](#senders)
     1. [CanaryTokens](#canarytokens)
     2. [Telegram](#telegram)
@@ -182,6 +183,14 @@ This Shields can **de-authorize** the USB device, via configuration.
 
 
 **kprobe:** `usb_notify_add_device`
+
+### 12. cd_dvd_rom<a name="cd_dvd_rom" />
+
+This Shield reacts on open or close CD-DVD tray.
+
+For example, with this shield we are trying to avoid some king of Live CD/DVD for System Access.
+
+**kprobe:** `cdrom_open`
 
 ## Senders<a name="senders" />
 
@@ -333,14 +342,14 @@ Shield image on this README by [lion.kanzen](https://opengameart.org/users/lionk
 - [ ] accelerometers (I don't have a device with an accelerometer sensor)
 - [ ] camera things
 - [ ] monitor nearby WiFi AP
-- [ ] CDs & DVDs
+- [x] CDs & DVDs
 - [ ] microphone
  
 #### Code<a name="code" />
 
 - [ ] cli
 - [ ] general logger configuration
-- [ ] rethink how to run the whole thing; ponder about running all the shields on multhread mode
+- [ ] rethink how to run the whole thing; ponder about running all the shields on multithread mode
 - [ ] check if **kprobe** it's available on startup
 
 #### Senders TODOs<a name="senders-todos" />

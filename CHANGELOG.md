@@ -1,5 +1,9 @@
 # Changelog
 
+# [v1.1.0](https://github.com/carvilsi/caetra/releases/tag/v1.1.0) (2026-03-17)
+
+- Added CD/DVD ROM shield
+
 # [v1.0.2](https://github.com/carvilsi/caetra/releases/tag/v1.0.2) (2026-02-23)
 
 - Fix bug related with bcc adding missing struct bpf_wq to support kernel 6.14.0-37 on 24.04.1-Ubuntu (noble) 
