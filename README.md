@@ -355,3 +355,9 @@ Shield image on this README by [lion.kanzen](https://opengameart.org/users/lionk
 #### Senders TODOs<a name="senders-todos" />
 
 - [ ] implement something to do data ingestion, dashboards and alarms
+
+---
+
+Feedback from usage and contributions are very welcome.
+Also if you like it, please leave a :star: I would appreciate it ;)
+
