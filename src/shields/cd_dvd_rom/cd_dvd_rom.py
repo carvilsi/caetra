@@ -10,23 +10,30 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
 from shields import deploying
 from logger_setup import logger_shields
-from caetra_exceptions import ShieldConfigurationError, ConfigurationError
+from caetra_exceptions import (
+    ShieldConfigurationError,
+    ConfigurationError,
+    MaxActionReached,
+)
 from logging_handler import log_shield_exception, log_shield_exception_warn
 from senders_handler import send
 import constants
+import status_handler
 
 # shield name
 # must be same with in toml root config
-SHIELD_NAME = "{{shield_name}}"
+SHIELD_NAME = "cd_dvd_rom"
 
 # kernel section
 
 # kprobe event name
-event = "{{kprobe_event}}"
+event = "cdrom_open"
 # c function for the kprobe
-fn_name = "{{shield_name}}_observer"
+fn_name = "cd_dvd_rom_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
+
+status = status_handler.StatusHandler()
 
 
 def bpf_main():
@@ -51,27 +58,27 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 # get here the data for shield impl
-                {{shield_name}}_data = ("pid:%d" % (event.pid))
+                cd_dvd_rom_data = "pid:%d" % (event.pid)
 
-{% if shield_feature %}
-                if shield_config["features"]["{{shield_feature}}"]:
-                    # implement here your {{shield_feature}} feature (o will crash on run ;)
-{% endif %}
- 
-{% if shield_feature %}
-                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' {{shield_feature}}: {shield_config["features"]["{{ shield_feature }}"]} data: { {{shield_name}}_data }"
-{% else %}
-                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' data: { {{shield_name}}_data }"
-{% endif %}                   
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label')}' limit_sending: {shield_config['features']['limit_sending']} data: {cd_dvd_rom_data}"
+
                 try:
+                    if shield_config["features"]["limit_sending"]:
+                        status.can_be_sent(
+                            event.ts,
+                            shield_config["features"]["max_actions"],
+                            shield_config["features"]["cool_down_time"],
+                        )
 
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
+                except KeyboardInterrupt:
+                    exit()
+                except MaxActionReached as e:
+                    log_shield_exception_warn(e, SHIELD_NAME)
                 else:
-                    logger_shields.info(
-                        f"{SHIELD_NAME} triggered and sent: {message}"
-                    )
+                    logger_shields.info(f"{SHIELD_NAME} triggered and sent: {message}")
                 finally:
                     logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
 
