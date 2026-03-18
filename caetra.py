@@ -39,7 +39,7 @@ def threading_excute_shields():
                     shields.append(os.path.join(root, file))
                     shields_name.append(shieldname)
     logger.info(
-        f"Deploying {len(shields)} Shields: \n\t\t\t\t\t{'\n\t\t\t\t\t'.join(shields_name).upper()}\n"
+        f"Going to deploy {len(shields)} Shields: \n\t\t\t\t\t{'\n\t\t\t\t\t'.join(shields_name).upper()}\n"
     )
     for shield in shields:
         threading.Thread(target=run_script, args=(shield,)).start()
