@@ -1,4 +1,4 @@
-#include<{{kheaders_include}}>
+{% if kheaders_include %}#include<{{kheaders_include}}>{% endif %}
 
 #include <kernel_additions_headers.h>
 
@@ -10,13 +10,17 @@ struct {{shield_name}}_t {
 
 BPF_PERF_OUTPUT(events);
 
-int {{shield_name}}_observer(struct pt_regs *ctx, struct {{kstrct}} *kstrct)
+int {{shield_name}}_observer(struct pt_regs *ctx{% if kstrct %}, struct {{kstrct}} *kstrct{% endif %})
 {
         struct {{shield_name}}_t data = {};
         
         data.pid = bpf_get_current_pid_tgid();
         data.ts = bpf_ktime_get_ns();
 
+        // useful to debug on kernel space
+        //bpf_trace_printk("pid: %d\t nanoseconds:%d", data.pid, data.ts);
+
+        // example of retrieve a string from kernel space
         //bpf_probe_read_kernel_str(data.path, sizeof(data.path), kstrct->something);
 
         events.perf_submit(ctx, &data, sizeof(data));

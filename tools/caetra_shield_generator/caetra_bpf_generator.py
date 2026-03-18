@@ -66,15 +66,17 @@ def prompt_telegram(ctx, param, telegram_sender):
 @click.option(
     "--kheaders-include",
     type=click.STRING,
-    required=True,
+    required=False,
     prompt="Linux header to include",
+    default="None",
     help="Linux header to includ on kernel c code, e.g. 'linux/usb.h'",
 )
 @click.option(
     "--kstrct",
     type=click.STRING,
-    required=True,
-    prompt="Related kprobe related struct to get data",
+    required=False,
+    prompt="Kprobe related struct to get data",
+    default="None",
     help="Linux struct to retrieve data, e.g. 'usb_device'",
 )
 @click.option(
@@ -102,17 +104,17 @@ def prompt_telegram(ctx, param, telegram_sender):
 )
 @click.option(
     "--canarytoken-sender",
-    prompt="Should this Shield send notifications with Cananry tokens?",
+    prompt="Should this Shield send to a different CanaryToken configuration than the general one?",
     is_flag=True,
-    default=True,
+    default=False,
     callback=prompt_canarytoken,
 )
 @click.option("--canarytoken", is_eager=True, type=click.STRING)
 @click.option(
     "--telegram-sender",
-    prompt="Should this Shield send notifications with Telegram Bot?",
+    prompt="Should this Shield send to a different TelegramBot configuration than the general one?",
     is_flag=True,
-    default=True,
+    default=False,
     callback=prompt_telegram,
 )
 @click.option("--telegram-chat-id", is_eager=True)
@@ -134,6 +136,12 @@ def caetra_shield_generator(
     telegram_bot_api_key,
 ):
     shield_name = shield_name.replace(" ", "_")
+
+    if kstrct == "None":
+        kstrct = None
+
+    if kheaders_include == "None":
+        kheaders_include = None
 
     if canarytoken_sender:
         canarytoken = canarytoken_sender
@@ -168,6 +176,7 @@ def caetra_shield_generator(
     print(f"kstrct: {kstrct}")
     print(f"shield_enable: {shield_enable}")
     print(f"shield_feature: {shield_feature}")
+    print(f"action_label: {action_label}")
     print(f"canarytoken_sender: {canarytoken_sender}")
     print(f"canarytoken: {canarytoken}")
     print(f"telegram_sender: {telegram_sender}")
