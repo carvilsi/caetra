@@ -1,22 +1,21 @@
 import sys
 import os
-import tempfile
 import threading
 import requests
 
 # caetra imports
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
-import constants 
+import constants
 from caetra_exceptions import MaxActionReached, MaxRetriesReached
 
+
 class StatusHandler(object):
-    
     counter = 0
     time_lapse_ns = 0
-    
+
     def __new__(cls):
-        if not hasattr(cls, 'instance'):
+        if not hasattr(cls, "instance"):
             cls.instance = super(StatusHandler, cls).__new__(cls)
         return cls.instance
 
@@ -34,7 +33,9 @@ class StatusHandler(object):
         if self.counter == max_actions:
             self.time_lapse_ns = current_ns
         elif self.counter > max_actions:
-            if ((current_ns - self.time_lapse_ns) / constants.NS_TO_S) <= cool_down_time:
+            if (
+                (current_ns - self.time_lapse_ns) / constants.NS_TO_S
+            ) <= cool_down_time:
                 raise MaxActionReached("Reached max actions; not sending")
             else:
                 self.counter = 0
@@ -47,9 +48,6 @@ class StatusHandler(object):
             else:
                 try:
                     requests.get("https://www.google.com", timeout=5)
-                    return True 
+                    return True
                 except requests.ConnectionError:
                     threading.Event().wait(wait_to_try)
-
-
- 

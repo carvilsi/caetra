@@ -28,6 +28,7 @@ fn_name = "blt_connect_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 
+
 def bpf_main():
     try:
         # shield configuration
@@ -50,24 +51,27 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 blt_connect_data = (
-                        "dev_name:%s-name:%s-addr:%s-conn_dev_addr:%s-pid:%d"
-                                    %
-                                    (event.hci_dev_name.decode("utf-8", "replace"),
-                                     event.name.decode("utf-8", "replace"),
-                                     mac_address_format(bytearray(event.hci_dev_bdaddr).hex().upper()),
-                                     mac_address_format(bytearray(event.conn_dev_bdaddr).hex().upper()),
-                                     event.pid)
-                                   )
-                    
-                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' data: { blt_connect_data }"
+                    "dev_name:%s-name:%s-addr:%s-conn_dev_addr:%s-pid:%d"
+                    % (
+                        event.hci_dev_name.decode("utf-8", "replace"),
+                        event.name.decode("utf-8", "replace"),
+                        mac_address_format(
+                            bytearray(event.hci_dev_bdaddr).hex().upper()
+                        ),
+                        mac_address_format(
+                            bytearray(event.conn_dev_bdaddr).hex().upper()
+                        ),
+                        event.pid,
+                    )
+                )
+
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label')}' data: {blt_connect_data}"
                 try:
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
                 else:
-                    logger_shields.info(
-                        f"{SHIELD_NAME} triggered and sent: {message}"
-                    )
+                    logger_shields.info(f"{SHIELD_NAME} triggered and sent: {message}")
                 finally:
                     logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
 
