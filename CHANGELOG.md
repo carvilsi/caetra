@@ -1,6 +1,6 @@
 # Changelog
 
-# develop
+# [v1.2.0](https://github.com/carvilsi/caetra/releases/tag/v1.2.0) (2026-03-18)
 
 - Added WebCam shield
 - improved shield generator:
