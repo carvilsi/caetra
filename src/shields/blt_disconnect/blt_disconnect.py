@@ -51,24 +51,20 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 # get here the data for shield impl
-                blt_disconnect_data = (
-                        "dev_name:%s-name:%s-addr:%s-pid:%d"
-                                    %
-                                    (event.hci_dev_name.decode("utf-8", "replace"),
-                                     event.name.decode("utf-8", "replace"),
-                                     mac_address_format(bytearray(event.hci_dev_bdaddr).hex().upper()),
-                                     event.pid)
-                                   )
+                blt_disconnect_data = "dev_name:%s-name:%s-addr:%s-pid:%d" % (
+                    event.hci_dev_name.decode("utf-8", "replace"),
+                    event.name.decode("utf-8", "replace"),
+                    mac_address_format(bytearray(event.hci_dev_bdaddr).hex().upper()),
+                    event.pid,
+                )
 
-                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' data: { blt_disconnect_data }"
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label')}' data: {blt_disconnect_data}"
                 try:
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
                 else:
-                    logger_shields.info(
-                        f"{SHIELD_NAME} triggered and sent: {message}"
-                    )
+                    logger_shields.info(f"{SHIELD_NAME} triggered and sent: {message}")
                 finally:
                     logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
 

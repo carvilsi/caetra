@@ -71,15 +71,13 @@ def bpf_main():
                     )
                 )
 
-                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' {mmc_data}"
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label')}' {mmc_data}"
                 try:
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
                 else:
-                    logger_shields.info(
-                        f"{SHIELD_NAME} triggered and sent: {message}"
-                    )
+                    logger_shields.info(f"{SHIELD_NAME} triggered and sent: {message}")
                 finally:
                     logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
 

@@ -28,12 +28,15 @@ def load_bpf_prog(
 
     logger.info(f"\t[ ] {shield_name}: loading kernel space src: {src_file}")
 
-    include_path = os.path.join(os.path.realpath("."), 'src', 'shields')
+    include_path = os.path.join(os.path.realpath("."), "src", "shields")
     cflag_include = f"-I{include_path}/"
 
-    # CFLAGS "-Wno-microsoft-anon-tag", "-fms-extensions" related with: https://github.com/iovisor/bcc/issues/5488 
+    # CFLAGS "-Wno-microsoft-anon-tag", "-fms-extensions" related with: https://github.com/iovisor/bcc/issues/5488
     # NOTE: we pass here not show warnings to compiler
-    b = BPF(src_file, cflags=[cflag_include, "-w", "-Wno-microsoft-anon-tag", "-fms-extensions"])
+    b = BPF(
+        src_file,
+        cflags=[cflag_include, "-w", "-Wno-microsoft-anon-tag", "-fms-extensions"],
+    )
 
     logger.info(
         f"\t[ ] {shield_name}: attaching krpobe: \n\t\t\t\t\t\t\tevent: {event} \n\t\t\t\t\t\t\tfunction: {fn_name}"
@@ -51,12 +54,11 @@ def load_bpf_prog(
     logger.info(f"\t[*] {shield_name}: monitoring\n")
     return b
 
+
 # checks for mandatory configuration varialbes
 def shield_config_check(shield_config, shield_name):
     validate_dict_structure(
-            constants.CONFIG_SHIELD_MANDATORY,
-            shield_config,
-            shield_name
+        constants.CONFIG_SHIELD_MANDATORY, shield_config, shield_name
     )
     logger.debug(f"Shield {shield_name.upper()} Configuration file OK")
 

@@ -51,7 +51,7 @@ def bpf_main():
 
                 # raw logging for shield impl
                 usb_data = (
-                        "path:%s-name:%s-serial:%s-prod_name:%s-manufc:%s-busnam:%s-busnum:%d-pid:%d"
+                    "path:%s-name:%s-serial:%s-prod_name:%s-manufc:%s-busnam:%s-busnum:%d-pid:%d"
                     % (
                         event.path.decode("utf-8", "replace"),
                         event.name.decode("utf-8", "replace"),
@@ -60,7 +60,7 @@ def bpf_main():
                         event.manfc.decode("utf-8", "replace"),
                         event.busnam.decode("utf-8", "replace"),
                         event.busnum,
-                        event.pid
+                        event.pid,
                     )
                 )
 
@@ -76,15 +76,13 @@ def bpf_main():
                         f"Shield {SHIELD_NAME.upper()} de-authorized device at: {auth_file}"
                     )
 
-                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' de-auth: {shield_config["features"]["de_authorize_dev"]} path: {device_path}{usb_data}"
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label')}' de-auth: {shield_config['features']['de_authorize_dev']} path: {device_path}{usb_data}"
                 try:
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
                 else:
-                    logger_shields.info(
-                        f"{SHIELD_NAME} triggered and sent: {message}"
-                    )
+                    logger_shields.info(f"{SHIELD_NAME} triggered and sent: {message}")
                 finally:
                     logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
 

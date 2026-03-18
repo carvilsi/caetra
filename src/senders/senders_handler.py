@@ -67,8 +67,8 @@ def get_config(shield_config=None):
 def send(data, shield_config=None):
     senders_config = get_config(shield_config)
     if len(data) == 0:
-        return 
-    
+        return
+
     for key, value in senders_config.items():
         match key:
             case constants.CONFIG_SENDER_KEY_CANARYTOKENS:

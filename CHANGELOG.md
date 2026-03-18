@@ -1,5 +1,15 @@
 # Changelog
 
+# [v1.2.0](https://github.com/carvilsi/caetra/releases/tag/v1.2.0) (2026-03-18)
+
+- Added WebCam shield
+- improved shield generator:
+    - adding debug kprint function to kerlen space c code
+    - not mandatory linux header
+    - not mandatory struct
+    - small fixes and refactor
+    - no as default for CanaryToken and TelegramBot sender
+
 # [v1.1.0](https://github.com/carvilsi/caetra/releases/tag/v1.1.0) (2026-03-17)
 
 - Added CD/DVD ROM shield

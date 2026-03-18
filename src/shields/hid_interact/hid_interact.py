@@ -1,7 +1,6 @@
 # generic imports
 import sys
 import os
-import tempfile
 
 # caetra imports
 sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
@@ -11,7 +10,11 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
 from shields import deploying
 from logger_setup import logger_shields
-from caetra_exceptions import ShieldConfigurationError, ConfigurationError, MaxActionReached
+from caetra_exceptions import (
+    ShieldConfigurationError,
+    ConfigurationError,
+    MaxActionReached,
+)
 from logging_handler import log_shield_exception, log_shield_exception_warn
 from senders_handler import send
 import constants
@@ -19,9 +22,9 @@ import status_handler
 
 # from linux/hid.h
 HID_TYPE = {
-        0: "HID_TYPE_OTHER",
-        1: "HID_TYPE_USBMOUSE",
-        2: "HID_TYPE_USBNONE",
+    0: "HID_TYPE_OTHER",
+    1: "HID_TYPE_USBMOUSE",
+    2: "HID_TYPE_USBNONE",
 }
 
 # shield name
@@ -38,6 +41,7 @@ fn_name = "hid_move_observer"
 src_file = SHIELD_NAME + ".c"
 
 status = status_handler.StatusHandler()
+
 
 def bpf_main():
     try:
@@ -61,19 +65,22 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 # get here the data for shield impl
-                hid_interact_data = ("type:%s-vendor:%s-prod:%s-pid:%d" %
-                                 (HID_TYPE[event.rtype],
-                                  event.vendor,
-                                  event.prod,
-                                  event.pid)
-                                )
+                hid_interact_data = "type:%s-vendor:%s-prod:%s-pid:%d" % (
+                    HID_TYPE[event.rtype],
+                    event.vendor,
+                    event.prod,
+                    event.pid,
+                )
 
-                
-                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' trigger_once: {shield_config["features"]["limit_sending"]} data: { hid_interact_data }"
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label')}' trigger_once: {shield_config['features']['limit_sending']} data: {hid_interact_data}"
                 try:
                     # manage the sending behavior to limit it
                     if shield_config["features"]["limit_sending"]:
-                        status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
+                        status.can_be_sent(
+                            event.ts,
+                            shield_config["features"]["max_actions"],
+                            shield_config["features"]["cool_down_time"],
+                        )
 
                     send(message, shield_config)
                 except ConfigurationError as e:
@@ -83,9 +90,7 @@ def bpf_main():
                 except MaxActionReached as e:
                     log_shield_exception_warn(e, SHIELD_NAME)
                 else:
-                    logger_shields.info(
-                        f"{SHIELD_NAME} triggered and sent: {message}"
-                    )
+                    logger_shields.info(f"{SHIELD_NAME} triggered and sent: {message}")
                 finally:
                     logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
 

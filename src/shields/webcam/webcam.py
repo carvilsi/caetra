@@ -10,31 +10,26 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
 from shields import deploying
 from logger_setup import logger_shields
-from caetra_exceptions import (
-    ShieldConfigurationError,
-    ConfigurationError,
-    MaxRetriesReached,
-)
-from logging_handler import log_shield_exception
+from caetra_exceptions import ShieldConfigurationError, ConfigurationError, MaxActionReached
+from logging_handler import log_shield_exception, log_shield_exception_warn
 from senders_handler import send
 import constants
 import status_handler
 
 # shield name
 # must be same with in toml root config
-SHIELD_NAME = "hibernation"
+SHIELD_NAME = "webcam"
 
 # kernel section
 
 # kprobe event name
-event = "unregister_pm_notifier"
+event = "video_ioctl2"
 # c function for the kprobe
-fn_name = "hibernation_observer"
+fn_name = "webcam_observer"
 # c source file; the name must be the same that the Shield name
 src_file = SHIELD_NAME + ".c"
 
 status = status_handler.StatusHandler()
-
 
 def bpf_main():
     try:
@@ -54,31 +49,34 @@ def bpf_main():
             )
 
             # Write here the logic for your shield
-            def shield_logic(ts, pid):
-                # get here the data for shield impl
-                hibernation_data = "ts:%s-pid:%d" % (pid, ts)
+            def shield_logic(cpu, data, size):
+                event = b["events"].event(data)
 
-                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label')}' data: {hibernation_data}"
+                # get here the data for shield impl
+                webcam_data = ("pid:%d" % (event.pid))
+
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' limit_sending: {shield_config["features"]["limit_sending"]} data: { webcam_data }"
+                   
                 try:
-                    if shield_config["features"]["wait_connection_sending"]:
-                        if status.is_there_connection(
-                            shield_config["features"]["max_retries"],
-                            shield_config["features"]["wait_to_try"],
-                        ):
-                            send(message, shield_config)
+                    if shield_config["features"]["limit_sending"]:
+                        status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
+                    
+                    send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
-                except MaxRetriesReached as e:
-                    log_shield_exception(e, SHIELD_NAME)
+                except MaxActionReached as e:
+                    log_shield_exception_warn(e, SHIELD_NAME)
                 else:
-                    logger_shields.info(f"{SHIELD_NAME} triggered and sent: {message}")
+                    logger_shields.info(
+                        f"{SHIELD_NAME} triggered and sent: {message}"
+                    )
                 finally:
                     logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
 
+            b["events"].open_perf_buffer(shield_logic)
             while 1:
                 try:
-                    (task, pid, cpu, flags, ts, msg) = b.trace_fields()
-                    shield_logic(ts, pid)
+                    b.perf_buffer_poll()
                 except ValueError:
                     continue
                 except KeyboardInterrupt:

@@ -13,7 +13,9 @@ TOML_TEMPLATE = "ctr_bpf_toml.jinja"
 
 def write_template_output(shield_name, file_extension, content):
     with open(
-        f"{OUTPUT_TEMPLATE}/{shield_name}/{shield_name}.{file_extension}", "w", encoding="utf-8"
+        f"{OUTPUT_TEMPLATE}/{shield_name}/{shield_name}.{file_extension}",
+        "w",
+        encoding="utf-8",
     ) as f:
         f.write(content)
 
@@ -66,15 +68,17 @@ def prompt_telegram(ctx, param, telegram_sender):
 @click.option(
     "--kheaders-include",
     type=click.STRING,
-    required=True,
+    required=False,
     prompt="Linux header to include",
+    default="None",
     help="Linux header to includ on kernel c code, e.g. 'linux/usb.h'",
 )
 @click.option(
     "--kstrct",
     type=click.STRING,
-    required=True,
-    prompt="Related kprobe related struct to get data",
+    required=False,
+    prompt="Kprobe related struct to get data",
+    default="None",
     help="Linux struct to retrieve data, e.g. 'usb_device'",
 )
 @click.option(
@@ -102,22 +106,21 @@ def prompt_telegram(ctx, param, telegram_sender):
 )
 @click.option(
     "--canarytoken-sender",
-    prompt="Should this Shield send notifications with Cananry tokens?",
+    prompt="Should this Shield send to a different CanaryToken configuration than the general one?",
     is_flag=True,
-    default=True,
+    default=False,
     callback=prompt_canarytoken,
 )
 @click.option("--canarytoken", is_eager=True, type=click.STRING)
 @click.option(
     "--telegram-sender",
-    prompt="Should this Shield send notifications with Telegram Bot?",
+    prompt="Should this Shield send to a different TelegramBot configuration than the general one?",
     is_flag=True,
-    default=True,
+    default=False,
     callback=prompt_telegram,
 )
 @click.option("--telegram-chat-id", is_eager=True)
 @click.option("--telegram-bot-api-key", is_eager=True)
-
 def caetra_shield_generator(
     shield_name,
     shield_description,
@@ -135,16 +138,22 @@ def caetra_shield_generator(
 ):
     shield_name = shield_name.replace(" ", "_")
 
+    if kstrct == "None":
+        kstrct = None
+
+    if kheaders_include == "None":
+        kheaders_include = None
+
     if canarytoken_sender:
         canarytoken = canarytoken_sender
-        canarytoken_sender = "true" 
+        canarytoken_sender = "true"
     else:
         canarytoken_sender = None
 
     if telegram_sender:
         telegram_chat_id = telegram_sender[0]
         telegram_bot_api_key = telegram_sender[1]
-        telegram_sender = "true" 
+        telegram_sender = "true"
     else:
         telegram_sender = None
 
@@ -168,6 +177,7 @@ def caetra_shield_generator(
     print(f"kstrct: {kstrct}")
     print(f"shield_enable: {shield_enable}")
     print(f"shield_feature: {shield_feature}")
+    print(f"action_label: {action_label}")
     print(f"canarytoken_sender: {canarytoken_sender}")
     print(f"canarytoken: {canarytoken}")
     print(f"telegram_sender: {telegram_sender}")
@@ -194,25 +204,23 @@ def caetra_shield_generator(
     # C Kernel side Template
     c_template = env.get_template(C_TEMPLATE)
     c_output = c_template.render(
-            shield_name=shield_name,
-            kheaders_include=kheaders_include,
-            kstrct=kstrct
+        shield_name=shield_name, kheaders_include=kheaders_include, kstrct=kstrct
     )
     write_template_output(shield_name, "c", c_output)
 
     # Toml Template
     toml_template = env.get_template(TOML_TEMPLATE)
     toml_output = toml_template.render(
-            shield_name=shield_name,
-            shield_description=shield_description,
-            shield_enable=shield_enable,
-            shield_feature=shield_feature,
-            canarytoken_sender=canarytoken_sender,
-            canarytoken=canarytoken,
-            telegram_sender=telegram_sender,
-            telegram_chat_id=telegram_chat_id,
-            telegram_bot_api_key=telegram_bot_api_key,
-            action_label=action_label
+        shield_name=shield_name,
+        shield_description=shield_description,
+        shield_enable=shield_enable,
+        shield_feature=shield_feature,
+        canarytoken_sender=canarytoken_sender,
+        canarytoken=canarytoken,
+        telegram_sender=telegram_sender,
+        telegram_chat_id=telegram_chat_id,
+        telegram_bot_api_key=telegram_bot_api_key,
+        action_label=action_label,
     )
     write_template_output(shield_name, "toml", toml_output)
 

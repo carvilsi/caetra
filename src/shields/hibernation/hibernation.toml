@@ -7,7 +7,8 @@
 [hibernation]
 
 # if this shield is enable 
-enable = true 
+# TODO: this is giving false positive
+enable = false
 
 
 # a description that will logged
