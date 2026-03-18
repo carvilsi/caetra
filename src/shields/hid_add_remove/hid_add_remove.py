@@ -10,7 +10,12 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
 from shields import deploying
 from logger_setup import logger_shields
-from caetra_exceptions import ShieldConfigurationError, ConfigurationError, MaxActionReached, ShieldKernelSpaceCError
+from caetra_exceptions import (
+    ShieldConfigurationError,
+    ConfigurationError,
+    MaxActionReached,
+    ShieldKernelSpaceCError,
+)
 from logging_handler import log_shield_exception, log_shield_exception_warn
 from senders_handler import send
 import constants
@@ -18,9 +23,9 @@ import status_handler
 
 # from linux/hid.h
 HID_TYPE = {
-        0: "HID_TYPE_OTHER",
-        1: "HID_TYPE_USBMOUSE",
-        2: "HID_TYPE_USBNONE",
+    0: "HID_TYPE_OTHER",
+    1: "HID_TYPE_USBMOUSE",
+    2: "HID_TYPE_USBNONE",
 }
 
 # shield name
@@ -39,6 +44,7 @@ src_file = SHIELD_NAME + ".c"
 
 status = status_handler.StatusHandler()
 
+
 def bpf_main():
     try:
         # shield configuration
@@ -55,7 +61,7 @@ def bpf_main():
                 shield_config.get("description"),
                 shield_config.get("features"),
             )
-            
+
             # Write here the logic for your shield
             def shield_logic(cpu, data, size):
                 event = b["events"].event(data)
@@ -64,7 +70,7 @@ def bpf_main():
                 match event.act_type:
                     case constants.HID_ADD_ACT:
                         hid_add_data = (
-                                "bus:%d-vendor:%d-prod:%d-vers:%d-type:%s-name:%s-phys:%s-path:%s-pid:%d"
+                            "bus:%d-vendor:%d-prod:%d-vers:%d-type:%s-name:%s-phys:%s-path:%s-pid:%d"
                             % (
                                 event.bus,
                                 event.vendor,
@@ -77,28 +83,29 @@ def bpf_main():
                                 event.pid,
                             )
                         )
-                            
-                        message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")} {shield_config.get("action_add")}' data: { hid_add_data }"
+
+                        message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label')} {shield_config.get('action_add')}' data: {hid_add_data}"
 
                     case constants.HID_REMOVE_ACT:
-                        hid_remove_data = (
-                                "name:%s-path:%s-type:%s-pid:%d"
-                            % (
-                                event.name.decode("utf-8", "replace"),
-                                event.path.decode("utf-8", "replace"),
-                                event.type_remove.decode("utf-8", "replace"),
-                                event.pid,
-                            )
+                        hid_remove_data = "name:%s-path:%s-type:%s-pid:%d" % (
+                            event.name.decode("utf-8", "replace"),
+                            event.path.decode("utf-8", "replace"),
+                            event.type_remove.decode("utf-8", "replace"),
+                            event.pid,
                         )
 
-                        message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")} {shield_config.get("action_remove")}' data: { hid_remove_data }"
+                        message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label')} {shield_config.get('action_remove')}' data: {hid_remove_data}"
                     case _:
                         errmsg = f"Unknown action type {event.act_type}"
                         raise ShieldKernelSpaceCError(errmsg)
 
                 try:
                     if shield_config["features"]["limit_sending"]:
-                        status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
+                        status.can_be_sent(
+                            event.ts,
+                            shield_config["features"]["max_actions"],
+                            shield_config["features"]["cool_down_time"],
+                        )
 
                     send(message, shield_config)
                 except ConfigurationError as e:
@@ -106,9 +113,7 @@ def bpf_main():
                 except MaxActionReached as e:
                     log_shield_exception_warn(e, SHIELD_NAME)
                 else:
-                    logger_shields.info(
-                        f"{SHIELD_NAME} triggered and sent: {message}"
-                    )
+                    logger_shields.info(f"{SHIELD_NAME} triggered and sent: {message}")
                 finally:
                     logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
 
@@ -131,4 +136,3 @@ def bpf_main():
 
 if __name__ == "__main__":
     bpf_main()
-

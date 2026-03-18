@@ -10,7 +10,13 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
 from shields import deploying
 from logger_setup import logger_shields
-from caetra_exceptions import ShieldConfigurationError, ConfigurationError, MaxActionReached, MaxRetriesReached, NoInternetConnection
+from caetra_exceptions import (
+    ShieldConfigurationError,
+    ConfigurationError,
+    MaxActionReached,
+    MaxRetriesReached,
+    NoInternetConnection,
+)
 from logging_handler import log_shield_exception, log_shield_exception_warn
 from senders_handler import send
 from format_utils import mac_address_format
@@ -20,11 +26,11 @@ import status_handler
 # from linux/netdevice.h
 # only interesting events
 NETDEV_EVENTS = {
-        1:  "NETDEV_UP",
-        2:  "NETDEV_DOWN", 
-        3:  "NETDEV_REBOOT",
-        4:  "NETDEV_CHANGE",
-        11: "NETDEV_CHANGENAME",
+    1: "NETDEV_UP",
+    2: "NETDEV_DOWN",
+    3: "NETDEV_REBOOT",
+    4: "NETDEV_CHANGE",
+    11: "NETDEV_CHANGENAME",
 }
 
 # shield name
@@ -44,6 +50,7 @@ src_file = SHIELD_NAME + ".c"
 
 status = status_handler.StatusHandler()
 
+
 def bpf_main():
     try:
         # shield configuration
@@ -60,12 +67,12 @@ def bpf_main():
                 shield_config.get("description"),
                 shield_config.get("features"),
             )
-            
+
             # Write here the logic for your shield
             def shield_logic(cpu, data, size):
                 event = b["events"].event(data)
 
-                inet_event_type = event.inet_evnt;
+                inet_event_type = event.inet_evnt
 
                 message = ""
                 inet_data = ""
@@ -73,35 +80,41 @@ def bpf_main():
                 if inet_event_type > 0:
                     # a NETDEV_UP
                     if inet_event_type != 1:
-                        inet_data = ("pid:%d" % (event.pid))
-                        
-                        message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label").upper()} {NETDEV_EVENTS[inet_event_type]}' data: {inet_data}"
+                        inet_data = "pid:%d" % (event.pid)
+
+                        message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label').upper()} {NETDEV_EVENTS[inet_event_type]}' data: {inet_data}"
 
                 # inet_alloc_ifa
                 else:
                     dev_name = event.name.decode("utf-8", "replace")
                     if dev_name not in shield_config["features"]["discard_devices"]:
-                        inet_data = (
-                                    "name:%s-mac_addr:%s-pid:%d"
-                                % (
-                                    dev_name,
-                                    mac_address_format(bytearray(event.mac_addr).hex().upper()),
-                                    event.pid,
-                                )
-                            )
+                        inet_data = "name:%s-mac_addr:%s-pid:%d" % (
+                            dev_name,
+                            mac_address_format(bytearray(event.mac_addr).hex().upper()),
+                            event.pid,
+                        )
 
-                        message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label").upper()} {NETDEV_EVENTS[1]}' data: {inet_data}"
+                        message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label').upper()} {NETDEV_EVENTS[1]}' data: {inet_data}"
                 try:
                     if len(inet_data) != 0:
                         if inet_event_type == 2:
                             message = f"{SHIELD_NAME} triggered NETDEV_DOWN, no internet, not possible to send now: {message}"
                             raise NoInternetConnection(message)
                         if shield_config["features"]["wait_connection_sending"]:
-                            
-                            if inet_event_type > 1 and shield_config["features"]["limit_sending"]:
-                                if status.is_there_connection(shield_config["features"]["max_retries"], shield_config["features"]["wait_to_try"]):
-                                    status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
-                        
+                            if (
+                                inet_event_type > 1
+                                and shield_config["features"]["limit_sending"]
+                            ):
+                                if status.is_there_connection(
+                                    shield_config["features"]["max_retries"],
+                                    shield_config["features"]["wait_to_try"],
+                                ):
+                                    status.can_be_sent(
+                                        event.ts,
+                                        shield_config["features"]["max_actions"],
+                                        shield_config["features"]["cool_down_time"],
+                                    )
+
                         send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
@@ -134,4 +147,3 @@ def bpf_main():
 
 if __name__ == "__main__":
     bpf_main()
-

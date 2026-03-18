@@ -27,17 +27,21 @@ def threading_excute_shields():
                 file.endswith(".py")
                 and file != constants.SHIELD_DEPLOYING_SCRIPT
                 and file != constants.SHIELD_STATUS_HANDLER_SCRIPT
-                ):
+            ):
                 shieldname = os.path.splitext(file)[0]
-                if config["caetra"].get("shields_enabled") is not None: 
-                    if os.path.splitext(file)[0] in config["caetra"].get("shields_enabled"):
+                if config["caetra"].get("shields_enabled") is not None:
+                    if os.path.splitext(file)[0] in config["caetra"].get(
+                        "shields_enabled"
+                    ):
                         shields.append(os.path.join(root, file))
                         shields_name.append(shieldname)
                 else:
                     shields.append(os.path.join(root, file))
                     shields_name.append(shieldname)
-    logger.info(f"Deploying {len(shields)} Shields: \n\t\t\t\t\t{"\n\t\t\t\t\t".join(shields_name).upper()}\n")
-    for shield in shields: 
+    logger.info(
+        f"Deploying {len(shields)} Shields: \n\t\t\t\t\t{'\n\t\t\t\t\t'.join(shields_name).upper()}\n"
+    )
+    for shield in shields:
         threading.Thread(target=run_script, args=(shield,)).start()
 
 
