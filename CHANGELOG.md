@@ -2,6 +2,7 @@
 
 # develop
 
+- Added WebCam shield
 - improved shield generator:
     - adding debug kprint function to kerlen space c code
     - not mandatory linux header

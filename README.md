@@ -44,6 +44,7 @@ The first release *v1.0.0* has been wirten for the [eBPF Summit: Hackathon Editi
     10. [power](#power)
     11. [usb](#usb)
     12. [cd_dvd_rom](#cd_dvd_rom)
+    13. [webcam](#webcam)
 4. [Senders](#senders)
     1. [CanaryTokens](#canarytokens)
     2. [Telegram](#telegram)
@@ -191,6 +192,15 @@ This Shield reacts on open or close CD-DVD tray.
 For example, with this shield we are trying to avoid some king of Live CD/DVD for System Access.
 
 **kprobe:** `cdrom_open`
+
+### 13. cd_dvd_rom<a name="cd_dvd_rom" />
+
+This Shield reacts when a webcam turns it on/off.
+
+With this shield we are trying to avoid privacy leaks from you and others, among possible security visual breaches like harvesting information about your surroundings.
+Do not forget to cover your webcam with a nice cat sticker :3
+
+**kprobe:** `video_ioctl2`
 
 ## Senders<a name="senders" />
 
