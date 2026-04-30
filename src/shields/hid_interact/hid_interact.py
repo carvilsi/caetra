@@ -65,10 +65,11 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 # get here the data for shield impl
-                hid_interact_data = "type:%s-vendor:%s-prod:%s-pid:%d" % (
+                hid_interact_data = "type:%s-vendor:%s-prod:%s-name:%s-pid:%d" % (
                     HID_TYPE[event.rtype],
                     event.vendor,
                     event.prod,
+                    event.name.decode("utf-8", "replace"),
                     event.pid,
                 )
 
