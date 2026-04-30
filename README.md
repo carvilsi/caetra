@@ -350,7 +350,7 @@ Shield image on this README by [lion.kanzen](https://opengameart.org/users/lionk
 #### Shields TODOs<a name="shields-todos" />
 
 - [ ] accelerometers (I don't have a device with an accelerometer sensor)
-- [ ] camera things
+- [x] camera things
 - [ ] monitor nearby WiFi AP
 - [x] CDs & DVDs
 - [ ] microphone
@@ -365,6 +365,7 @@ Shield image on this README by [lion.kanzen](https://opengameart.org/users/lionk
 #### Senders TODOs<a name="senders-todos" />
 
 - [ ] implement something to do data ingestion, dashboards and alarms
+- [ ] improve format for Telegram sender
 
 ---
 
