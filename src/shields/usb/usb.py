@@ -3,14 +3,16 @@ import sys
 import os
 
 # caetra imports
-sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
-from shields import deploying
-from logger_setup import logger_shields
-from caetra_exceptions import ShieldConfigurationError, ConfigurationError
-from logging_handler import log_shield_exception
+# sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
+# sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
+# sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
+# sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
+
+from src.shields import deploying
+# import deploying
+from src.utils.logger_setup import logger_shields
+from src.caetra_exceptions import ShieldConfigurationError, ConfigurationError
+from src.utils.logging_handler import log_shield_exception
 from senders_handler import send
 import constants
 

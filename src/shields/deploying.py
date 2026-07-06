@@ -1,14 +1,15 @@
 from bcc import BPF
-from logger_setup import logger
 import tomllib
 import os
 import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
-import constants
-from caetra_exceptions import ShieldConfigurationError
-from dict_handler import validate_dict_structure
+from src.utils.logger_setup import logger
+
+# sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
+# sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
+import src.constants
+from src.caetra_exceptions import ShieldConfigurationError
+from src.utils.dict_handler import validate_dict_structure
 
 
 # returns a BPF program loaded and attached to kernel

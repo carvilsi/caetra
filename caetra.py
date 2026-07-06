@@ -5,16 +5,19 @@ import subprocess
 import os
 import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "./src/utils/"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "./src/"))
-
-from logger_setup import logger
-from config_parser import config
-import constants
+from src.utils.logger_setup import logger
+from src.utils.config_parser import config
+import src.constants as constants
 
 
 def run_script(script_name):
-    subprocess.run(["python3", script_name])
+    print(script_name[2:-3])
+    module = (
+        script_name[2:-3].replace(os.sep, ".")
+    )
+    print(module)
+
+    subprocess.run(["python3", "-m", module])
 
 
 # Threading execute all the shields under shield directory

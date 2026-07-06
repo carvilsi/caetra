@@ -2,8 +2,7 @@ import sys
 import os
 
 # caetra imports
-sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
-from caetra_exceptions import ConfigurationError
+from src.caetra_exceptions import ConfigurationError
 
 
 def validate_dict_structure(expected_structure, data, structure_name):

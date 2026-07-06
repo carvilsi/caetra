@@ -1,4 +1,4 @@
-from logger_setup import logger_shields, logger
+from src.utils.logger_setup import logger_shields, logger
 
 
 def log_shield_exception(e, shield_name):
