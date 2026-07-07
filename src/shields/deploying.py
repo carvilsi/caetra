@@ -4,10 +4,7 @@ import os
 import sys
 
 from src.utils.logger_setup import logger
-
-# sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
-# sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
-import src.constants
+import src.constants as constants
 from src.caetra_exceptions import ShieldConfigurationError
 from src.utils.dict_handler import validate_dict_structure
 

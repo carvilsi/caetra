@@ -4,9 +4,7 @@ import threading
 import requests
 
 # caetra imports
-sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
-import constants
+import src.constants as constants
 from caetra_exceptions import MaxActionReached, MaxRetriesReached
 
 

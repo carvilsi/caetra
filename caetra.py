@@ -11,11 +11,9 @@ import src.constants as constants
 
 
 def run_script(script_name):
-    print(script_name[2:-3])
     module = (
         script_name[2:-3].replace(os.sep, ".")
     )
-    print(module)
 
     subprocess.run(["python3", "-m", module])
 
