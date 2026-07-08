@@ -15,6 +15,7 @@ src_file = SHIELD_NAME + ".c"
 
 status = status_handler.StatusHandler()
 
+
 def bpf_main():
     try:
         # shield configuration
@@ -37,23 +38,25 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 # get here the data for shield impl
-                webcam_data = ("pid:%d" % (event.pid))
+                webcam_data = "pid:%d" % (event.pid)
 
-                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' limit_sending: {shield_config["features"]["limit_sending"]} data: { webcam_data }"
-                   
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label')}' limit_sending: {shield_config['features']['limit_sending']} data: {webcam_data}"
+
                 try:
                     if shield_config["features"]["limit_sending"]:
-                        status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
-                    
+                        status.can_be_sent(
+                            event.ts,
+                            shield_config["features"]["max_actions"],
+                            shield_config["features"]["cool_down_time"],
+                        )
+
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
                 except MaxActionReached as e:
                     log_shield_exception_warn(e, SHIELD_NAME)
                 else:
-                    logger_shields.info(
-                        f"{SHIELD_NAME} triggered and sent: {message}"
-                    )
+                    logger_shields.info(f"{SHIELD_NAME} triggered and sent: {message}")
                 finally:
                     logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
 

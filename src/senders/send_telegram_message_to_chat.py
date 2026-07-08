@@ -1,7 +1,5 @@
 import requests
 
-import sys
-import os
 
 from src.utils.logger_setup import logger
 

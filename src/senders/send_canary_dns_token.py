@@ -1,8 +1,6 @@
 import base64
 import socket
 import re
-import os
-import sys
 
 from src.utils.logger_setup import logger
 

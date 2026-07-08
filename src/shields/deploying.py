@@ -1,7 +1,6 @@
 from bcc import BPF
 import tomllib
 import os
-import sys
 
 from src.utils.logger_setup import logger
 import src.constants as constants

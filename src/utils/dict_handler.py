@@ -1,5 +1,3 @@
-import sys
-import os
 
 # caetra imports
 from src.caetra_exceptions import ConfigurationError

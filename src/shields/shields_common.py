@@ -12,7 +12,7 @@ from src.caetra_exceptions import (
     ConfigurationError,
     ShieldConfigurationError,
     MaxActionReached,
-    MaxRetriesReached, 
+    MaxRetriesReached,
     NoInternetConnection,
     ShieldKernelSpaceCError,
 )
@@ -20,8 +20,8 @@ from src.senders.senders_handler import send
 from src.shields import deploying, status_handler
 from src.utils.logger_setup import logger_shields
 from src.utils.logging_handler import (
-        log_shield_exception,
-        log_shield_exception_warn,
+    log_shield_exception,
+    log_shield_exception_warn,
 )
 from src.utils.format_utils import mac_address_format
 

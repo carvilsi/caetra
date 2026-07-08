@@ -3,7 +3,6 @@
 import threading
 import subprocess
 import os
-import sys
 
 from src.utils.logger_setup import logger
 from src.utils.config_parser import config
@@ -11,9 +10,7 @@ import src.constants as constants
 
 
 def run_script(script_name):
-    module = (
-        script_name[2:-3].replace(os.sep, ".")
-    )
+    module = script_name[2:-3].replace(os.sep, ".")
 
     subprocess.run(["python3", "-m", module])
 

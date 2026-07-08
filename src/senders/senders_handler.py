@@ -1,5 +1,3 @@
-import sys
-import os
 
 import src.constants as constants
 from src.utils.config_parser import config
