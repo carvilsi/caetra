@@ -3,23 +3,14 @@ import sys
 import os
 
 # caetra imports
-sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
-from shields import deploying
-from logger_setup import logger_shields
-from caetra_exceptions import (
-    ShieldConfigurationError,
-    ConfigurationError,
-    MaxActionReached,
-    ShieldKernelSpaceCError,
-)
-from logging_handler import log_shield_exception, log_shield_exception_warn
-from senders_handler import send
-import constants
-import status_handler
+from src.shields import deploying
+from src.utils.logger_setup import logger_shields
+from src.caetra_exceptions import ShieldConfigurationError, ConfigurationError
+from src.utils.logging_handler import log_shield_exception
+from src.senders.senders_handler import send
+import src.constants as constants
+from src.shields import status_handler
+
 
 # from linux/hid.h
 HID_TYPE = {

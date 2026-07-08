@@ -5,7 +5,7 @@ import requests
 
 # caetra imports
 import src.constants as constants
-from caetra_exceptions import MaxActionReached, MaxRetriesReached
+from src.caetra_exceptions import MaxActionReached, MaxRetriesReached
 
 
 class StatusHandler(object):
