@@ -1,14 +1,4 @@
-from src.shields.shields_common import (
-    constants,
-    deploying,
-    logger_shields,
-    ShieldConfigurationError,
-    ConfigurationError,
-    log_shield_exception,
-    send,
-    os,
-    sys,
-)
+from src.shields.shields_common import *
 
 # shield name
 # must be same with in toml root config

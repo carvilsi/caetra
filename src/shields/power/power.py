@@ -1,18 +1,4 @@
-# generic imports
-import sys
-import os
-
-# caetra imports
-sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
-from shields import deploying
-from logger_setup import logger_shields
-from caetra_exceptions import ShieldConfigurationError, ConfigurationError
-from logging_handler import log_shield_exception
-from senders_handler import send
-import constants
+from src.shields.shields_common import *
 
 # from linux/power_supply.h
 POWER_SUPPLY_TYPE = {

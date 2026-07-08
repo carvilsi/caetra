@@ -28,6 +28,7 @@ def threading_excute_shields():
                 file.endswith(".py")
                 and file != constants.SHIELD_DEPLOYING_SCRIPT
                 and file != constants.SHIELD_STATUS_HANDLER_SCRIPT
+                and file != constants.PYTHON_MODULE_INIT
             ):
                 shieldname = os.path.splitext(file)[0]
                 if config["caetra"].get("shields_enabled") is not None:

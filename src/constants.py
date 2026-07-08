@@ -1,6 +1,7 @@
 SHIELD_PATH = "./src/shields/"
 SHIELD_DEPLOYING_SCRIPT = "deploying.py"
 SHIELD_STATUS_HANDLER_SCRIPT = "status_handler.py"
+PYTHON_MODULE_INIT = "__init__.py"
 SHIELD_CONFIG_EXT = ".toml"
 
 CAETRA_SENDER_LABEL = "Shield"
