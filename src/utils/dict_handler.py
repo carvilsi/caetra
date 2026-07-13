@@ -1,4 +1,3 @@
-
 # caetra imports
 from src.caetra_exceptions import ConfigurationError
 
