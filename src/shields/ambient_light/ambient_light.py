@@ -1,14 +1,14 @@
 from src.shields.shields_common import (
-        constants,
-        deploying,
-        send,
-        status_handler,
-        logger_shields,
-        log_shield_exception,
-        log_shield_exception_warn,
-        ShieldConfigurationError,
-        ConfigurationError,
-        MaxActionReached,
+    constants,
+    deploying,
+    send,
+    status_handler,
+    logger_shields,
+    log_shield_exception,
+    log_shield_exception_warn,
+    ShieldConfigurationError,
+    ConfigurationError,
+    MaxActionReached,
 )
 
 # shield name

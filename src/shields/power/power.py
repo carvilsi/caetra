@@ -1,11 +1,11 @@
 from src.shields.shields_common import (
-        constants,
-        deploying,
-        logger_shields,
-        log_shield_exception,
-        send,
-        ConfigurationError,
-        ShieldConfigurationError,
+    constants,
+    deploying,
+    logger_shields,
+    log_shield_exception,
+    send,
+    ConfigurationError,
+    ShieldConfigurationError,
 )
 
 # from linux/power_supply.h
