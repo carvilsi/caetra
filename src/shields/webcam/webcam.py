@@ -1,20 +1,15 @@
-# generic imports
-import sys
-import os
-
-# caetra imports
-sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
-from shields import deploying
-from logger_setup import logger_shields
-from caetra_exceptions import ShieldConfigurationError, ConfigurationError, MaxActionReached
-from logging_handler import log_shield_exception, log_shield_exception_warn
-from senders_handler import send
-import constants
-import status_handler
+from src.shields.shields_common import (
+    constants,
+    deploying,
+    logger_shields,
+    log_shield_exception,
+    log_shield_exception_warn,
+    send,
+    status_handler,
+    ConfigurationError,
+    MaxActionReached,
+    ShieldConfigurationError,
+)
 
 # shield name
 # must be same with in toml root config
@@ -30,6 +25,7 @@ fn_name = "webcam_observer"
 src_file = SHIELD_NAME + ".c"
 
 status = status_handler.StatusHandler()
+
 
 def bpf_main():
     try:
@@ -53,23 +49,25 @@ def bpf_main():
                 event = b["events"].event(data)
 
                 # get here the data for shield impl
-                webcam_data = ("pid:%d" % (event.pid))
+                webcam_data = "pid:%d" % (event.pid)
 
-                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get("action_label")}' limit_sending: {shield_config["features"]["limit_sending"]} data: { webcam_data }"
-                   
+                message = f"{constants.CAETRA_SENDER_LABEL}_{SHIELD_NAME.upper()} act: '{shield_config.get('action_label')}' limit_sending: {shield_config['features']['limit_sending']} data: {webcam_data}"
+
                 try:
                     if shield_config["features"]["limit_sending"]:
-                        status.can_be_sent(event.ts, shield_config["features"]["max_actions"], shield_config["features"]["cool_down_time"])
-                    
+                        status.can_be_sent(
+                            event.ts,
+                            shield_config["features"]["max_actions"],
+                            shield_config["features"]["cool_down_time"],
+                        )
+
                     send(message, shield_config)
                 except ConfigurationError as e:
                     log_shield_exception(e, SHIELD_NAME)
                 except MaxActionReached as e:
                     log_shield_exception_warn(e, SHIELD_NAME)
                 else:
-                    logger_shields.info(
-                        f"{SHIELD_NAME} triggered and sent: {message}"
-                    )
+                    logger_shields.info(f"{SHIELD_NAME} triggered and sent: {message}")
                 finally:
                     logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
 

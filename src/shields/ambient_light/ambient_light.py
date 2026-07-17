@@ -1,24 +1,15 @@
-# generic imports
-import sys
-import os
-
-# caetra imports
-sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../senders"))
-from shields import deploying
-from logger_setup import logger_shields
-from caetra_exceptions import (
+from src.shields.shields_common import (
+    constants,
+    deploying,
+    send,
+    status_handler,
+    logger_shields,
+    log_shield_exception,
+    log_shield_exception_warn,
     ShieldConfigurationError,
     ConfigurationError,
     MaxActionReached,
 )
-from logging_handler import log_shield_exception, log_shield_exception_warn
-from senders_handler import send
-import constants
-import status_handler
 
 # shield name
 # must be same with in toml root config

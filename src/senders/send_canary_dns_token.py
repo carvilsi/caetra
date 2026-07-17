@@ -1,12 +1,8 @@
 import base64
 import socket
 import re
-import os
-import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils/"))
-
-from logger_setup import logger
+from src.utils.logger_setup import logger
 
 DOT = "."
 MAGIC_STRING = "G69"

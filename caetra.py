@@ -3,18 +3,16 @@
 import threading
 import subprocess
 import os
-import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "./src/utils/"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "./src/"))
-
-from logger_setup import logger
-from config_parser import config
-import constants
+from src.utils.logger_setup import logger
+from src.utils.config_parser import config
+import src.constants as constants
 
 
 def run_script(script_name):
-    subprocess.run(["python3", script_name])
+    module = script_name[2:-3].replace(os.sep, ".")
+
+    subprocess.run(["python3", "-m", module])
 
 
 # Threading execute all the shields under shield directory
@@ -27,6 +25,7 @@ def threading_excute_shields():
                 file.endswith(".py")
                 and file != constants.SHIELD_DEPLOYING_SCRIPT
                 and file != constants.SHIELD_STATUS_HANDLER_SCRIPT
+                and file != constants.PYTHON_MODULE_INIT
             ):
                 shieldname = os.path.splitext(file)[0]
                 if config["caetra"].get("shields_enabled") is not None:

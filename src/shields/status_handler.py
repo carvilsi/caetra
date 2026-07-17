@@ -1,13 +1,9 @@
-import sys
-import os
 import threading
 import requests
 
 # caetra imports
-sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
-import constants
-from caetra_exceptions import MaxActionReached, MaxRetriesReached
+import src.constants as constants
+from src.caetra_exceptions import MaxActionReached, MaxRetriesReached
 
 
 class StatusHandler(object):

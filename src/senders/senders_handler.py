@@ -1,15 +1,10 @@
-import sys
-import os
-
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../utils"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
-import constants
-from config_parser import config
-from logger_setup import logger
-from caetra_exceptions import ConfigurationError
-from dict_handler import validate_dict_structure
-from send_canary_dns_token import send_canary
-from send_telegram_message_to_chat import send_telegram
+import src.constants as constants
+from src.utils.config_parser import config
+from src.utils.logger_setup import logger
+from src.caetra_exceptions import ConfigurationError
+from src.utils.dict_handler import validate_dict_structure
+from src.senders.send_canary_dns_token import send_canary
+from src.senders.send_telegram_message_to_chat import send_telegram
 
 
 def check_send_config(senders_config):
