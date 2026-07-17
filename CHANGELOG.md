@@ -1,13 +1,10 @@
 # Changelog
 
-# develop
 
-- Adds name of HID for hid_interact shield
-
-# [v1.2.1](https://github.com/carvilsi/caetra/releases/tag/v1.2.1) (2026-07-08)
+# [v1.2.1](https://github.com/carvilsi/caetra/releases/tag/v1.2.1) (2026-07-17)
 
 - Refactor to import as a module
-
+- Adds name of HID for hid_interact shield
 
 # [v1.2.0](https://github.com/carvilsi/caetra/releases/tag/v1.2.0) (2026-03-18)
 
