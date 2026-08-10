@@ -352,6 +352,7 @@ Shield image on this README by [lion.kanzen](https://opengameart.org/users/lionk
 - [ ] accelerometers (I don't have a device with an accelerometer sensor)
 - [x] camera things
 - [ ] monitor nearby WiFi AP
+- [ ] monitor nearby bluetooth
 - [x] CDs & DVDs
 - [ ] microphone
  
