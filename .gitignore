@@ -8,3 +8,4 @@ config/local.toml
 arena/
 bpftracearena/
 *.strct
+.env

@@ -30,8 +30,9 @@ The first release *v1.0.0* has been wirten for the [eBPF Summit: Hackathon Editi
 
 1. [Install](#install)
     1. [Dependencies](#dependencies")
-2. [Run](#run)
-3. [Shields](#shields)
+2. [Configuration](#configuration)
+3. [Run](#run)
+4. [Shields](#shields)
     1.  [ambient_light](#ambient_light)
     2.  [blt_connect](#blt_connect)
     3.  [blt_disconnect](#blt_disconnect)
@@ -86,6 +87,20 @@ Try to install the kernel development package for your distro:
 ##### Arch Linux
 
 `$ sudo pacman -S linux-headers`
+
+## Configuration<a name="configuration" />
+
+Caetra loads its general config from a *toml* file under `config/`, either `config/local.toml` (gitignored, holds your real secrets like bot tokens and canary tokens) or `config/develop.toml` (checked-in template).
+
+Which one gets loaded is picked via the `CAETRA_ENV` variable, read from a `.env` file at the project root (also gitignored). Copy the template and edit it:
+
+`$ cp .env.example .env`
+
+```
+CAETRA_ENV=local
+```
+
+Valid values are `local` and `develop`. If `.env` is missing or `CAETRA_ENV` is unset, it defaults to `local`.
 
 ## Run<a name="run" />
 
