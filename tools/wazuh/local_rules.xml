@@ -1,0 +1,34 @@
+<!--
+  Wazuh MANAGER rules, for /var/ossec/etc/rules/local_rules.xml
+  Then: /var/ossec/bin/wazuh-control restart
+
+  Requires local_decoder.xml to be installed first. Rule IDs use the
+  100000-119999 range reserved for local/custom rules.
+-->
+<group name="caetra,physical_security,">
+
+  <rule id="100100" level="0">
+    <decoded_as>caetra-siem</decoded_as>
+    <description>Caetra: SIEM event received.</description>
+  </rule>
+
+  <rule id="100101" level="10">
+    <if_sid>100100</if_sid>
+    <field name="state">triggered</field>
+    <description>Caetra: physical security shield "$(shield)" triggered on $(machine): $(message)</description>
+    <group>caetra_shield_triggered,</group>
+  </rule>
+
+  <!--
+    To split severity per shield (e.g. USB removal media theft vs. a
+    backlight change) add children of 100101 filtering on data.shield,
+    e.g.:
+
+    <rule id="100102" level="12">
+      <if_sid>100101</if_sid>
+      <field name="shield">usb</field>
+      <description>Caetra: USB device shield triggered on $(machine): $(message)</description>
+    </rule>
+  -->
+
+</group>

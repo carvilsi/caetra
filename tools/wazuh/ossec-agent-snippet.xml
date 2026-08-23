@@ -1,0 +1,27 @@
+<!--
+  Wazuh AGENT config snippet, for the machine running caetra.py.
+  Merge this <localfile> block into that host's /var/ossec/etc/ossec.conf
+  (inside <ossec_config>), then: systemctl restart wazuh-agent
+
+  Requires 49-caetra-siem.conf (rsyslog) to have routed the "local0"
+  facility to /var/log/caetra/siem.log first.
+-->
+<localfile>
+  <log_format>syslog</log_format>
+  <location>/var/log/caetra/siem.log</location>
+</localfile>
+
+<!--
+  Alternative for systemd-only hosts, reading straight from journald
+  instead of via rsyslog (skips 49-caetra-siem.conf entirely). Requires
+  Wazuh agent >= 4.7. Verify the exact <journald_filters> syntax against
+  your installed agent version's docs before using.
+
+  <localfile>
+    <log_format>journald</log_format>
+    <location>journald</location>
+    <journald_filters>
+      <field>SYSLOG_IDENTIFIER=caetra_siem</field>
+    </journald_filters>
+  </localfile>
+-->

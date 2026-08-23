@@ -1,0 +1,31 @@
+# Local test lab for the Caetra -> Wazuh integration, see README.md.
+#
+# Single wazuh-manager container (no indexer/dashboard, so you check
+# results in alerts.json rather than a UI). Its ossec.conf additionally
+# opens an unauthenticated remote syslog listener on UDP 514 so you can
+# feed it Caetra's "caetra_siem" events directly, without having to
+# enroll a real Wazuh agent for a quick local test. That listener is
+# fine for this throwaway lab; never expose it on a real deployment -
+# see tools/wazuh/README.md for the agent-based production setup.
+services:
+  wazuh.manager:
+    image: wazuh/wazuh-manager:4.14.7
+    container_name: wazuh-manager
+    hostname: wazuh-manager
+    restart: unless-stopped
+    ports:
+      - "1514:1514/tcp" # agent enrollment (unused by this lab, kept for parity)
+      - "1515:1515" # agent auth (unused by this lab, kept for parity)
+      - "514:514/udp" # raw syslog test input - see README.md
+      - "55000:55000" # Wazuh API
+    volumes:
+      # read-write: the container's entrypoint edits this file in place
+      # on boot; must be world-readable too (chmod 644) or the manager
+      # process can't read it back - see README.md
+      - ./ossec.conf:/var/ossec/etc/ossec.conf
+      - ./local_decoder.xml:/var/ossec/etc/decoders/local_decoder.xml:ro
+      - ./local_rules.xml:/var/ossec/etc/rules/local_rules.xml:ro
+      - wazuh_manager_data:/var/ossec/data
+
+volumes:
+  wazuh_manager_data:

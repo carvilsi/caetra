@@ -5,6 +5,7 @@ from src.shields.shields_common import (
     status_handler,
     logger_shields,
     log_shield_exception,
+    log_shield_triggered,
     log_shield_exception_warn,
     ShieldConfigurationError,
     ConfigurationError,
@@ -75,7 +76,7 @@ def bpf_main():
                 else:
                     logger_shields.info(f"{SHIELD_NAME} triggered and sent: {message}")
                 finally:
-                    logger_shields.warning(f"{SHIELD_NAME} triggered: {message}")
+                    log_shield_triggered(SHIELD_NAME, message)
 
             b["events"].open_perf_buffer(shield_logic)
             while 1:

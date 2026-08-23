@@ -5,6 +5,9 @@
 machine = "yourMachineName"
 # list of enabled shields; this will override shield configuration; uncomment next line in case to restrict the enabled shields and append these to the list
 #shields_enabled = ["inet"]
+# emit a JSON event per shield trigger to local syslog (facility local0,
+# "caetra_siem" tag) for SIEM/Wazuh consumption, on top of the normal logs
+siem_logging_enabled = true
 
 [logging]
 level = "INFO"

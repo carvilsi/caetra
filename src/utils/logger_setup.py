@@ -8,6 +8,12 @@ LOGGING_CONFIG = {
         "default": {
             "format": "%(asctime)s %(name)s [%(levelname)s]: %(message)s",
         },
+        "siem": {
+            # fixed "caetra_siem:" prematch so a SIEM decoder can find the
+            # JSON payload regardless of what the local syslog daemon
+            # prepends (hostname, timestamp, pid, ...)
+            "format": "caetra_siem: %(message)s",
+        },
     },
     "handlers": {
         "file": {
@@ -29,6 +35,16 @@ LOGGING_CONFIG = {
             "facility": "syslog",
             "address": "/dev/log",
         },
+        "logsiem": {
+            "level": "INFO",
+            "class": "logging.handlers.SysLogHandler",
+            "formatter": "siem",
+            # dedicated facility, kept separate from "logsys" above, so a
+            # SIEM agent (e.g. Wazuh) can be pointed only at these
+            # structured events instead of every human-readable log line
+            "facility": "local0",
+            "address": "/dev/log",
+        },
     },
     "loggers": {
         "caetra": {
@@ -41,9 +57,15 @@ LOGGING_CONFIG = {
             "level": "DEBUG",
             "propagate": True,
         },
+        "caetra_siem": {
+            "handlers": ["logsiem"],
+            "level": "INFO",
+            "propagate": False,
+        },
     },
 }
 
 logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger("caetra")
 logger_shields = logging.getLogger("caetra_shields")
+logger_siem = logging.getLogger("caetra_siem")
