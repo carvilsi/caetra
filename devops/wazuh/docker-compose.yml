@@ -1,0 +1,27 @@
+# Simplified Wazuh local testing — manager only, no indexer/dashboard
+# Syslog listener on UDP 514 for Caetra events
+# API available on port 55000
+
+services:
+  wazuh-manager:
+    image: wazuh/wazuh-manager:4.14.7
+    container_name: wazuh-manager
+    hostname: wazuh-manager
+    restart: unless-stopped
+    ports:
+      - "514:514/udp"       # raw syslog input
+      - "1514:1514/tcp"     # agent enrollment
+      - "1515:1515/tcp"     # agent auth
+      - "55000:55000/tcp"   # Wazuh API
+    volumes:
+      - ./config/ossec.conf:/var/ossec/etc/ossec.conf:ro
+      - ./config/local_decoder.xml:/var/ossec/etc/decoders/local_decoder.xml:ro
+      - ./config/local_rules.xml:/var/ossec/etc/rules/local_rules.xml:ro
+      - wazuh-manager-data:/var/ossec/data
+    environment:
+      # Disable Filebeat (not needed for syslog-only testing)
+      - FILEBEAT_SSL_VERIFICATION_MODE=
+      - INDEXER_URL=
+
+volumes:
+  wazuh-manager-data:
