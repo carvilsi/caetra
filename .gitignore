@@ -9,3 +9,6 @@ arena/
 bpftracearena/
 *.strct
 .env
+
+# generated Wazuh test-lab TLS certs/keys
+devops/wazuh/config/wazuh_indexer_ssl_certs/
