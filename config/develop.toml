@@ -5,6 +5,12 @@
 machine = "yourMachineName"
 # list of enabled shields; this will override shield configuration; uncomment next line in case to restrict the enabled shields and append these to the list
 #shields_enabled = ["inet"]
+# emit a JSON event per shield trigger as a plain UDP datagram
+# ("caetra_siem: {json}") for SIEM/Wazuh consumption, on top of the normal logs
+siem_logging_enabled = true
+# where the SIEM syslog listener (e.g. Wazuh remoted) is reachable
+siem_host = "127.0.0.1"
+siem_port = 514
 
 [logging]
 level = "INFO"

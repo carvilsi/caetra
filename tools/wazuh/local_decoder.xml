@@ -1,0 +1,17 @@
+<!--
+  Wazuh MANAGER decoder, for /var/ossec/etc/decoders/local_decoder.xml
+  Then: /var/ossec/bin/wazuh-control restart
+
+  Matches the syslog "program_name" (tag) that Caetra's SIEM events carry
+  ("caetra_siem: {json}", see src/utils/logger_setup.py) and hands the
+  remaining JSON body off to Wazuh's JSON decoder, so fields like
+  shield/status/machine/message land under data.* in the alert.
+-->
+<decoder name="caetra-siem">
+  <program_name>^caetra_siem$</program_name>
+</decoder>
+
+<decoder name="caetra-siem-json">
+  <parent>caetra-siem</parent>
+  <plugin_decoder>JSON_Decoder</plugin_decoder>
+</decoder>

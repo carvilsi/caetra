@@ -22,6 +22,7 @@ from src.utils.logger_setup import logger_shields
 from src.utils.logging_handler import (
     log_shield_exception,
     log_shield_exception_warn,
+    log_shield_triggered,
 )
 from src.utils.format_utils import mac_address_format
 
@@ -35,6 +36,7 @@ __all__ = [
     "ShieldConfigurationError",
     "ConfigurationError",
     "log_shield_exception",
+    "log_shield_triggered",
     "send",
     "MaxActionReached",
     "MaxRetriesReached",
