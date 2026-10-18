@@ -46,6 +46,7 @@ The first release *v1.0.0* has been wirten for the [eBPF Summit: Hackathon Editi
     11. [usb](#usb)
     12. [cd_dvd_rom](#cd_dvd_rom)
     13. [webcam](#webcam)
+    14. [movement](#movement)
 4. [Senders](#senders)
     1. [CanaryTokens](#canarytokens)
     2. [Telegram](#telegram)
@@ -217,6 +218,20 @@ Do not forget to cover your webcam with a nice cat sticker :3
 
 **kprobe:** `video_ioctl2`
 
+### 14. movement<a name="movement" />
+
+This Shield reacts when the machine has been **moved**, using the laptop accelerometer (ST *lis3lv02d*, e.g. the freefall sensor on Dell Latitudes).
+
+Someone picking up, tilting or carrying away your unattended laptop.
+
+It keeps a resting position per axis and triggers when any axis changes more than the configured `threshold` (in mg) from it; then the new position becomes the resting one.
+
+The *lis3lv02d* driver only reads the sensor while its input device is open, so the Shield keeps `/dev/input/eventN` of the **ST LIS3LV02DL Accelerometer** open while running.
+
+**Note:** on some Dell Latitudes (e.g. E7450) the accelerometer is not registered by default. The SMBus controller fails to probe (`i801_smbus ... failed to register GSI`), so a patched `i2c-i801` module is needed, and the device must be instantiated at address `0x29`. Check [oot-Linux-i2c-i801-SMBus-Dell-Latitude-E7450-acc](https://github.com/carvilsi/oot-Linux-i2c-i801-SMBus-Dell-Latitude-E7450-acc) for the patch, build script and udev rule.
+
+**kprobe:** `input_handle_event`
+
 ## Senders<a name="senders" />
 
 What Caetra uses to send you a notification, when any Shield has been trigger.
@@ -364,7 +379,7 @@ Shield image on this README by [lion.kanzen](https://opengameart.org/users/lionk
 
 #### Shields TODOs<a name="shields-todos" />
 
-- [ ] accelerometers (I don't have a device with an accelerometer sensor)
+- [x] accelerometers
 - [x] camera things
 - [ ] monitor nearby WiFi AP
 - [ ] monitor nearby bluetooth

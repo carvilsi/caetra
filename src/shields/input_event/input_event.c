@@ -1,6 +1,7 @@
 #include<linux/input.h>
 
 #include <kernel_additions_headers.h>
+#include <lis3lv02d_filter.h>
 
 #define MAX_LEN 120
 
@@ -17,8 +18,12 @@ BPF_PERF_OUTPUT(events);
 
 int input_event_observer(struct pt_regs *ctx, struct input_dev *kstrct, int arg1, int arg2, int arg3)
 {
+        // accelerometer reports continuously while open, that is movement shield business
+        if (is_lis3lv02d(kstrct))
+                return 0;
+
         struct input_event_t data = {};
-        
+
         data.pid = bpf_get_current_pid_tgid();
         data.ts = bpf_ktime_get_ns();
 
